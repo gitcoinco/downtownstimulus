@@ -1,0 +1,29 @@
+{
+  "name": "front-end",
+  "version": "0.0.0",
+  "description": "downtown stimulus front-end",
+  "keywords": [
+    "front-end"
+  ],
+  "author": "Sanchay Mittal <sanchaymittal@gmail.com>",
+  "homepage": "https://github.com/ethifylabs/downtownstimulus#readme",
+  "license": "ISC",
+  "main": "lib/front-end.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ethifylabs/downtownstimulus.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/ethifylabs/downtownstimulus/issues"
+  }
+}
