@@ -5,5 +5,4 @@ COPY frontend/ /frontend
 WORKDIR /frontend
 
 EXPOSE 3000
-
 RUN yarn
