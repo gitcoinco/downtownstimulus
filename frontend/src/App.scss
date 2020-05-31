@@ -27,14 +27,15 @@
   --header2Size: 2em;
   --header3Color: #525252;
   --header3Size: 1.5em;
+  --backgroundColor: #e5e5e5;
 }
 
 .App {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: var(--themeColor);
-  color: white;
+  background-color: var(--backgroundColor);
+  color: var(--grey5Color);
   line-height: 1.5em;
   font-family: var(--paragraphFont);
   position: relative;
