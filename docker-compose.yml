@@ -3,15 +3,17 @@ services:
   db:
     image: postgres
     environment:
-       - POSTGRES_DB=postgres
-       - POSTGRES_USER=postgres
-       - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
 
   api:
     build:
       context: .
       dockerfile: ./backend/Dockerfile
-    command: python manage.py runserver 0.0.0.0:8000
+    command: python /backend/downtownapi/manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"
     depends_on:
@@ -25,8 +27,9 @@ services:
       dockerfile: ./frontend/Dockerfile
     command: yarn start
     ports:
-      - "3000:3000"  
+      - "3000:3000"
     depends_on:
       - api
     volumes:
-      - ./frontend:/frontend
+      - ./frontend/src:/frontend/src
+    stdin_open: true
