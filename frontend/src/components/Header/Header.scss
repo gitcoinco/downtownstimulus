@@ -1,0 +1,37 @@
+.header {
+  display: flex;
+  align-items: center;
+  padding: 1em 1.5em;
+  justify-content: space-between;
+  .header-home-container {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    background: var(--primaryColor);
+    justify-content: center;
+    color: white;
+    border-radius: 6.0473px;
+    /* margin-left: 1em; */
+    cursor: pointer;
+  }
+
+  .header-profile-container {
+    display: flex;
+    .profile-icon {
+      width: 40.89px;
+      height: 40.89px;
+      cursor: pointer;
+      border-radius: 50%;
+    }
+
+    .profile-item {
+      color: var(--primaryColor);
+      cursor: pointer;
+      margin-left: 1em;
+      font-size: 18.9008px;
+      line-height: 22px;
+      font-family: var(--paragraphFont);
+    }
+  }
+}

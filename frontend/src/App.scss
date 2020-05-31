@@ -1,0 +1,46 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+:root {
+  --header1Font: "Roboto Slab", serif;
+  --header2Font: "Roboto Slab", serif;
+  --header3Font: "Roboto Slab", serif;
+  --paragraphFont: "Roboto", sans-serif;
+  --baseFontSize: 16px;
+  --primaryColor: #ff8a00;
+  --primaryHighlightColor: #ffac4b;
+  --yellowHighlightColor: #fffbf3;
+  --yellowColor: #ffc700;
+  --yellowBorderColor: #f0dfbe;
+  --greenColor: #57ef3f;
+  --blueColor: #34b6ff;
+  --whiteColor: #fff;
+  --grey1Color: #ebebeb;
+  --grey2Color: #c6c6c6;
+  --grey3Color: #787878;
+  --grey4Color: #525252;
+  --grey5Color: #3a3a3a;
+  --blackColor: #000000;
+  --header1Color: #e76127;
+  --header1Size: 2.5em;
+  --header2Color: #3a3a3a;
+  --header2Size: 2em;
+  --header3Color: #525252;
+  --header3Size: 1.5em;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: var(--themeColor);
+  color: white;
+  line-height: 1.5em;
+  font-family: var(--paragraphFont);
+  position: relative;
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+}
