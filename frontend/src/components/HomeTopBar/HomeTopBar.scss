@@ -1,0 +1,24 @@
+.home-top-bar {
+  display: flex;
+  flex-direction: column;
+  background: var(--whiteColor);
+  .home-head-line {
+    text-align: center;
+    color: var(--header1Color);
+    font-family: Roboto Slab;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 39.9008px;
+    line-height: 50px;
+    margin: 0em;
+  }
+
+  .home-tag-line {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15.9008px;
+    line-height: 17px;
+    text-align: center;
+  }
+}
