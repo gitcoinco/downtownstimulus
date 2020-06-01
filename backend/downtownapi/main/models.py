@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
+from django.utils.timezone import now
 
 # Create your models here.
 
@@ -27,6 +27,7 @@ class Business(models.Model):
     stripe_id = models.CharField(max_length=255, blank=False)
     goal_amount = models.FloatField(blank=False, default=0.00)
     donation_received = models.FloatField(blank=False, default=0.00)
+    current_clr_matching_amount = models.DecimalField(default=1, decimal_places=4, max_digits=50)
 
     def __str__(self):
         return self.name + ' - ' + str(self.id)
@@ -37,6 +38,7 @@ class Donation(models.Model):
     amount = models.FloatField(blank=False, null=False)
     donor = models.ForeignKey(User, on_delete=models.CASCADE)
     recipient = models.ForeignKey(Business, on_delete=models.CASCADE)
+    donation_time = models.DateTimeField(null=False, default=now)
 
     def __str__(self):
         return str(self.recipient.name) + ' - ' + str(self.amount) + ' - ' + str(self.id)
