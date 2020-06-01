@@ -33,13 +33,11 @@
 .App {
   display: flex;
   flex-direction: column;
-  height: 100vh;
   background-color: var(--backgroundColor);
   color: var(--grey5Color);
   line-height: 1.5em;
   font-family: var(--paragraphFont);
   position: relative;
-  overflow: hidden;
 }
 
 body {
