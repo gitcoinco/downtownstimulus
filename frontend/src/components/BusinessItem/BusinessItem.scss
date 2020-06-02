@@ -6,6 +6,8 @@
   list-style-type: none;
   padding: 1em;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
   .business-item-cover-image-container {
     display: flex;
     flex-direction: column;
@@ -20,20 +22,21 @@
       width: 100%;
       height: 128px;
     }
-  }
+    .business-item-logo-image-container {
+      width: 42%;
+      margin: 0px auto;
+      padding: 11px;
+      background: var(--whiteColor);
+      border-radius: 12px;
+      transform: translateY(-50%);
 
-  .business-item-logo-image-container {
-    width: 42%;
-    margin: 0px auto;
-    transform: translateY(-50%);
-    padding: 11px;
-    background: var(--whiteColor);
-    border-radius: 12px;
-    .business-item-logo-image {
-      width: 100%;
-      border-radius: 2px;
+      .business-item-logo-image {
+        width: 100%;
+        border-radius: 2px;
+      }
     }
   }
+
   .business-item-name {
     margin: 0;
     text-align: center;
@@ -51,6 +54,7 @@
     color: var(--blackColor);
     line-height: 1.4em;
     font-family: var(--paragraphFont);
+    flex: 1;
   }
 
   .business-item-progress-container {
