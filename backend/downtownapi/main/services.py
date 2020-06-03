@@ -5,6 +5,7 @@ from sendgrid.helpers.mail import *
 sg = sendgrid.SendGridAPIClient("")
 from_email = Email("dowtownstimulus@example.com", 'gitcoin.co')
 
+
 def send_mail(_to_mail, subject, body):
     to_email = To(_to_mail)
     content = Content("text/html", body)

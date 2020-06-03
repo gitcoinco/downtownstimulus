@@ -1,6 +1,7 @@
 from django.template.loader import render_to_string
 import premailer
 
+
 def premailer_transform(html):
     p = premailer.Premailer(html, base_url='http://localhost:8000/')
     return p.transform()
