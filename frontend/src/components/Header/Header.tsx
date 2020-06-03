@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import "./Header.scss";
 import { Home } from "react-feather";
 import { ActionContext, StateContext } from "../../hooks";
+import { Link } from "react-router-dom";
 
 function Header() {
   const { setModalConfig } = useContext(ActionContext);
@@ -9,9 +10,9 @@ function Header() {
 
   return (
     <div className="header">
-      <div className="header-home-container">
+      <Link to="/" className="header-home-container">
         <Home />
-      </div>
+      </Link>
       <div className="header-profile-container">
         {user ? (
           <img src={user.photoURL} alt="profile" className="profile-icon" />

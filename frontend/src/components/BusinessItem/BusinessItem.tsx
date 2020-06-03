@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import "./BusinessItem.scss";
+import { Link } from "react-router-dom";
 
 function BusinessItem(props: any) {
   const [floatingImgId, setFloatingImgId] = React.useState("");
@@ -24,7 +25,7 @@ function BusinessItem(props: any) {
   }, [floatingImgId, floatingNameId]);
 
   return (
-    <li className="business-item">
+    <Link className="business-item" to="/business/1">
       <div className="business-item-cover-image-container">
         <img
           src={require("../../assets/image 48.png")}
@@ -62,7 +63,7 @@ function BusinessItem(props: any) {
           Read More
         </button>
       </div>
-    </li>
+    </Link>
   );
 }
 

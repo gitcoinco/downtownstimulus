@@ -28,6 +28,7 @@
   --header3Color: #525252;
   --header3Size: 1.5em;
   --backgroundColor: #e5e5e5;
+  --footerColor: #262626;
 }
 
 .App {
@@ -42,4 +43,46 @@
 
 body {
   margin: 0;
+}
+
+h1 {
+  font-size: var(--header1Size);
+  font-weight: normal;
+  color: var(--header1Color);
+  font-family: var(--header1Font);
+}
+
+h2 {
+  font-size: var(--header2Size);
+  font-weight: normal;
+  color: var(--header2Color);
+  font-family: var(--header2Font);
+}
+
+h3 {
+  font-size: var(--header3Size);
+  font-weight: normal;
+  color: var(--header3Color);
+  font-family: var(--header3Font);
+}
+
+p {
+  font-family: var(--paragraphFont);
+  font-weight: normal;
+  line-height: 2.1em;
+  color: var(--blackColor);
+}
+
+a {
+  color: var(--primaryColor);
+  cursor: pointer;
+  &:hover {
+    color: var(--yellowColor);
+  }
+  &:active {
+    color: var(--primaryColor);
+  }
+  &:visited {
+    color: var(--primaryColor);
+  }
 }
