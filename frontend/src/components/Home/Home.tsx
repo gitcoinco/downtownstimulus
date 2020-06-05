@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import "./Home.scss";
 import { ActionContext, StateContext } from "../../hooks";
 import HomeTopBar from "../HomeTopBar";
+import BusinessItem from "../BusinessItem";
 
 function Home() {
   const { setModalConfig } = useContext(ActionContext);
@@ -10,6 +11,12 @@ function Home() {
   return (
     <div className="home">
       <HomeTopBar></HomeTopBar>
+      <ul className="business-list">
+        <BusinessItem />
+        <BusinessItem hii="true" />
+        <BusinessItem />
+        <BusinessItem hii="true" />
+      </ul>
     </div>
   );
 }

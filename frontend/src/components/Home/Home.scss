@@ -1,1 +1,10 @@
-
+.home {
+  .business-list {
+    margin: 1.3em auto;
+    width: 1200px;
+    padding: 0px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+  }
+}

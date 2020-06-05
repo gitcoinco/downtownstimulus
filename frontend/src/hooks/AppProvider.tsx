@@ -48,17 +48,33 @@ export const AppProvider = (props: any) => {
       },
       googleSignIn: async () => {
         console.log("Google");
-        const result = await FirebaseService.signInSocial("google");
-        console.log(result.user, result.token);
-        dispatch({ type: "SET_USER", user: result.user, token: result.token });
-        dispatch({ type: "TOGGLE_MODAL", openModal: false, modalConfig: {} });
+        try {
+          const result = await FirebaseService.signInSocial("google");
+          console.log(result.user, result.token);
+          dispatch({
+            type: "SET_USER",
+            user: result.user,
+            token: result.token,
+          });
+          dispatch({ type: "TOGGLE_MODAL", openModal: false, modalConfig: {} });
+        } catch (err) {
+          console.log(err.message);
+        }
       },
       facebookSignIn: async () => {
         console.log("Facebook");
-        const result = await FirebaseService.signInSocial("facebook");
-        console.log(result.user, result.token);
-        dispatch({ type: "SET_USER", user: result.user, token: result.token });
-        dispatch({ type: "TOGGLE_MODAL", openModal: false, modalConfig: {} });
+        try {
+          const result = await FirebaseService.signInSocial("facebook");
+          console.log(result.user, result.token);
+          dispatch({
+            type: "SET_USER",
+            user: result.user,
+            token: result.token,
+          });
+          dispatch({ type: "TOGGLE_MODAL", openModal: false, modalConfig: {} });
+        } catch (err) {
+          console.log(err);
+        }
       },
     }),
     []

@@ -1,0 +1,39 @@
+.footer {
+  display: flex;
+  padding: 1em 3em;
+  background: var(--footerColor);
+  min-height: 500px;
+  h3 {
+    color: var(--whiteColor) !important;
+  }
+  p {
+    color: var(--grey3Color) !important;
+    line-height: 24px;
+  }
+  .footer-container-left {
+    width: 55%;
+  }
+  .footer-container-right {
+    width: 40%;
+    margin-left: 6em;
+
+    .footer-contact-container {
+      display: flex;
+      .footer-contact-icon {
+        height: 30px;
+        width: 30px;
+        background: var(--grey3Color);
+        border-radius: 50%;
+        margin-right: 1em;
+      }
+    }
+
+    .footer-sponsors-icon {
+      display: inline-block;
+      margin-right: 4em;
+      margin-bottom: 1em;
+      width: 200px;
+      cursor: pointer;
+    }
+  }
+}
