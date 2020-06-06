@@ -17,6 +17,7 @@ class User(AbstractUser):
 class Business(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=256, blank=False)
+    owner_email = models.EmailField(null=False, blank=False)
     logo = models.CharField(max_length=256, blank=False)
     short_description = models.CharField(max_length=280, blank=False)
     history = models.TextField(blank=False)
@@ -39,6 +40,7 @@ class Donation(models.Model):
     donor = models.ForeignKey(User, on_delete=models.CASCADE)
     recipient = models.ForeignKey(Business, on_delete=models.CASCADE)
     donation_time = models.DateTimeField(null=False, default=now)
+    transaction_id = models.CharField(null=False, blank=False, max_length=255)
 
     def __str__(self):
         return str(self.recipient.name) + ' - ' + str(self.amount) + ' - ' + str(self.id)

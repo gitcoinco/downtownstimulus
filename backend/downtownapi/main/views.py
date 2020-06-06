@@ -21,10 +21,10 @@ class RootView(views.APIView):
         }
         return Response(json.dumps(resp), status=status.HTTP_201_CREATED)
 
+
 class UserList(mixins.ListModelMixin,
                mixins.CreateModelMixin,
                generics.GenericAPIView):
-
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
@@ -39,7 +39,6 @@ class UserListDetail(mixins.RetrieveModelMixin,
                      mixins.UpdateModelMixin,
                      mixins.DestroyModelMixin,
                      generics.GenericAPIView):
-
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
@@ -54,8 +53,8 @@ class UserListDetail(mixins.RetrieveModelMixin,
 
 
 class BusinessList(mixins.ListModelMixin,
-               mixins.CreateModelMixin,
-               generics.GenericAPIView):
+                   mixins.CreateModelMixin,
+                   generics.GenericAPIView):
     queryset = Business.objects.all()
     serializer_class = BusinessSerializer
 
@@ -67,9 +66,9 @@ class BusinessList(mixins.ListModelMixin,
 
 
 class BusinessListDetail(mixins.RetrieveModelMixin,
-                     mixins.UpdateModelMixin,
-                     mixins.DestroyModelMixin,
-                     generics.GenericAPIView):
+                         mixins.UpdateModelMixin,
+                         mixins.DestroyModelMixin,
+                         generics.GenericAPIView):
     queryset = Business.objects.all()
     serializer_class = BusinessSerializer
 
@@ -84,8 +83,8 @@ class BusinessListDetail(mixins.RetrieveModelMixin,
 
 
 class DonationList(mixins.ListModelMixin,
-               mixins.CreateModelMixin,
-               generics.GenericAPIView):
+                   mixins.CreateModelMixin,
+                   generics.GenericAPIView):
     queryset = Donation.objects.all()
     serializer_class = DonationSerializer
 
@@ -97,9 +96,9 @@ class DonationList(mixins.ListModelMixin,
 
 
 class DonationListDetail(mixins.RetrieveModelMixin,
-                     mixins.UpdateModelMixin,
-                     mixins.DestroyModelMixin,
-                     generics.GenericAPIView):
+                         mixins.UpdateModelMixin,
+                         mixins.DestroyModelMixin,
+                         generics.GenericAPIView):
     queryset = Donation.objects.all()
     serializer_class = DonationSerializer
 
