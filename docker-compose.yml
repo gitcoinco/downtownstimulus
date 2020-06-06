@@ -20,6 +20,8 @@ services:
       - db
     volumes:
       - ./backend:/backend
+    environment:
+      - SENDGRID_KEY=$SENDGRID_KEY
 
   web:
     build:

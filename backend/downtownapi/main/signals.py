@@ -32,7 +32,7 @@ def send_donation_mail(sender, instance, **kwargs):
 
     subject = "Thanks for sending You Donation to " + params['donation_recipient']
 
-    mail_body = get_mail_body('create_account', params)
+    mail_body = get_mail_body('new_donation', params)
     send_mail(params['user_email'], subject, mail_body)
 
 
@@ -47,5 +47,5 @@ def send_business_mail(sender, instance, **kwargs):
 
     subject = "Thanks for Listing Your Business on Downtown Stimulus"
 
-    mail_body = get_mail_body('create_account', params)
+    mail_body = get_mail_body('new_business', params)
     send_mail(params['owner_email'], subject, mail_body)
