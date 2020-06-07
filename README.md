@@ -21,8 +21,14 @@ Note - If images are already present ```docker-compose up```
 The Project is now up and running - 
 
 Backend API - http://127.0.0.1:8000
+
 Frontend - http://localhost:3000
 
 3. Create a New superuser for Backend API
 
 ```docker exec -t downtownstimulus_api_1 downtownapi/manage.py createsuperuser```
+
+## API Docs 
+
+- Swagger Docs - http://127.0.0.1:8000/swagger/
+- Redoc Docs - http://127.0.0.1:8000/redoc/
