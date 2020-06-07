@@ -1,39 +1,25 @@
-import React from 'react';
-import { loadStripe } from '@stripe/stripe-js';
-import {
-    CardElement,
-    Elements,
-    useStripe,
-    useElements,
-} from '@stripe/react-stripe-js';
+import React from "react";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import "./PaymentGateway.scss";
+import CheckoutForm from "./components/CheckoutForm";
 
-const CheckoutForm = () => {
-    const stripe = useStripe();
-    const elements = useElements();
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        const { error, paymentMethod } = await stripe.createPaymentMethod({
-            type: 'card',
-            card: elements.getElement(CardElement),
-        });
-    };
-
-    return (
-        <form onSubmit={handleSubmit}>
-            <CardElement />
-            <button type="submit" disabled={!stripe}>
-                Pay
-        </button>
-        </form>
-    );
+const ELEMENTS_OPTIONS = {
+  fonts: [
+    {
+      cssSrc: "https://fonts.googleapis.com/css?family=Roboto",
+    },
+  ],
 };
-const stripePromise = loadStripe('pk_test_6pRNASCoBOKtIshFeQd4XMUh');
+
+const stripePromise = loadStripe("pk_test_6pRNASCoBOKtIshFeQd4XMUh");
 
 const PaymentGateway = () => (
-    <Elements stripe={stripePromise}>
-        <CheckoutForm />
+  <div className="AppWrapper">
+    <Elements stripe={stripePromise} options={ELEMENTS_OPTIONS}>
+      <CheckoutForm />
     </Elements>
+  </div>
 );
 
-export default PaymentGateway;  
+export default PaymentGateway;

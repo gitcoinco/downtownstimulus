@@ -19,7 +19,9 @@ function BusinessItem(props: any) {
         const floatingHeight = floatingImg.offsetHeight;
         const topMarginReq = floatingHeight / 2 - 12;
         const floatingContainer = document.getElementById(floatingNameId);
-        floatingContainer.style.marginTop = "-" + topMarginReq + "px";
+        floatingContainer.style.marginTop =
+          "-" + topMarginReq + "px" + " !important";
+        console.log(floatingContainer.style.marginTop);
       }, 50);
     }
   }, [floatingImgId, floatingNameId]);
@@ -46,7 +48,7 @@ function BusinessItem(props: any) {
       <h2 className="business-item-name" id={floatingNameId}>
         {props.hii === "true" ? "Cured" : "Art Source International"}
       </h2>
-      <p className="business-item-description">
+      <p className="business-item-description top-margin-set">
         {props.hii === "true"
           ? "...is a small shop focused on preserving a personal connection to food. We offer a hand-picked selection of cheeses, charcuterie, wines, Colorado beers and spirits, and unique grocery items,"
           : "...specializes in antique maps, prints, original and reproduced vintage posters. Custom framing with over 25 years of service to Boulder."}

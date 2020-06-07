@@ -22,7 +22,7 @@ function Header() {
               className="profile-item"
               onClick={(e) => setModalConfig(true, { type: "signUp" })}
             >
-              Create a new account
+              Create an account
             </div>
             <div
               className="profile-item"

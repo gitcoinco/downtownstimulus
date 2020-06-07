@@ -13,9 +13,11 @@ function Home() {
       <HomeTopBar></HomeTopBar>
       <ul className="business-list">
         <BusinessItem />
-        <BusinessItem hii="true" />
         <BusinessItem />
-        <BusinessItem hii="true" />
+        <BusinessItem />
+        <BusinessItem />
+        <BusinessItem />
+        <BusinessItem />
       </ul>
     </div>
   );
