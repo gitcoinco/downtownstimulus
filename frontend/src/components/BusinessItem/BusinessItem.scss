@@ -15,7 +15,7 @@
     .business-item-cover-bottom-border {
       height: 4.67px;
       width: calc(100% - 1px);
-      background: linear-gradient(270deg, #ffc700 0%, #ff8a00 100%);
+      background: var(--backgroundGradient);
       margin-top: -5px;
       margin-left: 1px;
     }

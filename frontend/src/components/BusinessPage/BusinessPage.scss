@@ -17,12 +17,12 @@
         .business-details-cover-bottom-border {
           height: 4.67px;
           width: calc(100%);
-          background: linear-gradient(270deg, #ffc700 0%, #ff8a00 100%);
+          background: var(--backgroundGradient);
           margin-top: -1px;
         }
         .business-details-floating-container {
           position: absolute;
-          bottom: 10%;
+          bottom: 18%;
           color: var(--whiteColor) !important;
           text-align: center;
           width: 100%;
@@ -32,10 +32,7 @@
             color: var(--whiteColor) !important;
           }
         }
-      }
 
-      .business-details-body-container {
-        padding: 1.5em;
         .business-details-body-links-container {
           display: flex;
           align-items: center;
@@ -48,7 +45,9 @@
             }
           }
         }
+      }
 
+      .business-details-body-container {
         .business-details-body-description {
           font-size: 20px;
         }
@@ -70,9 +69,6 @@
     .business-donation-container {
       width: 45%;
       .business-donation-widget-container {
-        padding: 2em;
-        max-width: 628px;
-        margin: 2em auto;
         background: var(--whiteColor);
         border: 0.857157px solid #d2d2d2;
         box-sizing: border-box;
@@ -161,7 +157,7 @@
               border-radius: 4px;
               padding: 1px 6px;
               top: -14px;
-              left: 25px;
+              left: 19%;
               transition: all 0.2s linear;
 
               .business-best-match-icon {
@@ -221,8 +217,6 @@
         }
       }
       .business-donation-details-container {
-        max-width: 628px;
-        margin: 2em auto;
         .business-donation-details-types-container {
           .business-donation-details-type {
             display: inline-flex;
