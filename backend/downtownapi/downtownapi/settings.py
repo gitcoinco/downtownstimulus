@@ -135,3 +135,7 @@ STATIC_URL = '/static/'
 
 
 AUTH_USER_MODEL = 'main.User'
+
+AUTHENTICATION_BACKENDS = (
+    'main.utils.OAuthBackend'
+)
