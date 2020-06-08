@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import "./Home.scss";
 import { ActionContext, StateContext } from "../../hooks";
 import HomeTopBar from "../HomeTopBar";
@@ -7,6 +7,8 @@ import BusinessItem from "../BusinessItem";
 function Home() {
   const { setModalConfig } = useContext(ActionContext);
   const { user } = useContext(StateContext);
+
+  useEffect(() => {}, []);
 
   return (
     <div className="home">

@@ -1,5 +1,6 @@
 import React, { createContext, useMemo } from "react";
-import { FirebaseService } from "../services";
+import { FirebaseService, WebService } from "../services";
+import { transformToUserForServer } from "../utils";
 const actionInitialValue = {
   setModalConfig: (openModal: boolean, modalConfig: any) => {},
   googleSignIn: () => {},
@@ -38,6 +39,8 @@ export const AppProvider = (props: any) => {
       modalConfig: { type: "" },
       user: null,
       token: "",
+      businesses: [],
+      selectedBusiness: null,
     }
   );
 
@@ -51,6 +54,11 @@ export const AppProvider = (props: any) => {
         try {
           const result = await FirebaseService.signInSocial("google");
           console.log(result.user, result.token);
+          WebService.postUser(transformToUserForServer(result.user)).subscribe(
+            (data) => {
+              console.log(data);
+            }
+          );
           dispatch({
             type: "SET_USER",
             user: result.user,
@@ -66,6 +74,8 @@ export const AppProvider = (props: any) => {
         try {
           const result = await FirebaseService.signInSocial("facebook");
           console.log(result.user, result.token);
+          const serverResponse = WebService.postUser(result.user).subscribe();
+          console.log(serverResponse);
           dispatch({
             type: "SET_USER",
             user: result.user,

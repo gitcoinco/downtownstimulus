@@ -75,7 +75,8 @@ const CheckoutForm = () => {
     </div>
   ) : (
     <form className="Form" onSubmit={handleSubmit}>
-      <fieldset className="FormGroup">
+      <div className="payment-title">Your card details</div>
+      <fieldset className="FormGroup top-margin-set">
         <Field
           label="Name"
           id="name"
@@ -101,7 +102,7 @@ const CheckoutForm = () => {
           }}
         />
       </fieldset>
-      <fieldset className="FormGroup">
+      <fieldset className="FormGroup top-margin-set">
         <CardField
           onChange={(e) => {
             setError(e.error);

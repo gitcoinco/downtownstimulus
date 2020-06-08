@@ -17,7 +17,7 @@
         .business-details-cover-bottom-border {
           height: 4.67px;
           width: calc(100%);
-          background: linear-gradient(270deg, #ffc700 0%, #ff8a00 100%);
+          background: var(--backgroundGradient);
           margin-top: -1px;
         }
         .business-details-floating-container {
@@ -157,7 +157,7 @@
               border-radius: 4px;
               padding: 1px 6px;
               top: -14px;
-              left: 25px;
+              left: 19%;
               transition: all 0.2s linear;
 
               .business-best-match-icon {
