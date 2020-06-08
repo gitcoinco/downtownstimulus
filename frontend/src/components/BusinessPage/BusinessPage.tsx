@@ -33,13 +33,11 @@ function BusinessPage() {
                 alt="business-icon"
                 className="business-details-floating-icon"
               />
-              <h1 className="business-details-floating-title">
+              <h1 className="business-details-floating-title top-margin-set">
                 Chelsea Boutique
               </h1>
             </div>
-          </div>
-          <div className="business-details-body-container">
-            <div className="business-details-body-links-container">
+            <div className="business-details-body-links-container top-margin-set">
               <div className="business-details-links">
                 <span>
                   <Globe />
@@ -59,21 +57,25 @@ function BusinessPage() {
                 <span>chelseas.boutique</span>
               </div>
             </div>
-            <p className="business-details-body-description">
+          </div>
+          <div className="business-details-body-container container-spacing-set">
+            <p className="business-details-body-description top-margin-set">
               Chelsea’s Boutique a women's designer boutique that has been a
               Boulder favorite for over fifteen years.
             </p>
-            <h2 className="business-details-body-title">History of Company</h2>
-            <p className="business-details-body-content">
+            <h2 className="business-details-body-title top-margin-set">
+              History of Company
+            </h2>
+            <p className="business-details-body-content top-margin-set">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut
               orci arcu. Integer semper lobortis eleifend. In id urna nec magna
               blandit tempor ornare sed purus. Nulla mattis magna ex, eu
               volutpat augue volutpat non.{" "}
             </p>
-            <h2 className="business-details-body-title">
+            <h2 className="business-details-body-title top-margin-set">
               And Then COVID Happened...
             </h2>
-            <p className="business-details-body-content">
+            <p className="business-details-body-content top-margin-set">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut
               orci arcu. Integer semper lobortis eleifend. In id urna nec magna
               blandit tempor ornare sed purus. Nulla mattis magna ex, eu
@@ -83,15 +85,15 @@ function BusinessPage() {
               massa. Etiam iaculis dolor odio, ut ultrices ex dignissim id. Nunc
               nec vestibulum est.
             </p>
-            <p className="business-details-body-content">
+            <p className="business-details-body-content top-margin-set">
               Story about pivoting, and what’s provided.
             </p>
-            <div className="business-details-body-staff-images"></div>
+            <div className="business-details-body-staff-images top-margin-set bottom-margin-set"></div>
           </div>
         </div>
         <div className="business-donation-container">
-          <div className="business-donation-widget-container">
-            <h3 className="business-donation-widget-title">
+          <div className="business-donation-widget-container container-spacing-set">
+            <h3 className="business-donation-widget-title top-margin-set">
               Support Chelsea’s Boutique
             </h3>
             <div className="business-donation-progress-container">
@@ -137,6 +139,7 @@ function BusinessPage() {
                   <button
                     type="button"
                     className="business-donation-suggestion-button"
+                    onClick={(e) => setModalConfig(true, { type: "payment" })}
                   >
                     Donate
                   </button>
@@ -166,6 +169,7 @@ function BusinessPage() {
                   <button
                     type="button"
                     className="business-donation-suggestion-button business-donation-best-match-button "
+                    onClick={(e) => setModalConfig(true, { type: "payment" })}
                   >
                     Donate
                   </button>
@@ -187,6 +191,7 @@ function BusinessPage() {
                   <button
                     type="button"
                     className="business-donation-suggestion-button"
+                    onClick={(e) => setModalConfig(true, { type: "payment" })}
                   >
                     Donate
                   </button>
@@ -197,9 +202,9 @@ function BusinessPage() {
               How does Quadratic Funding Work?
             </a>
           </div>
-          <div className="business-donation-details-container">
+          <div className="business-donation-details-container container-spacing-set">
             <h2>How we use the funds</h2>
-            <div className="business-donation-details-types-container">
+            <div className="business-donation-details-types-container top-margin-set">
               <div className="business-donation-details-type">
                 <span>
                   <DollarSign />
@@ -219,7 +224,7 @@ function BusinessPage() {
                 <span>Inventory</span>
               </div>
             </div>
-            <p>
+            <p className="top-margin-set">
               Our biggest cost is rent and employee salaries. If we hit our
               goals, we’ll keep 4 of our staff of 20 on salary and be able to
               pay for all full-time employee’s healthcare during their furlough.{" "}
@@ -238,9 +243,11 @@ function BusinessPage() {
           </p>
           <ul className="business-list">
             <BusinessItem />
-            <BusinessItem hii="true" />
             <BusinessItem />
-            <BusinessItem hii="true" />
+            <BusinessItem />
+            <BusinessItem />
+            <BusinessItem />
+            <BusinessItem />
           </ul>
         </div>
       </div>

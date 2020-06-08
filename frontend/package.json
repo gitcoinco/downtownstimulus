@@ -20,7 +20,9 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "rxjs": "^6.5.5",
-    "typescript": "~3.7.2"
+    "typescript": "~3.7.2",
+    "@stripe/react-stripe-js": "^1.1.2",
+    "@stripe/stripe-js": "^1.6.0"
   },
   "scripts": {
     "start": "react-scripts start",

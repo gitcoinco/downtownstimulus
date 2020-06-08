@@ -8,6 +8,7 @@ coreschema==0.0.4
 cssselect==1.1.0
 cssutils==1.0.2
 Django==3.0.6
+django-cors-headers==3.3.0
 django-filter==2.2.0
 djangorestframework==3.11.0
 drf-yasg==1.17.1

@@ -1,0 +1,15 @@
+input,
+button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+  border-style: none;
+}
+
+.AppWrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  min-width: 464px;
+}

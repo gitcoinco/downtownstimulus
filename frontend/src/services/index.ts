@@ -1,2 +1,3 @@
 import * as FirebaseService from "./FirebaseService";
-export { FirebaseService };
+import * as WebService from "./WebService";
+export { FirebaseService, WebService };
