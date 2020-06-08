@@ -1,6 +1,10 @@
 import React, { createContext, useMemo } from "react";
 import { FirebaseService, WebService } from "../services";
 import { transformToUserForServer } from "../utils";
+
+import { of } from "rxjs";
+import { catchError } from "rxjs/operators";
+
 const actionInitialValue = {
   setModalConfig: (openModal: boolean, modalConfig: any) => {},
   googleSignIn: () => {},
@@ -54,9 +58,15 @@ export const AppProvider = (props: any) => {
         try {
           const result = await FirebaseService.signInSocial("google");
           console.log(result.user, result.token);
-          WebService.postUser(transformToUserForServer(result.user)).subscribe(
-            (data) => {
-              console.log(data);
+          WebService.postUser(transformToUserForServer(result.user))
+          .pipe(catchError((err) => of(`I caught: ${err}`)))
+          .subscribe(
+            async (data) => {
+              if(data.ok){
+                console.log('Success', await data.json())
+              } else {
+                console.log('Error', await data.json())
+              }
             }
           );
           WebService.fetchAllBusinesses().subscribe((data) => {

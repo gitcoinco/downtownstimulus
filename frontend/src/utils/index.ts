@@ -45,7 +45,7 @@ export const transformToUserForServer = (user: any) => {
     password: user.password,
     last_login: user.last_login,
     is_superuser: user.is_superuser,
-    username: user.username,
+    username: user.email,
     first_name: user.displayName.split(" ")[0],
     last_name: user.displayName.split(" ")[1],
     email: user.email,

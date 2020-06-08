@@ -22,14 +22,28 @@ class Business(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=256, blank=False)
     owner_email = models.EmailField(null=False, blank=False)
-    logo = models.CharField(max_length=256, blank=False)
+
+    # Business Text Bases Content Field
     short_description = models.CharField(max_length=280, blank=False)
     history = models.TextField(blank=False)
     covid_story = models.TextField(blank=False)
-    images = models.TextField(blank=True)
     other_content = models.TextField(blank=False)
-    expenditure_details = models.TextField(blank=False)
+
+    # Business Graphic based content fields (Images/Videos)
+    logo = models.TextField(blank=False)
+    cover_image = models.TextField(blank=False)
+    main_business_image = models.TextField(blank=False)
+    staff_images = models.TextField(blank=True) # Should be mulitple
+    business_video_link = models.TextField(blank=True)
+
+    # Business Social Media Related Fields
+    website_link = models.CharField(max_length=512, blank=True, null=True)
+    facebook_profile_link = models.CharField(max_length=512, blank=True, null=True)
+    instagram_profile_link = models.CharField(max_length=512, blank=True, null=True)
+
+    # Business donation related field
     stripe_id = models.CharField(max_length=255, blank=False)
+    expenditure_details = models.TextField(blank=False) # Should be Multiple
     goal_amount = models.FloatField(blank=False, default=0.00)
     donation_received = models.FloatField(blank=False, default=0.00)
     current_clr_matching_amount = models.DecimalField(default=1, decimal_places=4, max_digits=50)
