@@ -137,7 +137,11 @@ STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'main.User'
 
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ORIGIN_WHITELIST = (
-    'http//:localhost:8000',
+AUTHENTICATION_BACKENDS = (
+    'main.utils.OAuthBackend'
 )
+
+CORS_ORIGIN_ALLOW_ALL = True
+#CORS_ORIGIN_WHITELIST = (
+#    'http//:localhost:8000',
+#)
