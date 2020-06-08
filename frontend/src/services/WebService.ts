@@ -9,7 +9,7 @@ const ROOT_URL = "http://127.0.0.1:8000";
 export const fetchAllBusinesses = (): Observable<IBusiness[]> => {
   return defer(() => {
     return from<Promise<IBusiness[]>>(
-      fetch(`${ROOT_URL}/business`)
+      fetch(`${ROOT_URL}/business/`)
         .then((res) => res.json())
         .then(mapToBusinesses)
     );
@@ -19,7 +19,7 @@ export const fetchAllBusinesses = (): Observable<IBusiness[]> => {
 export const fetchSingleBusiness = (id: string): Observable<IBusiness> => {
   return defer(() => {
     return from<Promise<IBusiness>>(
-      fetch(`${ROOT_URL}/business/${id}`).then((res) => res.json())
+      fetch(`${ROOT_URL}/business/${id}/`).then((res) => res.json())
     );
   });
 };
@@ -27,7 +27,7 @@ export const fetchSingleBusiness = (id: string): Observable<IBusiness> => {
 export const fetchUser = (id: string): Observable<IUser> => {
   return defer(() => {
     return from<Promise<IUser>>(
-      fetch(`${ROOT_URL}/users/${id}`).then((res) => res.json())
+      fetch(`${ROOT_URL}/users/${id}/`).then((res) => res.json())
     );
   });
 };
@@ -36,7 +36,7 @@ export const postUser = (user: any): Observable<any> => {
   console.log(user);
   return defer(() => {
     return from<Promise<any>>(
-      fetch(`${ROOT_URL}/users`, {
+      fetch(`${ROOT_URL}/users/`, {
         headers: { "Content-Type": "application/json; charset=utf-8" },
         method: "POST",
         body: JSON.stringify(user),
@@ -48,7 +48,7 @@ export const postUser = (user: any): Observable<any> => {
 export const updateUser = (id: string, user: any): Observable<any> => {
   return defer(() => {
     return from<Promise<any>>(
-      fetch(`${ROOT_URL}/users/${id}`, {
+      fetch(`${ROOT_URL}/users/${id}/`, {
         headers: { "Content-Type": "application/json; charset=utf-8" },
         method: "PUT",
         body: JSON.stringify(user),

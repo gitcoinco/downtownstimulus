@@ -54,7 +54,7 @@ function BusinessItem(props: any) {
           : "...specializes in antique maps, prints, original and reproduced vintage posters. Custom framing with over 25 years of service to Boulder."}
       </p>
       <div className="business-item-progress-container">
-        <div className="business-item-progress" style={{ width: "20%" }}></div>
+        <div className="business-item-progress" style={{ width: "50%" }}></div>
       </div>
       <div className="business-item-progress-labels-container">
         <span className="business-item-progress-label">$0</span>

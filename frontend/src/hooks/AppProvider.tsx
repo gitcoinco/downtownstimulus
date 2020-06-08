@@ -59,6 +59,9 @@ export const AppProvider = (props: any) => {
               console.log(data);
             }
           );
+          WebService.fetchAllBusinesses().subscribe((data) => {
+            console.log(data);
+          });
           dispatch({
             type: "SET_USER",
             user: result.user,
