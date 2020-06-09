@@ -68,6 +68,9 @@
 
     .business-donation-container {
       width: 45%;
+      background: linear-gradient(180deg, #F6F6F6 0%, #FFFFFF 100%);
+      border-left: .25rem solid #fff;
+      
       .business-donation-widget-container {
         background: var(--whiteColor);
         border: 0.857157px solid #d2d2d2;
