@@ -6,13 +6,15 @@ import { ActionContext } from "../../hooks";
 function SignUp() {
   const { setModalConfig } = useContext(ActionContext);
   return (
-    <>
-      <h2 className="login-header">Create a Downtown Stimulus</h2>
+    <div className="signUp">
+      <h2 className="login-header top-margin-set">
+        Create a Downtown Stimulus
+      </h2>
       <SocialLogin />
-      <p className="login-text">
+      <p className="login-text top-margin-set">
         Or create an account with your email address!
       </p>
-      <div className="login-input-container">
+      <div className="login-input-container top-margin-set">
         <label className="login-input-label">Email</label>
         <input
           type="email"
@@ -20,22 +22,24 @@ function SignUp() {
           className="login-input"
         />
       </div>
-      <div className="login-input-container">
+      <div className="login-input-container top-margin-set">
         <label className="login-input-label">Password</label>
         <input type="password" className="login-input" />
       </div>
-      <a
-        className="login-create-link"
-        onClick={(e) => setModalConfig(true, { type: "login" })}
-      >
-        Already have an account? Log in here.
-      </a>
-      <div className="login-email-submit-container">
+      <div className="login-create-link-container top-margin-set">
+        <a
+          className="login-create-link"
+          onClick={(e) => setModalConfig(true, { type: "login" })}
+        >
+          Already have an account? Log in here.
+        </a>
+      </div>
+      <div className="login-email-submit-container top-margin-set">
         <button type="button" className="login-email-submit-button">
           Create Account
         </button>
       </div>
-    </>
+    </div>
   );
 }
 

@@ -1,6 +1,10 @@
-from django.template.loader import render_to_string
+
 import premailer
 
+from django.contrib.auth.backends import ModelBackend
+from django.template.loader import render_to_string
+
+from .models import User
 
 def premailer_transform(html):
     p = premailer.Premailer(html, base_url='http://127.0.0.1:8000/')
@@ -56,3 +60,19 @@ def aggregate_contributions(grant_contributions):
         contrib_dict[proj][user] = contrib_dict[proj].get(user, 0) + amount
 
     return contrib_dict
+class OAuthBackend(ModelBackend):
+    """Log in to Django with Oauth.
+
+    """
+    def authenticate(self, oauth_uuid=None):
+        try:
+            if oauth_uuid:
+                return User.objects.get(oauth_uuid=oauth_uuid)
+        except User.DoesNotExist:
+            return None
+
+    def get_user(self, user_id):
+        try:
+            return User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            return None

@@ -7,20 +7,31 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
+        extra_kwargs = {'password': {'required': False}}
 
     def create(self, validated_data):
-        user = User.objects.create(
-            username=validated_data['email'],
-            email=validated_data['email'],
-            first_name=validated_data['first_name'],
-            last_name=validated_data['last_name'],
-            profile_pic=validated_data['profile_pic'],
-            phone_number=validated_data['phone_number'],
-            oauth_uuid=validated_data['oauth_uuid'],
-        )
-
-        user.set_password(validated_data['password'])
-        user.save()
+        is_oauth_uuid = validated_data.get('oauth_uuid', False)
+        if is_oauth_uuid:
+            user = User.objects.create_user(
+                first_name=validated_data.get('first_name', ''),
+                last_name=validated_data.get('last_name', ''),
+                username=validated_data.get('email'),
+                email=validated_data.get('email'),
+                profile_pic=validated_data.get('profile_pic', None),
+                phone_number=validated_data.get('phone_number', None),
+                oauth_uuid=validated_data.get('oauth_uuid'),
+                is_email_verified=True
+            )
+            user.save()
+        else:
+            user = User.objects.create_user(
+                first_name=validated_data.get('first_name', ''),
+                last_name=validated_data.get('last_name', ''),
+                username=validated_data.get('email', ''),
+                email=validated_data.get('email', '')
+            )
+            user.set_password(validated_data['password'])
+            user.save()
 
         return user
 

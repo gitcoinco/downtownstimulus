@@ -4,6 +4,7 @@ import { X } from "react-feather";
 import { ActionContext, StateContext } from "../../hooks";
 import Login from "../Login";
 import SignUp from "../SignUp";
+import PaymentGateway from "../PaymentGateway";
 
 function Modal() {
   const { setModalConfig } = useContext(ActionContext);
@@ -27,6 +28,7 @@ function Modal() {
         <div className="modal-guts">
           {modalConfig.type === "login" && <Login></Login>}
           {modalConfig.type === "signUp" && <SignUp></SignUp>}
+          {modalConfig.type === "payment" && <PaymentGateway></PaymentGateway>}
         </div>
       </div>
     </div>

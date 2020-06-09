@@ -1,0 +1,60 @@
+.Form {
+  animation: fade 200ms ease-out;
+  margin: 1.5rem;
+  padding: 1.5rem;
+}
+
+.payment-title {
+  color: var(--grey3Color);
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.FormGroup {
+  padding: 0;
+  border-style: none;
+  background-color: var(--whiteColor);
+  will-change: opacity, transform;
+  box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 var(--whiteColor);
+  border-radius: 4px;
+}
+
+.Result {
+  margin-top: 1em;
+  text-align: center;
+  animation: fade 200ms ease-out;
+}
+
+.ResultTitle {
+  color: #fff;
+  font-weight: 500;
+  margin-bottom: 8px;
+  font-size: 17px;
+  text-align: center;
+}
+
+.ResultMessage {
+  color: var(--grey4Color);
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 1em;
+  line-height: 1.6em;
+  text-align: center;
+}
+
+.ResetButton {
+  border: 0;
+  cursor: pointer;
+  background: transparent;
+}
+
+.StripeElement--webkit-autofill {
+  background: transparent !important;
+}
+
+.StripeElement {
+  width: 100%;
+  padding: 11px 15px 11px 0;
+}

@@ -10,8 +10,9 @@ DONATION_STATUS = (("Success", "Success"), ("Failure", "Failure"), ("Pending", "
 class User(AbstractUser):
     id = models.AutoField(primary_key=True)
     profile_pic = models.CharField(max_length=1024, blank=True)
-    phone_number = models.CharField(max_length=20, blank=True)
-    oauth_uuid = models.CharField(max_length=256, blank=True)
+    phone_number = models.CharField(max_length=20, blank=True, null=True)
+    oauth_uuid = models.CharField(max_length=256, blank=True, null=True)
+    is_email_verified = models.BooleanField(default=False)
 
     def __str__(self):
         return self.get_full_name() + ' - ' + str(self.id)

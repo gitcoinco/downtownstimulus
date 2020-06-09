@@ -7,7 +7,7 @@ function SocialLogin() {
 
   return (
     <>
-      <div className="login-facebook-button-container">
+      <div className="login-facebook-button-container top-margin-set">
         <button
           type="button"
           className="login-facebook-button"
@@ -16,7 +16,7 @@ function SocialLogin() {
           Login with Facebook
         </button>
       </div>
-      <div className="login-google-button-container">
+      <div className="login-google-button-container top-margin-set">
         <button
           type="button"
           className="login-google-button"
