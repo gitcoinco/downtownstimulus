@@ -27,7 +27,7 @@ class UserSerializer(serializers.ModelSerializer):
             user = User.objects.create_user(
                 first_name=validated_data.get('first_name', ''),
                 last_name=validated_data.get('last_name', ''),
-                username=validated_data.get('email', ''),
+                username=validated_data.get('username', ''),
                 email=validated_data.get('email', '')
             )
             user.set_password(validated_data['password'])
@@ -46,3 +46,11 @@ class DonationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Donation
         fields = '__all__'
+
+
+class CLRCalculationSeriaziler(serializers.Serializer):
+    user_id = serializers.IntegerField()
+    business_id = serializers.IntegerField()
+    donation_amount = serializers.FloatField()
+
+
