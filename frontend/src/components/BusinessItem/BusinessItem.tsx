@@ -36,20 +36,18 @@ function BusinessItem({ hii, business }: any) {
     <Link
       className="business-item"
       to={`/business/${business.id}`}
-      onClick={(e) => selectBusiness(business)}
+      onClick={(e) => selectBusiness(business.id)}
     >
       <div className="business-item-cover-image-container">
         <img
-          src={require("../../assets/image 48.png")}
+          src={business.cover_image}
           alt="cover-image"
           className="business-item-cover-image"
         />
         <div className="business-item-cover-bottom-border"></div>
         <div className="business-item-logo-image-container" id={floatingImgId}>
           <img
-            src={require(`../../assets/${
-              hii === "true" ? "image 53" : "image 49"
-            }.png`)}
+            src={business.logo}
             alt="logo-image"
             className="business-item-logo-image"
           />
@@ -59,18 +57,21 @@ function BusinessItem({ hii, business }: any) {
         {business.name}
       </h2>
       <p className="business-item-description top-margin-set">
-        {business.description}
+        {business.short_description}
       </p>
       <div className="business-item-progress-container">
         <div
           className="business-item-progress"
-          style={{ width: business.donationPercent + "%" }}
+          style={{
+            width:
+              (business.donation_received / business.goal_amount) * 100 + "%",
+          }}
         ></div>
       </div>
       <div className="business-item-progress-labels-container">
         <span className="business-item-progress-label">$0</span>
         <span className="business-item-progress-label">
-          ${business.donationCap} goal
+          ${business.goal_amount} goal
         </span>
       </div>
       <div className="business-item-button-container">

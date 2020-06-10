@@ -5,9 +5,12 @@ import HomeTopBar from "../HomeTopBar";
 import BusinessItem from "../BusinessItem";
 
 function Home() {
-  const { setModalConfig } = useContext(ActionContext);
+  const { fetchAllBusinesses } = useContext(ActionContext);
   const { businesses } = useContext(StateContext);
 
+  useEffect(() => {
+    fetchAllBusinesses();
+  }, []);
   return (
     <div className="home">
       <HomeTopBar></HomeTopBar>

@@ -10,6 +10,7 @@ const actionInitialValue = {
   googleSignIn: () => {},
   facebookSignIn: () => {},
   selectBusiness: (selectedBusiness: any) => {},
+  fetchAllBusinesses: () => {},
 };
 const stateInitialValue = {
   openModal: false,
@@ -69,58 +70,8 @@ export const AppProvider = (props: any) => {
       modalConfig: { type: "" },
       user: null,
       token: "",
-      backupBusinesses: [
-        {
-          id: 1,
-          name: "Chelsea Boutique",
-          description:
-            "is a women's designer boutique that has been a Boulder favorite for over fifteen years.",
-          donationCap: 5500,
-          donationPercent: 10,
-        },
-        {
-          id: 2,
-          name: "Cured",
-          description:
-            "...is a small shop focused on preserving a personal connection to food. We offer a hand-picked selection of cheeses, charcuterie, wines, Colorado beers and spirits, and unique grocery items,",
-          donationCap: 5000,
-          donationPercent: 20,
-        },
-        {
-          id: 3,
-          name: "Art Source International",
-          description:
-            "...specializes in antique maps, prints, original and reproduced vintage posters. Custom framing with over 25 years of service to Boulder.",
-          donationCap: 6500,
-          donationPercent: 40,
-        },
-      ],
-      businesses: [
-        {
-          id: 1,
-          name: "Chelsea Boutique",
-          description:
-            "is a women's designer boutique that has been a Boulder favorite for over fifteen years.",
-          donationCap: 5500,
-          donationPercent: 10,
-        },
-        {
-          id: 2,
-          name: "Cured",
-          description:
-            "...is a small shop focused on preserving a personal connection to food. We offer a hand-picked selection of cheeses, charcuterie, wines, Colorado beers and spirits, and unique grocery items,",
-          donationCap: 5000,
-          donationPercent: 20,
-        },
-        {
-          id: 3,
-          name: "Art Source International",
-          description:
-            "...specializes in antique maps, prints, original and reproduced vintage posters. Custom framing with over 25 years of service to Boulder.",
-          donationCap: 6500,
-          donationPercent: 40,
-        },
-      ],
+      backupBusinesses: [],
+      businesses: [],
       selectedBusiness: null,
       searchText: "",
     }
@@ -150,14 +101,13 @@ export const AppProvider = (props: any) => {
             .pipe(catchError((err) => of(`I caught: ${err}`)))
             .subscribe(async (data) => {
               if (data.ok) {
-                console.log("Success", await data.json());
+                console.log("Success");
+                const user = await data.json();
+                console.log(user);
               } else {
                 console.log("Error", await data.json());
               }
             });
-          WebService.fetchAllBusinesses().subscribe((data) => {
-            console.log(data);
-          });
           dispatch({
             type: "SET_USER",
             user: result.user,
@@ -185,8 +135,19 @@ export const AppProvider = (props: any) => {
           console.log(err);
         }
       },
-      selectBusiness: (selectedBusiness: any) => {
-        dispatch({ type: "SET_SELECTED_BUSINESS", selectedBusiness });
+      selectBusiness: (selectedBusinessId: any) => {
+        WebService.fetchSingleBusiness(selectedBusinessId).subscribe(
+          (data: any) => {
+            console.log(data);
+            dispatch({ type: "SET_SELECTED_BUSINESS", selectedBusiness: data });
+          }
+        );
+      },
+      fetchAllBusinesses: () => {
+        WebService.fetchAllBusinesses().subscribe((data: any) => {
+          console.log(data);
+          dispatch({ type: "SET_BUSINESS_LIST", businesses: data });
+        });
       },
     }),
     []

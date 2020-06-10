@@ -15,15 +15,15 @@ import BusinessItem from "../BusinessItem";
 
 function BusinessPage() {
   let { id } = useParams();
-  const { setModalConfig, selectBusiness } = useContext(ActionContext);
+  const { setModalConfig, selectBusiness, fetchAllBusinesses } = useContext(
+    ActionContext
+  );
   const { backupBusinesses, selectedBusiness } = useContext(StateContext);
 
   useEffect(() => {
+    fetchAllBusinesses();
     if (id) {
-      const selectedBusinessFound = backupBusinesses.filter(
-        (business) => Number.parseInt(business.id) === Number.parseInt(id)
-      )[0];
-      selectBusiness(selectedBusinessFound);
+      selectBusiness(id);
     }
   }, [id]);
   return (
@@ -34,14 +34,14 @@ function BusinessPage() {
             <div className="business-details-container">
               <div className="business-details-header-container">
                 <img
-                  src={require("../../assets/Rectangle 1.png")}
+                  src={selectedBusiness.main_business_image}
                   alt="cover"
                   className="business-details-cover-image"
                 />
                 <div className="business-details-cover-bottom-border"></div>
                 <div className="business-details-floating-container">
                   <img
-                    src={require("../../assets/image 49.png")}
+                    src={selectedBusiness.logo}
                     alt="business-icon"
                     className="business-details-floating-icon"
                   />
@@ -54,52 +54,46 @@ function BusinessPage() {
                     <span>
                       <Globe />
                     </span>
-                    <span>chelseaboulder.com</span>
+                    <span>{selectedBusiness.website_link}</span>
                   </div>
                   <div className="business-details-links">
                     <span>
                       <Facebook />
                     </span>
-                    <span>chelsea.boulder</span>
+                    <span>{selectedBusiness.facebook_profile_link}</span>
                   </div>
                   <div className="business-details-links">
                     <span>
                       <Instagram />
                     </span>
-                    <span>chelseas.boutique</span>
+                    <span>{selectedBusiness.instagram_profile_link}</span>
                   </div>
                 </div>
               </div>
               <div className="business-details-body-container container-spacing-set">
                 <p className="business-details-body-description top-margin-set">
-                  {selectedBusiness.description}
+                  {selectedBusiness.short_description}
                 </p>
                 <h2 className="business-details-body-title top-margin-set">
                   History of Company
                 </h2>
                 <p className="business-details-body-content top-margin-set">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                  ut orci arcu. Integer semper lobortis eleifend. In id urna nec
-                  magna blandit tempor ornare sed purus. Nulla mattis magna ex,
-                  eu volutpat augue volutpat non.{" "}
+                  {selectedBusiness.history}
                 </p>
                 <h2 className="business-details-body-title top-margin-set">
                   And Then COVID Happened...
                 </h2>
                 <p className="business-details-body-content top-margin-set">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                  ut orci arcu. Integer semper lobortis eleifend. In id urna nec
-                  magna blandit tempor ornare sed purus. Nulla mattis magna ex,
-                  eu volutpat augue volutpat non. Nam tellus est, volutpat at
-                  viverra sit amet, interdum eget nulla. Nulla et tellus ut
-                  dolor lacinia egestas ut vitae urna. Aliquam sit amet tempus
-                  sapien, in varius massa. Etiam iaculis dolor odio, ut ultrices
-                  ex dignissim id. Nunc nec vestibulum est.
+                  {selectedBusiness.covid_story}
                 </p>
                 <p className="business-details-body-content top-margin-set">
                   Story about pivoting, and what’s provided.
                 </p>
-                <div className="business-details-body-staff-images top-margin-set bottom-margin-set"></div>
+                <img
+                  className="business-details-body-staff-images top-margin-set bottom-margin-set"
+                  src={selectedBusiness.staff_images[0]}
+                  alt="cover"
+                ></img>
               </div>
             </div>
             <div className="business-donation-container">
@@ -110,13 +104,19 @@ function BusinessPage() {
                 <div className="business-donation-progress-container">
                   <div
                     className="business-item-progress"
-                    style={{ width: selectedBusiness.donationPercent + "%" }}
+                    style={{
+                      width:
+                        (selectedBusiness.donation_received /
+                          selectedBusiness.goal_amount) *
+                          100 +
+                        "%",
+                    }}
                   ></div>
                 </div>
                 <div className="business-donation-progress-labels-container">
                   <span className="business-donation-progress-label">$0</span>
                   <span className="business-donation-progress-label">
-                    ${selectedBusiness.donationCap} goal
+                    ${selectedBusiness.goal_amount} goal
                   </span>
                 </div>
                 <div className="business-donation-tabs">
@@ -242,10 +242,7 @@ function BusinessPage() {
                   </div>
                 </div>
                 <p className="top-margin-set">
-                  Our biggest cost is rent and employee salaries. If we hit our
-                  goals, we’ll keep 4 of our staff of 20 on salary and be able
-                  to pay for all full-time employee’s healthcare during their
-                  furlough.{" "}
+                  {selectedBusiness.other_content}
                 </p>
               </div>
             </div>
