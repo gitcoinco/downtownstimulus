@@ -6,20 +6,15 @@ import BusinessItem from "../BusinessItem";
 
 function Home() {
   const { setModalConfig } = useContext(ActionContext);
-  const { user } = useContext(StateContext);
-
-  useEffect(() => {}, []);
+  const { businesses } = useContext(StateContext);
 
   return (
     <div className="home">
       <HomeTopBar></HomeTopBar>
       <ul className="business-list">
-        <BusinessItem />
-        <BusinessItem />
-        <BusinessItem />
-        <BusinessItem />
-        <BusinessItem />
-        <BusinessItem />
+        {businesses.map((business, i) => (
+          <BusinessItem key={i} business={business} />
+        ))}
       </ul>
     </div>
   );

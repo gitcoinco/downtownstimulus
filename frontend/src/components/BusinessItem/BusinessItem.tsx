@@ -1,8 +1,12 @@
 import React, { useContext } from "react";
 import "./BusinessItem.scss";
 import { Link } from "react-router-dom";
+import { ActionContext } from "../../hooks";
 
-function BusinessItem(props: any) {
+function BusinessItem({ hii, business }: any) {
+  const { selectBusiness } = useContext(ActionContext);
+
+  // dynamic styling for logo
   const [floatingImgId, setFloatingImgId] = React.useState("");
   const [floatingNameId, setFloatingNameId] = React.useState("");
   React.useEffect(() => {
@@ -19,15 +23,21 @@ function BusinessItem(props: any) {
         const floatingHeight = floatingImg.offsetHeight;
         const topMarginReq = floatingHeight / 2 - 12;
         const floatingContainer = document.getElementById(floatingNameId);
-        floatingContainer.style.marginTop =
-          "-" + topMarginReq + "px" + " !important";
-        console.log(floatingContainer.style.marginTop);
+        floatingContainer.style.setProperty(
+          "margin-top",
+          "-" + topMarginReq + "px",
+          "important"
+        );
       }, 50);
     }
   }, [floatingImgId, floatingNameId]);
 
   return (
-    <Link className="business-item" to="/business/1">
+    <Link
+      className="business-item"
+      to={`/business/${business.id}`}
+      onClick={(e) => selectBusiness(business)}
+    >
       <div className="business-item-cover-image-container">
         <img
           src={require("../../assets/image 48.png")}
@@ -38,7 +48,7 @@ function BusinessItem(props: any) {
         <div className="business-item-logo-image-container" id={floatingImgId}>
           <img
             src={require(`../../assets/${
-              props.hii === "true" ? "image 53" : "image 49"
+              hii === "true" ? "image 53" : "image 49"
             }.png`)}
             alt="logo-image"
             className="business-item-logo-image"
@@ -46,19 +56,22 @@ function BusinessItem(props: any) {
         </div>
       </div>
       <h2 className="business-item-name" id={floatingNameId}>
-        {props.hii === "true" ? "Cured" : "Art Source International"}
+        {business.name}
       </h2>
       <p className="business-item-description top-margin-set">
-        {props.hii === "true"
-          ? "...is a small shop focused on preserving a personal connection to food. We offer a hand-picked selection of cheeses, charcuterie, wines, Colorado beers and spirits, and unique grocery items,"
-          : "...specializes in antique maps, prints, original and reproduced vintage posters. Custom framing with over 25 years of service to Boulder."}
+        {business.description}
       </p>
       <div className="business-item-progress-container">
-        <div className="business-item-progress" style={{ width: "50%" }}></div>
+        <div
+          className="business-item-progress"
+          style={{ width: business.donationPercent + "%" }}
+        ></div>
       </div>
       <div className="business-item-progress-labels-container">
         <span className="business-item-progress-label">$0</span>
-        <span className="business-item-progress-label">$5,500 goal</span>
+        <span className="business-item-progress-label">
+          ${business.donationCap} goal
+        </span>
       </div>
       <div className="business-item-button-container">
         <button type="button" className="business-item-button">
