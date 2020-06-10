@@ -14,7 +14,7 @@ from django.utils.encoding import force_bytes, force_text
 
 from .models import User, Business, Donation
 from .serializers import UserSerializer, BusinessSerializer, DonationSerializer, CLRCalculationSeriaziler
-from .utils import translate_data, aggregate_contributions, account_activation_token
+from .utils import translate_data, aggregate_contributions, calculate_clr, calculate_live_clr, account_activation_token
 
 # Create your views here.
 
@@ -126,12 +126,48 @@ class CLRCalculation(generics.GenericAPIView):
             user_id = serialized_data.validated_data.get('user_id')
             business_id = serialized_data.validated_data.get('business_id')
             donation_amount = serialized_data.validated_data.get('donation_amount')
-            donations = Donation.objects.filter(recipient__id=business_id).values()
+
+            donations = Donation.objects.values()
+            donations = list(donations)
+            print('donations', list(donations))
+
+            current_donation_obj = {
+                'round_number': 0,
+                'donation_amount': donation_amount,
+                'donor_id': user_id,
+                'recipient_id': business_id,
+                'transaction_id': 'string',
+                'match': True,
+                'donation_status': 'Success'
+            }
+
+            donations.append(current_donation_obj)
+
             translated_donation_data = translate_data(donations)
             aggregated_contributions = aggregate_contributions(translated_donation_data)
+            calculate_clr_data, bigtot, saturation_point = calculate_live_clr(aggregated_contributions, business_id)
+
             print('translated_donation_data', translated_donation_data)
             print('aggregated_contributions', aggregated_contributions)
-            return Response(json.dumps({'clr_data': aggregated_contributions}))
+            print('calculate_clr_data', (calculate_clr_data))
+
+            # clr_match_details = {}
+            # for business in calculate_clr_data:
+            #     id = business.get('id')
+            #     if id == business_id:
+            #         clr_match_details = business
+            #         break
+
+            matched_clr_amount = calculate_clr_data['clr_amount']
+            print(matched_clr_amount, 'matched_clr_amount')
+
+            business = Business.objects.get(pk=business_id)
+            current_clr_amount = business.current_clr_matching_amount
+
+            user_match_amount = matched_clr_amount - float(current_clr_amount)
+            print('user_match_amount', user_match_amount)
+
+            return Response(json.dumps({'clr_data': user_match_amount}), status=status.HTTP_201_CREATED)
 
 
 def activate(request, uidb64, token):

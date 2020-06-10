@@ -138,6 +138,7 @@ STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'main.User'
 
 AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
     'main.utils.OAuthBackend'
 )
 
