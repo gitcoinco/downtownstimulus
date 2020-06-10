@@ -5,21 +5,19 @@ import HomeTopBar from "../HomeTopBar";
 import BusinessItem from "../BusinessItem";
 
 function Home() {
-  const { setModalConfig } = useContext(ActionContext);
-  const { user } = useContext(StateContext);
+  const { fetchAllBusinesses } = useContext(ActionContext);
+  const { businesses } = useContext(StateContext);
 
-  useEffect(() => {}, []);
-
+  useEffect(() => {
+    fetchAllBusinesses();
+  }, []);
   return (
     <div className="home">
       <HomeTopBar></HomeTopBar>
       <ul className="business-list">
-        <BusinessItem />
-        <BusinessItem />
-        <BusinessItem />
-        <BusinessItem />
-        <BusinessItem />
-        <BusinessItem />
+        {businesses.map((business, i) => (
+          <BusinessItem key={i} business={business} />
+        ))}
       </ul>
     </div>
   );

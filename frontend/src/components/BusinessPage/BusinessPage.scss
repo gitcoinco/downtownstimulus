@@ -27,6 +27,8 @@
           text-align: center;
           width: 100%;
           .business-details-floating-icon {
+            width: 200px;
+            border-radius: 4px;
           }
           .business-details-floating-title {
             color: var(--whiteColor) !important;
@@ -59,7 +61,6 @@
         }
 
         .business-details-body-staff-images {
-          background: #c4c4c4;
           width: 100%;
           min-height: 435.17px;
         }

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.timezone import now
+from django.contrib.postgres.fields import ArrayField
 
 DONATION_STATUS = (("Success", "Success"), ("Failure", "Failure"), ("Pending", "Pending"))
 
@@ -22,14 +23,28 @@ class Business(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=256, blank=False)
     owner_email = models.EmailField(null=False, blank=False)
-    logo = models.CharField(max_length=256, blank=False)
+
+    # Business Text Bases Content Field
     short_description = models.CharField(max_length=280, blank=False)
     history = models.TextField(blank=False)
     covid_story = models.TextField(blank=False)
-    images = models.TextField(blank=True)
     other_content = models.TextField(blank=False)
-    expenditure_details = models.TextField(blank=False)
+
+    # Business Graphic based content fields (Images/Videos)
+    logo = models.TextField(blank=False)
+    cover_image = models.TextField(blank=False)
+    main_business_image = models.TextField(blank=False)
+    staff_images = ArrayField(models.TextField(blank=True))
+    business_video_link = models.TextField(blank=True)
+
+    # Business Social Media Related Fields
+    website_link = models.CharField(max_length=512, blank=True, null=True)
+    facebook_profile_link = models.CharField(max_length=512, blank=True, null=True)
+    instagram_profile_link = models.CharField(max_length=512, blank=True, null=True)
+
+    # Business donation related field
     stripe_id = models.CharField(max_length=255, blank=False)
+    expenditure_details = ArrayField(models.TextField(blank=False))
     goal_amount = models.FloatField(blank=False, default=0.00)
     donation_received = models.FloatField(blank=False, default=0.00)
     current_clr_matching_amount = models.DecimalField(default=1, decimal_places=4, max_digits=50)
@@ -53,4 +68,4 @@ class Donation(models.Model):
                                                  'transaction')
 
     def __str__(self):
-        return str(self.recipient.name) + ' - ' + str(self.amount) + ' - ' + str(self.id)
+        return str(self.recipient.name) + ' - ' + str(self.donation_amount) + ' - ' + str(self.id)

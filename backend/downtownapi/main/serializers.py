@@ -46,3 +46,11 @@ class DonationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Donation
         fields = '__all__'
+
+
+class CLRCalculationSeriaziler(serializers.Serializer):
+    user_id = serializers.IntegerField()
+    business_id = serializers.IntegerField()
+    donation_amount = serializers.FloatField()
+
+

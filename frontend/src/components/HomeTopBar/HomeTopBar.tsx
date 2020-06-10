@@ -3,8 +3,8 @@ import "./HomeTopBar.scss";
 import { ActionContext, StateContext } from "../../hooks";
 import { Search, ChevronDown } from "react-feather";
 function HomeTopBar() {
-  const { setModalConfig } = useContext(ActionContext);
-  const { user } = useContext(StateContext);
+  const { searchBusinesses } = useContext(ActionContext);
+  const { searchText, backupBusinesses } = useContext(StateContext);
 
   return (
     <div className="home-top-bar">
@@ -20,6 +20,8 @@ function HomeTopBar() {
             type="search"
             className="search-input"
             placeholder="Quick Search"
+            value={searchText}
+            onChange={(e) => searchBusinesses(e.target.value, backupBusinesses)}
           />
         </div>
         <div className="home-sort-container">

@@ -1,8 +1,9 @@
-
 import premailer
 
 from django.contrib.auth.backends import ModelBackend
 from django.template.loader import render_to_string
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+import six
 
 from .models import User
 
@@ -16,9 +17,64 @@ def get_mail_body(mail_name, mail_params):
     return response_html
 
 
-class OAuthBackend(ModelBackend):
-    """Log in to Django with Oauth.
+def translate_data(grants_data):
+    """
+        translates django grant data structure to a list of lists
+        args:
+            django grant data structure
+                {
+                    'id': (string) ,
+                    'contributions' : [
+                        {
+                            contributor_profile (str) : contribution_amount (int)
+                        }
+                    ]
+                }
+        returns:
+            list of lists of grant data
+                [[grant_id (str), user_id (str), contribution_amount (float)]]
+    """
+    # grants_list = []
+    # for g in grants_data:
+    #     grant_id = g.get('id')
+    #     for c in g.get('contributions'):
+    #         val = [grant_id] + [list(c.keys())[0], list(c.values())[0]]
+    #         grants_list.append(val)
+    #
+    # return grants_list
 
+    grants_list = []
+    for g in grants_data:
+        donor_id = g.get('donor_id')
+        recipient_id = g.get('recipient_id')
+        donation_amount = g.get('donation_amount')
+        grants_list.append([donor_id, recipient_id, donation_amount])
+
+    return grants_list
+
+
+def aggregate_contributions(grant_contributions):
+    """
+        aggregates contributions by contributor
+        args:
+            list of lists of grant data
+                [[grant_id (str), user_id (str), contribution_amount (float)]]
+        returns:
+            aggregated contributions by user, organized by grant
+                {grant_id (str): {user_id (str): aggregated_amount (float)}}
+    """
+    contrib_dict = {}
+    for proj, user, amount in grant_contributions:
+        if proj not in contrib_dict:
+            contrib_dict[proj] = {}
+        contrib_dict[proj][user] = contrib_dict[proj].get(user, 0) + amount
+
+    return contrib_dict
+
+
+class OAuthBackend(ModelBackend):
+    """
+    Log in to Django with Oauth.
     """
     def authenticate(self, oauth_uuid=None):
         try:
@@ -32,3 +88,13 @@ class OAuthBackend(ModelBackend):
             return User.objects.get(pk=user_id)
         except User.DoesNotExist:
             return None
+
+
+class TokenGenerator(PasswordResetTokenGenerator):
+    def _make_hash_value(self, user, timestamp):
+        return (
+            six.text_type(user.pk) + six.text_type(timestamp) +
+            six.text_type(user.is_active)
+        )
+
+account_activation_token = TokenGenerator()
