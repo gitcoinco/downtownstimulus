@@ -9,6 +9,7 @@ import {
   CornerRightUp,
   DollarSign,
   Home,
+  Share2,
 } from "react-feather";
 import { ActionContext, StateContext } from "../../hooks";
 import BusinessItem from "../BusinessItem";
@@ -26,6 +27,17 @@ function BusinessPage() {
       selectBusiness(id);
     }
   }, [id]);
+
+  const getExpenditureIcons = (type: string) => {
+    switch (type) {
+      case "Employee Salaries":
+        return <DollarSign />;
+      case "Rent":
+        return <Home />;
+      case "Inventory":
+        return <Globe />;
+    }
+  };
   return (
     <div className="business-page">
       {selectedBusiness ? (
@@ -50,24 +62,39 @@ function BusinessPage() {
                   </h1>
                 </div>
                 <div className="business-details-body-links-container top-margin-set">
-                  <div className="business-details-links">
+                  <a
+                    className="business-details-links"
+                    href={`https://${selectedBusiness.website_link}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <span>
                       <Globe />
                     </span>
                     <span>{selectedBusiness.website_link}</span>
-                  </div>
-                  <div className="business-details-links">
+                  </a>
+                  <a
+                    className="business-details-links"
+                    href={`https://facebook.com/${selectedBusiness.website_link}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <span>
                       <Facebook />
                     </span>
                     <span>{selectedBusiness.facebook_profile_link}</span>
-                  </div>
-                  <div className="business-details-links">
+                  </a>
+                  <a
+                    className="business-details-links"
+                    href={`https://instagram.com/${selectedBusiness.website_link}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <span>
                       <Instagram />
                     </span>
                     <span>{selectedBusiness.instagram_profile_link}</span>
-                  </div>
+                  </a>
                 </div>
               </div>
               <div className="business-details-body-container container-spacing-set">
@@ -119,6 +146,9 @@ function BusinessPage() {
                     ${selectedBusiness.goal_amount} goal
                   </span>
                 </div>
+                <a className="business-donation-qf-link top-margin-set bottom-margin-set">
+                  Learn how our donation matching works
+                </a>
                 <div className="business-donation-tabs">
                   <div className="business-donation-tab-item selected-tab">
                     <span>
@@ -215,31 +245,26 @@ function BusinessPage() {
                     </div>
                   </div>
                 </div>
-                <a className="business-donation-qf-link">
-                  How does Quadratic Funding Work?
-                </a>
+                <div className="business-donation-share-container">
+                  <button
+                    type="button"
+                    className="business-donation-share-button"
+                    onClick={(e) => setModalConfig(true, { type: "share" })}
+                  >
+                    <Share2 />
+                    <span>SHARE</span>
+                  </button>
+                </div>
               </div>
               <div className="business-donation-details-container container-spacing-set">
                 <h2>How we use the funds</h2>
                 <div className="business-donation-details-types-container top-margin-set">
-                  <div className="business-donation-details-type">
-                    <span>
-                      <DollarSign />
-                    </span>
-                    <span>Employee Salaries</span>
-                  </div>
-                  <div className="business-donation-details-type">
-                    <span>
-                      <Home />
-                    </span>
-                    <span>Rent</span>
-                  </div>
-                  <div className="business-donation-details-type">
-                    <span>
-                      <Globe />
-                    </span>
-                    <span>Inventory</span>
-                  </div>
+                  {selectedBusiness.expenditure_details.map((tag) => (
+                    <div className="business-donation-details-type">
+                      <span>{getExpenditureIcons(tag)}</span>
+                      <span>{tag}</span>
+                    </div>
+                  ))}
                 </div>
                 <p className="top-margin-set">
                   {selectedBusiness.other_content}

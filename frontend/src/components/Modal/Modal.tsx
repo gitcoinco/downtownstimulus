@@ -5,6 +5,7 @@ import { ActionContext, StateContext } from "../../hooks";
 import Login from "../Login";
 import SignUp from "../SignUp";
 import PaymentGateway from "../PaymentGateway";
+import Share from "../Share";
 
 function Modal() {
   const { setModalConfig } = useContext(ActionContext);
@@ -29,6 +30,7 @@ function Modal() {
           {modalConfig.type === "login" && <Login></Login>}
           {modalConfig.type === "signUp" && <SignUp></SignUp>}
           {modalConfig.type === "payment" && <PaymentGateway></PaymentGateway>}
+          {modalConfig.type === "share" && <Share></Share>}
         </div>
       </div>
     </div>
