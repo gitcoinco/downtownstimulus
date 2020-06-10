@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.timezone import now
+from django.contrib.postgres.fields import ArrayField
 
 DONATION_STATUS = (("Success", "Success"), ("Failure", "Failure"), ("Pending", "Pending"))
 
@@ -33,7 +34,7 @@ class Business(models.Model):
     logo = models.TextField(blank=False)
     cover_image = models.TextField(blank=False)
     main_business_image = models.TextField(blank=False)
-    staff_images = models.TextField(blank=True) # Should be mulitple
+    staff_images = ArrayField(models.TextField(blank=True))
     business_video_link = models.TextField(blank=True)
 
     # Business Social Media Related Fields
@@ -43,7 +44,7 @@ class Business(models.Model):
 
     # Business donation related field
     stripe_id = models.CharField(max_length=255, blank=False)
-    expenditure_details = models.TextField(blank=False) # Should be Multiple
+    expenditure_details = ArrayField(models.TextField(blank=False))
     goal_amount = models.FloatField(blank=False, default=0.00)
     donation_received = models.FloatField(blank=False, default=0.00)
     current_clr_matching_amount = models.DecimalField(default=1, decimal_places=4, max_digits=50)
@@ -67,4 +68,4 @@ class Donation(models.Model):
                                                  'transaction')
 
     def __str__(self):
-        return str(self.recipient.name) + ' - ' + str(self.amount) + ' - ' + str(self.id)
+        return str(self.recipient.name) + ' - ' + str(self.donation_amount) + ' - ' + str(self.id)

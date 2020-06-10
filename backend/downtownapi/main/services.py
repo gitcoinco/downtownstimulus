@@ -6,6 +6,7 @@ from sendgrid.helpers.mail import *
 
 
 sendgrid_key = os.getenv('SENDGRID_KEY', 'NO API FOUND')
+print(sendgrid_key)
 sg = sendgrid.SendGridAPIClient(sendgrid_key)
 from_email = Email("manank321@gmail.com", 'gitcoin.co')
 

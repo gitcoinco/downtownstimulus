@@ -1,5 +1,5 @@
-from django.urls import path, include
-from .views import RootView, UserList, UserListDetail, BusinessList, BusinessListDetail, DonationList, DonationListDetail, CLRCalculation
+from django.urls import path, include, re_path
+from .views import RootView, UserList, UserListDetail, BusinessList, BusinessListDetail, DonationList, DonationListDetail, CLRCalculation, activate
 
 urlpatterns = [
     path('', RootView.as_view(), name='root-view'),
@@ -17,5 +17,8 @@ urlpatterns = [
     path('donations/<int:pk>/', DonationListDetail.as_view(), name='donation-detail'),
 
     #CLR Amount Calculation APIs
-    path('clramountaggregation', CLRCalculation.as_view(), name='clr-calculation')
+    path('clramountaggregation', CLRCalculation.as_view(), name='clr-calculation'),
+
+    re_path(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        activate, name='activate'),
 ]
