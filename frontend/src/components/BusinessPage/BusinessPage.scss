@@ -224,6 +224,104 @@
           }
         }
 
+        .business-donation-custom-container {
+          text-align: center;
+          .business-donation-custom-label {
+          }
+          .business-donation-custom-output {
+            display: flex;
+            align-items: flex-start;
+            background: #ffffff;
+            border: 0.559465px solid #b3b3b3;
+            box-sizing: border-box;
+            border-radius: 7px;
+            padding: 8px 12px;
+            width: fit-content;
+            margin: 0px auto;
+            .business-donation-custom-output-label {
+              font-size: 20px;
+              margin-top: -2px;
+            }
+
+            .business-donation-custom-output-number {
+              font-size: 2rem;
+              width: auto;
+              text-align: end;
+              padding: 0px 8px;
+            }
+          }
+          .business-donation-custom-input-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .business-donation-custom-input {
+              display: flex;
+              align-items: flex-start;
+              background: #ffffff;
+              border: 0.559465px solid #b3b3b3;
+              box-sizing: border-box;
+              border-radius: 7px;
+              padding: 0px 8px;
+              margin: 0px 8px;
+              .business-donation-custom-input-label {
+                font-size: 20px;
+                margin-top: 3px;
+              }
+
+              .business-donation-custom-input-number {
+                font-size: 2rem;
+                width: 84px;
+                text-align: end;
+              }
+            }
+
+            .business-donation-custom-input-button {
+              height: 32px;
+              width: 32px;
+              background: rgba(253, 185, 51, 0.4);
+              border: 2px solid #e7cc97;
+              box-sizing: border-box;
+              border-radius: 5.22896px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              cursor: pointer;
+            }
+          }
+          .business-donation-donate-container {
+            display: flex;
+            .business-donation-donate-button {
+              width: 45%;
+              border: 0.85716px solid var(--primaryColor);
+              box-sizing: border-box;
+              border-radius: 32px;
+              height: 46.45px;
+              margin: 0px auto;
+              color: var(--primaryColor);
+              font-weight: bold;
+              font-size: 17.2852px;
+              line-height: 20px;
+              background: var(--whiteColor);
+              outline: none;
+              cursor: pointer;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+
+              span {
+                text-transform: capitalize;
+                margin-left: 10px;
+              }
+
+              &:hover {
+                border: 0.857157px solid #e66026;
+                color: #e66026;
+              }
+            }
+          }
+        }
+
         .business-donation-qf-link {
           text-align: center;
         }
@@ -241,7 +339,6 @@
             font-weight: bold;
             font-size: 17.2852px;
             line-height: 20px;
-            background: var(--whiteColor);
             outline: none;
             cursor: pointer;
             display: flex;

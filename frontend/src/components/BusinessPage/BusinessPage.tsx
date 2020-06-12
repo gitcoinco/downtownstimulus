@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import "./BusinessPage.scss";
 import {
@@ -10,7 +10,10 @@ import {
   DollarSign,
   Home,
   Share2,
+  ChevronDown,
+  ChevronUp,
 } from "react-feather";
+import StickyBox from "react-sticky-box";
 import { ActionContext, StateContext } from "../../hooks";
 import BusinessItem from "../BusinessItem";
 
@@ -20,6 +23,9 @@ function BusinessPage() {
     ActionContext
   );
   const { backupBusinesses, selectedBusiness } = useContext(StateContext);
+
+  const [donationType, setDonationType] = useState(0);
+  const [donationAmount, setDonationAmount] = useState("1");
 
   useEffect(() => {
     fetchAllBusinesses();
@@ -37,6 +43,16 @@ function BusinessPage() {
       case "Inventory":
         return <Globe />;
     }
+  };
+
+  const decreaseDonation = () => {
+    const amount = Number.parseInt(donationAmount);
+    setDonationAmount(amount - 1 + "");
+  };
+
+  const increaseDonation = () => {
+    const amount = Number.parseInt(donationAmount);
+    setDonationAmount(amount + 1 + "");
   };
   return (
     <div className="business-page">
@@ -124,152 +140,224 @@ function BusinessPage() {
               </div>
             </div>
             <div className="business-donation-container">
-              <div className="business-donation-widget-container container-spacing-set">
-                <h3 className="business-donation-widget-title top-margin-set">
-                  Support {selectedBusiness.name}
-                </h3>
-                <div className="business-donation-progress-container">
-                  <div
-                    className="business-item-progress"
-                    style={{
-                      width:
-                        (selectedBusiness.donation_received /
-                          selectedBusiness.goal_amount) *
-                          100 +
-                        "%",
-                    }}
-                  ></div>
-                </div>
-                <div className="business-donation-progress-labels-container">
-                  <span className="business-donation-progress-label">$0</span>
-                  <span className="business-donation-progress-label">
-                    ${selectedBusiness.goal_amount} goal
-                  </span>
-                </div>
-                <a className="business-donation-qf-link top-margin-set bottom-margin-set">
-                  Learn how our donation matching works
-                </a>
-                <div className="business-donation-tabs">
-                  <div className="business-donation-tab-item selected-tab">
-                    <span>
-                      <Target />
+              <StickyBox offsetTop={24} offsetBottom={24}>
+                <div className="business-donation-widget-container container-spacing-set">
+                  <h3 className="business-donation-widget-title top-margin-set">
+                    Support {selectedBusiness.name}
+                  </h3>
+                  <div className="business-donation-progress-container">
+                    <div
+                      className="business-item-progress"
+                      style={{
+                        width:
+                          (selectedBusiness.donation_received /
+                            selectedBusiness.goal_amount) *
+                            100 +
+                          "%",
+                      }}
+                    ></div>
+                  </div>
+                  <div className="business-donation-progress-labels-container">
+                    <span className="business-donation-progress-label">$0</span>
+                    <span className="business-donation-progress-label">
+                      ${selectedBusiness.goal_amount} goal
                     </span>
-                    <span className="tab-text">Set Amounts</span>
                   </div>
-                  <div className="business-donation-tab-item">
-                    <span>
-                      <CornerRightUp />
-                    </span>
-                    <span className="tab-text">Custom</span>
+                  <a className="business-donation-qf-link top-margin-set bottom-margin-set">
+                    Learn how our donation matching works
+                  </a>
+                  <div className="business-donation-tabs">
+                    <div
+                      className={`business-donation-tab-item ${
+                        donationType === 0 ? "selected-tab" : ""
+                      }`}
+                      onClick={(e) => setDonationType(0)}
+                    >
+                      <span>
+                        <Target />
+                      </span>
+                      <span className="tab-text">Set Amounts</span>
+                    </div>
+                    <div
+                      className={`business-donation-tab-item ${
+                        donationType === 1 ? "selected-tab" : ""
+                      }`}
+                      onClick={(e) => setDonationType(1)}
+                    >
+                      <span>
+                        <CornerRightUp />
+                      </span>
+                      <span className="tab-text">Custom</span>
+                    </div>
+                  </div>
+                  {donationType === 0 && (
+                    <div className="business-donation-suggestions-lists">
+                      <div className="business-donation-suggestion-item">
+                        <div className="business-donation-suggestion-amount-container">
+                          <span className="business-donation-suggestion-amount-sign">
+                            $
+                          </span>
+                          <span className="business-donation-suggestion-amount">
+                            10
+                          </span>
+                        </div>
+                        <p className="business-donation-suggestion-match">
+                          for a <b>$54</b> match
+                        </p>
+                        <div className="business-donation-suggestion-button-container">
+                          <button
+                            type="button"
+                            className="business-donation-suggestion-button"
+                            onClick={(e) =>
+                              setModalConfig(true, { type: "payment" })
+                            }
+                          >
+                            Donate
+                          </button>
+                        </div>
+                      </div>
+                      <div className="business-donation-suggestion-item">
+                        <div className="business-donation-suggestion-best-match">
+                          <img
+                            src={require("../../assets/Group 56.svg")}
+                            alt="smile"
+                            className="business-best-match-icon"
+                          />
+                          <span>Best Match</span>
+                        </div>
+                        <div className="business-donation-suggestion-amount-container">
+                          <span className="business-donation-suggestion-amount-sign">
+                            $
+                          </span>
+                          <span className="business-donation-suggestion-amount">
+                            23
+                          </span>
+                        </div>
+                        <p className="business-donation-suggestion-match">
+                          for a <b>$144</b> match
+                        </p>
+                        <div className="business-donation-suggestion-button-container">
+                          <button
+                            type="button"
+                            className="business-donation-suggestion-button business-donation-best-match-button "
+                            onClick={(e) =>
+                              setModalConfig(true, { type: "payment" })
+                            }
+                          >
+                            Donate
+                          </button>
+                        </div>
+                      </div>
+                      <div className="business-donation-suggestion-item">
+                        <div className="business-donation-suggestion-amount-container">
+                          <span className="business-donation-suggestion-amount-sign">
+                            $
+                          </span>
+                          <span className="business-donation-suggestion-amount">
+                            10
+                          </span>
+                        </div>
+                        <p className="business-donation-suggestion-match">
+                          for a <b>$54</b> match
+                        </p>
+                        <div className="business-donation-suggestion-button-container">
+                          <button
+                            type="button"
+                            className="business-donation-suggestion-button"
+                            onClick={(e) =>
+                              setModalConfig(true, { type: "payment" })
+                            }
+                          >
+                            Donate
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  {donationType === 1 && (
+                    <div className="business-donation-custom-container top-margin-set bottom-margin-set">
+                      <label className="business-donation-custom-label">
+                        Matched Amount
+                      </label>
+                      <div className="business-donation-custom-output bottom-margin-set">
+                        <span className="business-donation-custom-output-label">
+                          $
+                        </span>
+                        <span className="business-donation-custom-output-number">
+                          {donationAmount}
+                        </span>
+                      </div>
+                      <label className="business-donation-custom-label">
+                        You Donate
+                      </label>
+                      <div className="business-donation-custom-input-container">
+                        <div
+                          className="business-donation-custom-input-button"
+                          onClick={(e) => decreaseDonation()}
+                        >
+                          <ChevronDown />
+                        </div>
+                        <div className="business-donation-custom-input">
+                          <span className="business-donation-custom-input-label">
+                            $
+                          </span>
+                          <span>
+                            <input
+                              type="number"
+                              className="business-donation-custom-input-number"
+                              value={donationAmount}
+                              onChange={(e) =>
+                                setDonationAmount(e.target.value)
+                              }
+                            />
+                          </span>
+                        </div>
+                        <div
+                          className="business-donation-custom-input-button"
+                          onClick={(e) => increaseDonation()}
+                        >
+                          <ChevronUp />
+                        </div>
+                      </div>
+                      <div className="business-donation-donate-container top-margin-set">
+                        <button
+                          type="button"
+                          className="business-donation-donate-button"
+                          onClick={(e) =>
+                            setModalConfig(true, { type: "share" })
+                          }
+                        >
+                          <span>DONATE</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                  <div className="business-donation-share-container">
+                    <button
+                      type="button"
+                      className="business-donation-share-button"
+                      onClick={(e) => setModalConfig(true, { type: "share" })}
+                    >
+                      <Share2 />
+                      <span>SHARE</span>
+                    </button>
                   </div>
                 </div>
-                <div className="business-donation-suggestions-lists">
-                  <div className="business-donation-suggestion-item">
-                    <div className="business-donation-suggestion-amount-container">
-                      <span className="business-donation-suggestion-amount-sign">
-                        $
-                      </span>
-                      <span className="business-donation-suggestion-amount">
-                        10
-                      </span>
-                    </div>
-                    <p className="business-donation-suggestion-match">
-                      for a <b>$54</b> match
-                    </p>
-                    <div className="business-donation-suggestion-button-container">
-                      <button
-                        type="button"
-                        className="business-donation-suggestion-button"
-                        onClick={(e) =>
-                          setModalConfig(true, { type: "payment" })
-                        }
-                      >
-                        Donate
-                      </button>
-                    </div>
+                <div className="business-donation-details-container container-spacing-set">
+                  <h2>How we use the funds</h2>
+                  <div className="business-donation-details-types-container top-margin-set">
+                    {selectedBusiness.expenditure_details.map((tag) => (
+                      <div className="business-donation-details-type">
+                        <span>{getExpenditureIcons(tag)}</span>
+                        <span>{tag}</span>
+                      </div>
+                    ))}
                   </div>
-                  <div className="business-donation-suggestion-item">
-                    <div className="business-donation-suggestion-best-match">
-                      <img
-                        src={require("../../assets/Group 56.svg")}
-                        alt="smile"
-                        className="business-best-match-icon"
-                      />
-                      <span>Best Match</span>
-                    </div>
-                    <div className="business-donation-suggestion-amount-container">
-                      <span className="business-donation-suggestion-amount-sign">
-                        $
-                      </span>
-                      <span className="business-donation-suggestion-amount">
-                        23
-                      </span>
-                    </div>
-                    <p className="business-donation-suggestion-match">
-                      for a <b>$144</b> match
-                    </p>
-                    <div className="business-donation-suggestion-button-container">
-                      <button
-                        type="button"
-                        className="business-donation-suggestion-button business-donation-best-match-button "
-                        onClick={(e) =>
-                          setModalConfig(true, { type: "payment" })
-                        }
-                      >
-                        Donate
-                      </button>
-                    </div>
-                  </div>
-                  <div className="business-donation-suggestion-item">
-                    <div className="business-donation-suggestion-amount-container">
-                      <span className="business-donation-suggestion-amount-sign">
-                        $
-                      </span>
-                      <span className="business-donation-suggestion-amount">
-                        10
-                      </span>
-                    </div>
-                    <p className="business-donation-suggestion-match">
-                      for a <b>$54</b> match
-                    </p>
-                    <div className="business-donation-suggestion-button-container">
-                      <button
-                        type="button"
-                        className="business-donation-suggestion-button"
-                        onClick={(e) =>
-                          setModalConfig(true, { type: "payment" })
-                        }
-                      >
-                        Donate
-                      </button>
-                    </div>
-                  </div>
+                  <p className="top-margin-set">
+                    {selectedBusiness.other_content}
+                  </p>
                 </div>
-                <div className="business-donation-share-container">
-                  <button
-                    type="button"
-                    className="business-donation-share-button"
-                    onClick={(e) => setModalConfig(true, { type: "share" })}
-                  >
-                    <Share2 />
-                    <span>SHARE</span>
-                  </button>
-                </div>
-              </div>
-              <div className="business-donation-details-container container-spacing-set">
-                <h2>How we use the funds</h2>
-                <div className="business-donation-details-types-container top-margin-set">
-                  {selectedBusiness.expenditure_details.map((tag) => (
-                    <div className="business-donation-details-type">
-                      <span>{getExpenditureIcons(tag)}</span>
-                      <span>{tag}</span>
-                    </div>
-                  ))}
-                </div>
-                <p className="top-margin-set">
-                  {selectedBusiness.other_content}
-                </p>
-              </div>
+              </StickyBox>
             </div>
           </div>
           <div className="other-business-container">
