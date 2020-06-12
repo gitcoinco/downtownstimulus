@@ -1,0 +1,15 @@
+<html>
+<head>
+    <title>Downtown Stimulus Add Business</title>
+</head>
+<body>
+    <h5>Add Business by CSV</h5>
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="file1">Upload a file</label><br>
+        <input type="file" id="file1" name="file"><br>
+        <small>Only accepts CSV files</small><br>
+        <button type="submit">Upload</button>
+    </form>
+</body>
+</html>
