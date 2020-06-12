@@ -209,7 +209,10 @@ def add_business_csv(request):
                 facebook_profile_link = row[5],
                 instagram_profile_link = row[6],
                 stripe_id= "",
-                staff_images=[""]
+                logo=row[10],
+                cover_image=row[11],
+                main_business_image=row[11],
+                staff_images=[row[12]],
             )
             business.save()
         return HttpResponse('Data Uploaded')
