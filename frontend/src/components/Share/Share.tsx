@@ -1,11 +1,23 @@
 import React, { useContext } from "react";
 import "./Share.scss";
 import { ActionContext, StateContext } from "../../hooks";
+import {
+  TwitterShareButton,
+  TwitterIcon,
+  FacebookShareButton,
+  FacebookIcon,
+} from "react-share";
+import copy from "clipboard-copy";
 
 function Share() {
   const { setModalConfig } = useContext(ActionContext);
   const { selectedBusiness } = useContext(StateContext);
+  const shareUrl = "https://www.boulderfund.com/-biznumber-refname";
+  const title = "Boulder Fund Share";
 
+  const copyShareUrl = (pValue: string) => {
+    copy(pValue);
+  };
   return (
     <div className="share">
       <h2 className="share-header top-margin-set">
@@ -19,13 +31,17 @@ function Share() {
       <div className="share-links-container top-margin-set">
         <div className="share-links-item">
           <div className="share-links-icon">
-            <img src={require("../../assets/facebook.png")} alt="facebook" />
+            <FacebookShareButton url={shareUrl} quote={title}>
+              <FacebookIcon size={56} round />
+            </FacebookShareButton>
           </div>
           <div>Facebook</div>
         </div>
         <div className="share-links-item">
           <div className="share-links-icon">
-            <img src={require("../../assets/twitter.png")} alt="twitter" />
+            <TwitterShareButton url={shareUrl} title={title}>
+              <TwitterIcon size={56} round />
+            </TwitterShareButton>
           </div>
           <div>Twitter</div>
         </div>
@@ -43,7 +59,14 @@ function Share() {
           value="https://www.boulderfund.com/-biznumber-refname"
           disabled
         />
-        <button className="share-link-copy-button">Copy</button>
+        <button
+          className="share-link-copy-button"
+          onClick={(e) =>
+            copyShareUrl("https://www.boulderfund.com/-biznumber-refname")
+          }
+        >
+          Copy
+        </button>
       </div>
       <p className="top-margin-set">
         Finished sharing? Scroll down to check out a few more businesses that
