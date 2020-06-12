@@ -8,7 +8,9 @@ class UserPermission(permissions.BasePermission):
             return request.user.is_authenticated and request.user.is_staff
         elif request.method == 'POST':
             return True
-        elif request.method in ['PUT', 'DELETE', 'PATCH']:
+        elif request.method in ['PUT', 'PATCH']:
+            return request.user.is_authenticated
+        elif request.method in ['DELETE']:
             return request.user.is_authenticated and request.user.is_staff
         else:
             return True

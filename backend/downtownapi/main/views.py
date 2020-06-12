@@ -1,5 +1,6 @@
 import json
-import csv, io
+import csv
+import io
 
 from django.shortcuts import render
 from rest_framework import mixins
@@ -224,7 +225,9 @@ def add_business_csv(request):
         data_set = csv_file.read().decode('UTF-8')
         io_string = io.StringIO(data_set)
 
-        for row in csv.reader(io_string, delimiter=','):
+        for count,row in enumerate(csv.reader(io_string, delimiter=',')):
+            if count == 0 or count == 1:
+                continue
             print('row', row[9])
             business = Business(
                 name = row[2],
@@ -234,11 +237,15 @@ def add_business_csv(request):
                 covid_story = row[8],
                 expenditure_details = row[9].strip().split(','),
                 other_content = row[15],
-                website_link= row[4],
+                website_link = row[4],
                 facebook_profile_link = row[5],
                 instagram_profile_link = row[6],
-                stripe_id= "",
-                staff_images=[""]
+                stripe_id = "",
+                logo = row[10],
+                cover_image = row[11],
+                main_business_image = row[11],
+                staff_images = [row[12]],
             )
             business.save()
+
         return HttpResponse('Data Uploaded')
