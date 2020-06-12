@@ -1,22 +1,27 @@
 import json
+import csv, io
 
 from django.shortcuts import render
 from rest_framework import mixins
 from rest_framework import generics
 from rest_framework.views import APIView
-
 from rest_framework.response import Response
-from django.http import HttpResponse
 from rest_framework import status
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
+from rest_framework.authentication import TokenAuthentication
 
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
+from django.http import HttpResponse
 
 from .models import User, Business, Donation
-from .serializers import UserSerializer, BusinessSerializer, DonationSerializer, CLRCalculationSeriaziler
+from .serializers import UserSerializer, BusinessSerializer, DonationSerializer, CLRCalculationSeriaziler, LoginTokenSerializer
 from .utils import translate_data, aggregate_contributions, calculate_clr, calculate_live_clr, account_activation_token
+from .permissions import UserPermission, BusinessPermission, DonationPermission
 
 # Create your views here.
+
 
 class RootView(APIView):
     def get(self, request):
@@ -29,8 +34,11 @@ class RootView(APIView):
 class UserList(mixins.ListModelMixin,
                mixins.CreateModelMixin,
                generics.GenericAPIView):
+
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = (UserPermission,)
+    authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -43,8 +51,11 @@ class UserListDetail(mixins.RetrieveModelMixin,
                      mixins.UpdateModelMixin,
                      mixins.DestroyModelMixin,
                      generics.GenericAPIView):
+
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = (UserPermission,)
+    authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
@@ -59,8 +70,11 @@ class UserListDetail(mixins.RetrieveModelMixin,
 class BusinessList(mixins.ListModelMixin,
                    mixins.CreateModelMixin,
                    generics.GenericAPIView):
+
     queryset = Business.objects.all()
     serializer_class = BusinessSerializer
+    permission_classes = (BusinessPermission,)
+    authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -73,8 +87,11 @@ class BusinessListDetail(mixins.RetrieveModelMixin,
                          mixins.UpdateModelMixin,
                          mixins.DestroyModelMixin,
                          generics.GenericAPIView):
+
     queryset = Business.objects.all()
     serializer_class = BusinessSerializer
+    permission_classes = (BusinessPermission,)
+    authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
@@ -89,8 +106,11 @@ class BusinessListDetail(mixins.RetrieveModelMixin,
 class DonationList(mixins.ListModelMixin,
                    mixins.CreateModelMixin,
                    generics.GenericAPIView):
+
     queryset = Donation.objects.all()
     serializer_class = DonationSerializer
+    permission_classes = (DonationPermission, )
+    authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -103,21 +123,17 @@ class DonationListDetail(mixins.RetrieveModelMixin,
                          mixins.UpdateModelMixin,
                          mixins.DestroyModelMixin,
                          generics.GenericAPIView):
+
     queryset = Donation.objects.all()
     serializer_class = DonationSerializer
+    permission_classes = (DonationPermission,)
+    authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
-
 
 class CLRCalculation(generics.GenericAPIView):
-
     serializer_class = CLRCalculationSeriaziler
 
     def post(self, request):
@@ -126,7 +142,7 @@ class CLRCalculation(generics.GenericAPIView):
             user_id = serialized_data.validated_data.get('user_id')
             business_id = serialized_data.validated_data.get('business_id')
             donation_amount = serialized_data.validated_data.get('donation_amount')
-
+            authentication_classes = [BusinessPermission]
             donations = Donation.objects.values()
             donations = list(donations)
             print('donations', list(donations))
@@ -183,3 +199,46 @@ def activate(request, uidb64, token):
         return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
     else:
         return HttpResponse('Activation link is invalid!')
+
+
+class CustomAuthToken(ObtainAuthToken):
+
+    serializer_class = LoginTokenSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = LoginTokenSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            user = serializer.validated_data['user']
+            token, created = Token.objects.get_or_create(user=user)
+            return Response({
+                'token': token.key,
+                'user_id': user.pk,
+                'email': user.email
+            })
+
+def add_business_csv(request):
+    if request.method == 'GET':
+        return render(request, 'add_business_csv.html')
+    if request.method == "POST":
+        csv_file = request.FILES['file']
+        data_set = csv_file.read().decode('UTF-8')
+        io_string = io.StringIO(data_set)
+
+        for row in csv.reader(io_string, delimiter=','):
+            print('row', row[9])
+            business = Business(
+                name = row[2],
+                owner_email = row[1],
+                short_description = row[3],
+                history = row[7],
+                covid_story = row[8],
+                expenditure_details = row[9].strip().split(','),
+                other_content = row[15],
+                website_link= row[4],
+                facebook_profile_link = row[5],
+                instagram_profile_link = row[6],
+                stripe_id= "",
+                staff_images=[""]
+            )
+            business.save()
+        return HttpResponse('Data Uploaded')
