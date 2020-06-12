@@ -8,6 +8,8 @@ services:
       - POSTGRES_PASSWORD=postgres
     ports:
       - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
 
   api:
     build:
@@ -35,3 +37,6 @@ services:
     volumes:
       - ./frontend/src:/frontend/src
     stdin_open: true
+
+volumes:
+  db-data:

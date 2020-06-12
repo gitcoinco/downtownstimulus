@@ -1,5 +1,5 @@
 from django.urls import path, include, re_path
-from .views import RootView, UserList, UserListDetail, BusinessList, BusinessListDetail, DonationList, DonationListDetail, CLRCalculation, activate
+from .views import RootView, UserList, UserListDetail, BusinessList, BusinessListDetail, DonationList, DonationListDetail, CLRCalculation, activate, add_business_csv
 
 urlpatterns = [
     path('', RootView.as_view(), name='root-view'),
@@ -21,4 +21,6 @@ urlpatterns = [
 
     re_path(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         activate, name='activate'),
+
+    path('add_business_csv', add_business_csv, name='add-business-csv')
 ]

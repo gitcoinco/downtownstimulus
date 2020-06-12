@@ -1,4 +1,6 @@
 import json
+import csv
+import io
 
 from django.shortcuts import render
 from rest_framework import mixins
@@ -183,3 +185,37 @@ def activate(request, uidb64, token):
         return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
     else:
         return HttpResponse('Activation link is invalid!')
+
+
+def add_business_csv(request):
+    if request.method == 'GET':
+        return render(request, 'add_business_csv.html')
+    if request.method == "POST":
+        csv_file = request.FILES['file']
+        data_set = csv_file.read().decode('UTF-8')
+        io_string = io.StringIO(data_set)
+
+        for count,row in enumerate(csv.reader(io_string, delimiter=',')):
+            if count == 0 or count == 1:
+                continue
+            print('row', row[9])
+            business = Business(
+                name = row[2],
+                owner_email = row[1],
+                short_description = row[3],
+                history = row[7],
+                covid_story = row[8],
+                expenditure_details = row[9].strip().split(','),
+                other_content = row[15],
+                website_link= row[4],
+                facebook_profile_link = row[5],
+                instagram_profile_link = row[6],
+                stripe_id= "",
+                logo=row[10],
+                cover_image=row[11],
+                main_business_image=row[11],
+                staff_images=[row[12]],
+            )
+            business.save()
+
+        return HttpResponse('Data Uploaded')
