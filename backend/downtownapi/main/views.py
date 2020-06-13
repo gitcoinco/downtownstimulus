@@ -9,11 +9,7 @@ from django.shortcuts import render
 from rest_framework import mixins
 from rest_framework import generics
 from rest_framework.views import APIView
-<<<<<<< HEAD
 from django.core.exceptions import ObjectDoesNotExist
-
-=======
->>>>>>> auth-patch
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -25,14 +21,9 @@ from django.utils.encoding import force_bytes, force_text
 from django.http import HttpResponse
 
 from .models import User, Business, Donation
-<<<<<<< HEAD
-from .serializers import UserSerializer, BusinessSerializer, DonationSerializer, CLRManySerializer
+from .serializers import UserSerializer, BusinessSerializer, DonationSerializer, CLRManySerializer, LoginTokenSerializer
 from .utils import account_activation_token, calculate_clr_match
-=======
-from .serializers import UserSerializer, BusinessSerializer, DonationSerializer, CLRCalculationSeriaziler, LoginTokenSerializer
-from .utils import translate_data, aggregate_contributions, calculate_clr, calculate_live_clr, account_activation_token
 from .permissions import UserPermission, BusinessPermission, DonationPermission
->>>>>>> auth-patch
 
 # Create your views here.
 
