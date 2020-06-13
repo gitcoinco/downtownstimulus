@@ -87,6 +87,7 @@ p {
 
 a {
   color: var(--primaryColor);
+  text-decoration: none;
   cursor: pointer;
   &:hover {
     color: var(--yellowColor);
