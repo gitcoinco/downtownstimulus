@@ -9,6 +9,7 @@ from django.shortcuts import render
 from rest_framework import mixins
 from rest_framework import generics
 from rest_framework.views import APIView
+from django.core.exceptions import ObjectDoesNotExist
 
 from rest_framework.response import Response
 from django.http import HttpResponse
@@ -19,7 +20,7 @@ from django.utils.encoding import force_bytes, force_text
 
 from .models import User, Business, Donation
 from .serializers import UserSerializer, BusinessSerializer, DonationSerializer, CLRManySerializer
-from .utils import translate_data, aggregate_contributions, calculate_clr, calculate_live_clr, account_activation_token
+from .utils import account_activation_token, calculate_clr_match
 
 # Create your views here.
 
@@ -92,7 +93,6 @@ class BusinessListDetail(mixins.RetrieveModelMixin,
 
 
 class DonationList(mixins.ListModelMixin,
-                   mixins.CreateModelMixin,
                    generics.GenericAPIView):
     queryset = Donation.objects.all()
     serializer_class = DonationSerializer
@@ -107,6 +107,8 @@ class DonationList(mixins.ListModelMixin,
             event = stripe.Webhook.construct_event(
                 payload=payload, sig_header=signature, secret='whsec_qZMKGvPr7n8HWnywm5eDJO7e8P0vRAKT'
             )
+            print(event.keys())
+            print(event['data'])
         except ValueError as e:
             # Invalid payload.
             print(e)
@@ -119,19 +121,50 @@ class DonationList(mixins.ListModelMixin,
 
         if event["type"] == "payment_intent.succeeded":
             payment_intent = event["data"]["object"]
-            connected_account_id = event["account"]
-            handle_successful_payment_intent(connected_account_id, payment_intent)
-        else:
-            print(event['type'])
-            return Response(json.dumps({"success": False}), status=status.HTTP_400_BAD_REQUEST)
+            # connected_account_id = event["account"]
+            connected_account_id = 'acct_1GqkJHIvBq7cPOzZ'
+
+            transaction_id = payment_intent['id']
+            donation_amount = int(payment_intent['amount']) / 100
+            user_email = payment_intent['charges']['data']['billing_details']['email']
+
+            try:
+                user = User.objects.get(email=user_email)
+            except ObjectDoesNotExist as e:
+                print('No User Found for this Payment Intent', e)
+                return Response(json.dumps({"success": False}), status=status.HTTP_406_NOT_ACCEPTABLE)
+
+            try:
+                business = Business.objects.get(stripe_id=connected_account_id)
+            except ObjectDoesNotExist as e:
+                print('No SUch Business Found')
+                return Response(json.dumps({"success": False}), status=status.HTTP_406_NOT_ACCEPTABLE)
+
+            if user and business:
+
+                clr_match_amount, business_total_matched_clr_amount = calculate_clr_match(user.id, business.id, donation_amount)
+
+                donation_obj = Donation(
+                    round_number=1,
+                    donation_amount=donation_amount,
+                    donor=user,
+                    recipient=business,
+                    transaction_id=transaction_id,
+                    match=clr_match_amount,
+                    donation_status="Success"
+                )
+
+                donation_obj.save()
+
+                business.current_clr_matching_amount = business_total_matched_clr_amount
+                business_current_donation = business.donation_received
+                business_new_donation = business_current_donation + donation_amount
+                business.donation_received = business_new_donation
+
+                business.save()
 
         return Response(json.dumps({"success": True}), status=status.HTTP_201_CREATED)
 
-
-def handle_successful_payment_intent(connected_account_id, payment_intent):
-    # Fulfill the purchase.
-    print('Connected account ID: ' + connected_account_id)
-    print('PaymentIntent: ' + str(payment_intent))
 
 class DonationListDetail(mixins.RetrieveModelMixin,
                          mixins.UpdateModelMixin,
@@ -164,45 +197,8 @@ class CLRCalculation(generics.GenericAPIView):
                 business_id = obj.get('business_id')
                 donation_amount = obj.get('donation_amount')
 
-                donations = Donation.objects.values()
-                donations = list(donations)
-                print('donations', list(donations))
-
-                current_donation_obj = {
-                    'round_number': 0,
-                    'donation_amount': donation_amount,
-                    'donor_id': user_id,
-                    'recipient_id': business_id,
-                    'transaction_id': 'string',
-                    'match': True,
-                    'donation_status': 'Success'
-                }
-
-                donations.append(current_donation_obj)
-
-                translated_donation_data = translate_data(donations)
-                aggregated_contributions = aggregate_contributions(translated_donation_data)
-                calculate_clr_data, bigtot, saturation_point = calculate_live_clr(aggregated_contributions, business_id)
-
-                print('translated_donation_data', translated_donation_data)
-                print('aggregated_contributions', aggregated_contributions)
-                print('calculate_clr_data', (calculate_clr_data))
-
-                # clr_match_details = {}
-                # for business in calculate_clr_data:
-                #     id = business.get('id')
-                #     if id == business_id:
-                #         clr_match_details = business
-                #         break
-
-                matched_clr_amount = calculate_clr_data['clr_amount']
-                print(matched_clr_amount, 'matched_clr_amount')
-
-                business = Business.objects.get(pk=business_id)
-                current_clr_amount = business.current_clr_matching_amount
-
-                user_match_amount = matched_clr_amount - float(current_clr_amount)
-                print('user_match_amount', user_match_amount)
+                user_match_amount, business_matched_clr_amount = calculate_clr_match(user_id, business_id, donation_amount)
+                print(user_match_amount, business_matched_clr_amount)
                 clr_matches.append(user_match_amount)
 
             return Response(json.dumps({'clr_data': clr_matches}), status=status.HTTP_201_CREATED)
