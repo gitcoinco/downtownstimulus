@@ -31,5 +31,6 @@ ruamel.yaml.clib==0.2.0
 sendgrid==6.3.1
 six==1.15.0
 sqlparse==0.3.1
+stripe==2.48.0
 uritemplate==3.0.1
 urllib3==1.25.9

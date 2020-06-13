@@ -5,7 +5,7 @@ from django.template.loader import render_to_string
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 import six
 
-from .models import User
+from .models import User, Donation, Business
 
 def premailer_transform(html):
     p = premailer.Premailer(html, base_url='http://127.0.0.1:8000/')
@@ -188,3 +188,47 @@ class TokenGenerator(PasswordResetTokenGenerator):
         )
 
 account_activation_token = TokenGenerator()
+
+
+def calculate_clr_match(user_id, business_id, donation_amount):
+    donations = Donation.objects.values()
+    donations = list(donations)
+    print('donations', list(donations))
+
+    current_donation_obj = {
+        'round_number': 0,
+        'donation_amount': donation_amount,
+        'donor_id': user_id,
+        'recipient_id': business_id,
+        'transaction_id': 'string',
+        'match': True,
+        'donation_status': 'Success'
+    }
+
+    donations.append(current_donation_obj)
+
+    translated_donation_data = translate_data(donations)
+    aggregated_contributions = aggregate_contributions(translated_donation_data)
+    calculate_clr_data, bigtot, saturation_point = calculate_live_clr(aggregated_contributions, business_id)
+
+    print('translated_donation_data', translated_donation_data)
+    print('aggregated_contributions', aggregated_contributions)
+    print('calculate_clr_data', (calculate_clr_data))
+
+    # clr_match_details = {}
+    # for business in calculate_clr_data:
+    #     id = business.get('id')
+    #     if id == business_id:
+    #         clr_match_details = business
+    #         break
+
+    matched_clr_amount = calculate_clr_data['clr_amount']
+    print(matched_clr_amount, 'matched_clr_amount')
+
+    business = Business.objects.get(pk=business_id)
+    current_clr_amount = business.current_clr_matching_amount
+
+    user_match_amount = matched_clr_amount - float(current_clr_amount)
+    print('user_match_amount', user_match_amount)
+
+    return user_match_amount, matched_clr_amount

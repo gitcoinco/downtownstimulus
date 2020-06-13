@@ -2,10 +2,14 @@ import json
 import csv
 import io
 
+import stripe
+stripe.api_key = 'sk_test_51GqkJHIvBq7cPOzZGDx0sDolQSjRI8JxEaXCtv9OYAHyVmIFiOSD40ZLeUxrqbtQbVO1hZ2GyPLbahO0slTk05v900S87oiMhQ'
+
 from django.shortcuts import render
 from rest_framework import mixins
 from rest_framework import generics
 from rest_framework.views import APIView
+from django.core.exceptions import ObjectDoesNotExist
 
 from rest_framework.response import Response
 from django.http import HttpResponse
@@ -15,8 +19,8 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
 
 from .models import User, Business, Donation
-from .serializers import UserSerializer, BusinessSerializer, DonationSerializer, CLRCalculationSeriaziler
-from .utils import translate_data, aggregate_contributions, calculate_clr, calculate_live_clr, account_activation_token
+from .serializers import UserSerializer, BusinessSerializer, DonationSerializer, CLRManySerializer
+from .utils import account_activation_token, calculate_clr_match
 
 # Create your views here.
 
@@ -89,7 +93,6 @@ class BusinessListDetail(mixins.RetrieveModelMixin,
 
 
 class DonationList(mixins.ListModelMixin,
-                   mixins.CreateModelMixin,
                    generics.GenericAPIView):
     queryset = Donation.objects.all()
     serializer_class = DonationSerializer
@@ -98,7 +101,69 @@ class DonationList(mixins.ListModelMixin,
         return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+        payload = request.body
+        signature = request.headers.get("Stripe-Signature")
+        try:
+            event = stripe.Webhook.construct_event(
+                payload=payload, sig_header=signature, secret='whsec_qZMKGvPr7n8HWnywm5eDJO7e8P0vRAKT'
+            )
+            print(event.keys())
+            print(event['data'])
+        except ValueError as e:
+            # Invalid payload.
+            print(e)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        except stripe.error.SignatureVerificationError as e:
+            # Invalid Signature.
+            print(e, signature, 'whsec_qZMKGvPr7n8HWnywm5eDJO7e8P0vRAKT', payload)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        # return self.create(request, *args, **kwargs)
+
+        if event["type"] == "payment_intent.succeeded":
+            payment_intent = event["data"]["object"]
+            # connected_account_id = event["account"]
+            connected_account_id = 'acct_1GqkJHIvBq7cPOzZ'
+
+            transaction_id = payment_intent['id']
+            donation_amount = int(payment_intent['amount']) / 100
+            user_email = payment_intent['charges']['data']['billing_details']['email']
+
+            try:
+                user = User.objects.get(email=user_email)
+            except ObjectDoesNotExist as e:
+                print('No User Found for this Payment Intent', e)
+                return Response(json.dumps({"success": False}), status=status.HTTP_406_NOT_ACCEPTABLE)
+
+            try:
+                business = Business.objects.get(stripe_id=connected_account_id)
+            except ObjectDoesNotExist as e:
+                print('No SUch Business Found')
+                return Response(json.dumps({"success": False}), status=status.HTTP_406_NOT_ACCEPTABLE)
+
+            if user and business:
+
+                clr_match_amount, business_total_matched_clr_amount = calculate_clr_match(user.id, business.id, donation_amount)
+
+                donation_obj = Donation(
+                    round_number=1,
+                    donation_amount=donation_amount,
+                    donor=user,
+                    recipient=business,
+                    transaction_id=transaction_id,
+                    match=clr_match_amount,
+                    donation_status="Success"
+                )
+
+                donation_obj.save()
+
+                business.current_clr_matching_amount = business_total_matched_clr_amount
+                business_current_donation = business.donation_received
+                business_new_donation = business_current_donation + donation_amount
+                business.donation_received = business_new_donation
+
+                business.save()
+
+        return Response(json.dumps({"success": True}), status=status.HTTP_201_CREATED)
 
 
 class DonationListDetail(mixins.RetrieveModelMixin,
@@ -120,56 +185,23 @@ class DonationListDetail(mixins.RetrieveModelMixin,
 
 class CLRCalculation(generics.GenericAPIView):
 
-    serializer_class = CLRCalculationSeriaziler
+    serializer_class = CLRManySerializer
 
     def post(self, request):
-        serialized_data = CLRCalculationSeriaziler(data=request.data)
+        serialized_data = CLRManySerializer(data=request.data)
         if serialized_data.is_valid(raise_exception=True):
-            user_id = serialized_data.validated_data.get('user_id')
-            business_id = serialized_data.validated_data.get('business_id')
-            donation_amount = serialized_data.validated_data.get('donation_amount')
+            clr_objs = serialized_data.validated_data.get('clr_objs')
+            clr_matches = []
+            for obj in clr_objs:
+                user_id = obj.get('user_id')
+                business_id = obj.get('business_id')
+                donation_amount = obj.get('donation_amount')
 
-            donations = Donation.objects.values()
-            donations = list(donations)
-            print('donations', list(donations))
+                user_match_amount, business_matched_clr_amount = calculate_clr_match(user_id, business_id, donation_amount)
+                print(user_match_amount, business_matched_clr_amount)
+                clr_matches.append(user_match_amount)
 
-            current_donation_obj = {
-                'round_number': 0,
-                'donation_amount': donation_amount,
-                'donor_id': user_id,
-                'recipient_id': business_id,
-                'transaction_id': 'string',
-                'match': True,
-                'donation_status': 'Success'
-            }
-
-            donations.append(current_donation_obj)
-
-            translated_donation_data = translate_data(donations)
-            aggregated_contributions = aggregate_contributions(translated_donation_data)
-            calculate_clr_data, bigtot, saturation_point = calculate_live_clr(aggregated_contributions, business_id)
-
-            print('translated_donation_data', translated_donation_data)
-            print('aggregated_contributions', aggregated_contributions)
-            print('calculate_clr_data', (calculate_clr_data))
-
-            # clr_match_details = {}
-            # for business in calculate_clr_data:
-            #     id = business.get('id')
-            #     if id == business_id:
-            #         clr_match_details = business
-            #         break
-
-            matched_clr_amount = calculate_clr_data['clr_amount']
-            print(matched_clr_amount, 'matched_clr_amount')
-
-            business = Business.objects.get(pk=business_id)
-            current_clr_amount = business.current_clr_matching_amount
-
-            user_match_amount = matched_clr_amount - float(current_clr_amount)
-            print('user_match_amount', user_match_amount)
-
-            return Response(json.dumps({'clr_data': user_match_amount}), status=status.HTTP_201_CREATED)
+            return Response(json.dumps({'clr_data': clr_matches}), status=status.HTTP_201_CREATED)
 
 
 def activate(request, uidb64, token):
@@ -195,7 +227,9 @@ def add_business_csv(request):
         data_set = csv_file.read().decode('UTF-8')
         io_string = io.StringIO(data_set)
 
-        for row in csv.reader(io_string, delimiter=','):
+        for count,row in enumerate(csv.reader(io_string, delimiter=',')):
+            if count == 0 or count == 1:
+                continue
             print('row', row[9])
             business = Business(
                 name = row[2],
@@ -215,4 +249,5 @@ def add_business_csv(request):
                 staff_images=[row[12]],
             )
             business.save()
+
         return HttpResponse('Data Uploaded')
