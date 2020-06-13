@@ -16,7 +16,7 @@ class User(AbstractUser):
     is_email_verified = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.get_full_name() + ' - ' + str(self.id)
+        return self.get_full_name() + ' - ' + str(self.id) + ' - ' + self.email
 
 
 class Business(models.Model):

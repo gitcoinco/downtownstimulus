@@ -1,5 +1,6 @@
-from rest_framework import serializers
+from firebase_admin import auth, credentials, initialize_app
 
+from rest_framework import serializers
 from django.contrib.auth import authenticate
 
 from .models import Business, User, Donation
@@ -88,10 +89,37 @@ class LoginTokenSerializer(serializers.Serializer):
             attrs['user'] = user
             return attrs
         elif username and oauth_uuid:
-            user = User.objects.get(oauth_uuid=oauth_uuid)
+            user = User.objects.get(username=username)
+            try:
+                cred = credentials.Certificate(
+                    '/backend/downtownapi/downtown-stimulus-firebase-adminsdk-litas-a4b3da02de.json')
+                default_app = initialize_app(cred, {
+                    'apiKey': "AIzaSyDQaEt__JE2N8VpOHyDms4gdBcCrbpMe3g",
+                    'authDomain': "downtown-stimulus.firebaseapp.com",
+                    'databaseURL': "https://downtown-stimulus.firebaseio.com",
+                    'projectId': "downtown-stimulus",
+                    'storageBucket': "downtown-stimulus.appspot.com",
+                    'messagingSenderId': "441301072810",
+                    'appId': "1:441301072810:web:bf6c5f83f7bd7f9b6ec9d3",
+                    'measurementId': "G-9GZG7Y792M"
+                })
 
-            attrs['user'] = user
-            return attrs
+                user_data = auth.verify_id_token(oauth_uuid)
+                print(user_data['email'], 'user_data')
+                user_email = user_data['email']
+
+                if user_email == user.email:
+                    print('User is same')
+                    attrs['user'] = user
+                    return attrs
+                else:
+                    msg = 'Cant Login User! Invalid Credentials'
+                    raise serializers.ValidationError(msg, code='authorization')
+
+            except Exception as e:
+                msg = 'Cant Login User! Invalid Credentials'
+                raise serializers.ValidationError(msg, code='authorization')
+
         else:
             msg = 'Must include "username" and "password" or "oauth_uuid"'
             raise serializers.ValidationError(msg, code='authorization')
