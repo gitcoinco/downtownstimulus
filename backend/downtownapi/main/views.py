@@ -9,11 +9,7 @@ from django.shortcuts import render
 from rest_framework import mixins
 from rest_framework import generics
 from rest_framework.views import APIView
-<<<<<<< HEAD
 from django.core.exceptions import ObjectDoesNotExist
-
-=======
->>>>>>> auth-patch
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -25,14 +21,9 @@ from django.utils.encoding import force_bytes, force_text
 from django.http import HttpResponse
 
 from .models import User, Business, Donation
-<<<<<<< HEAD
-from .serializers import UserSerializer, BusinessSerializer, DonationSerializer, CLRManySerializer
+from .serializers import UserSerializer, BusinessSerializer, DonationSerializer, CLRManySerializer, LoginTokenSerializer
 from .utils import account_activation_token, calculate_clr_match
-=======
-from .serializers import UserSerializer, BusinessSerializer, DonationSerializer, CLRCalculationSeriaziler, LoginTokenSerializer
-from .utils import translate_data, aggregate_contributions, calculate_clr, calculate_live_clr, account_activation_token
 from .permissions import UserPermission, BusinessPermission, DonationPermission
->>>>>>> auth-patch
 
 # Create your views here.
 
@@ -51,8 +42,8 @@ class UserList(mixins.ListModelMixin,
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (UserPermission,)
-    authentication_classes = [TokenAuthentication]
+    # permission_classes = (UserPermission,)
+    # authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -68,8 +59,8 @@ class UserListDetail(mixins.RetrieveModelMixin,
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (UserPermission,)
-    authentication_classes = [TokenAuthentication]
+    # permission_classes = (UserPermission,)
+    # authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
@@ -87,8 +78,8 @@ class BusinessList(mixins.ListModelMixin,
 
     queryset = Business.objects.all()
     serializer_class = BusinessSerializer
-    permission_classes = (BusinessPermission,)
-    authentication_classes = [TokenAuthentication]
+    # permission_classes = (BusinessPermission,)
+    # authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -104,8 +95,8 @@ class BusinessListDetail(mixins.RetrieveModelMixin,
 
     queryset = Business.objects.all()
     serializer_class = BusinessSerializer
-    permission_classes = (BusinessPermission,)
-    authentication_classes = [TokenAuthentication]
+    # permission_classes = (BusinessPermission,)
+    # authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
@@ -122,8 +113,8 @@ class DonationList(mixins.ListModelMixin,
 
     queryset = Donation.objects.all()
     serializer_class = DonationSerializer
-    permission_classes = (DonationPermission, )
-    authentication_classes = [TokenAuthentication]
+    # permission_classes = (DonationPermission, )
+    # authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -201,8 +192,8 @@ class DonationListDetail(mixins.RetrieveModelMixin,
 
     queryset = Donation.objects.all()
     serializer_class = DonationSerializer
-    permission_classes = (DonationPermission,)
-    authentication_classes = [TokenAuthentication]
+    # permission_classes = (DonationPermission,)
+    # authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
@@ -256,8 +247,12 @@ class CustomAuthToken(ObtainAuthToken):
             return Response({
                 'token': token.key,
                 'user_id': user.pk,
-                'email': user.email
+                'email': user.email,
+                'phone_number': user.phone_number,
+                'name': user.get_full_name(),
+                'profile_pic': user.profile_pic,
             })
+
 
 def add_business_csv(request):
     if request.method == 'GET':
