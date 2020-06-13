@@ -3,6 +3,8 @@ import { of } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { FirebaseService, WebService } from "../services";
 import { transformToUserForServer } from "../utils";
+import { setSelectedBusinessStripeAccountId } from "../config";
+import { loadStripe } from "@stripe/stripe-js";
 
 const actionInitialValue = {
   setModalConfig: (openModal: boolean, modalConfig: any) => {},
@@ -11,6 +13,12 @@ const actionInitialValue = {
   facebookSignIn: () => {},
   selectBusiness: (selectedBusiness: any) => {},
   fetchAllBusinesses: () => {},
+  getClrMatchingAmount: (
+    userId: number,
+    businessId: number,
+    amount: number
+  ) => {},
+  setDonationAmountState: (donationAmount: number) => {},
 };
 const stateInitialValue = {
   openModal: false,
@@ -21,6 +29,8 @@ const stateInitialValue = {
   businesses: [],
   selectedBusiness: null,
   searchText: "",
+  donationAmount: 0,
+  stripePromise: null,
 };
 export const ActionContext = createContext(actionInitialValue);
 export const StateContext = createContext(stateInitialValue);
@@ -39,7 +49,6 @@ export const AppProvider = (props: any) => {
           return {
             ...prevState,
             user: action.user,
-            token: action.token,
           };
         case "SET_BUSINESS_LIST":
           return {
@@ -62,6 +71,16 @@ export const AppProvider = (props: any) => {
             ...prevState,
             searchText: action.searchText,
           };
+        case "SET_DONATION_AMOUNT":
+          return {
+            ...prevState,
+            donationAmount: action.donationAmount,
+          };
+        case "SET_STRIPE_PROMISE":
+          return {
+            ...prevState,
+            stripePromise: action.stripePromise,
+          };
         default:
       }
     },
@@ -74,6 +93,8 @@ export const AppProvider = (props: any) => {
       businesses: [],
       selectedBusiness: null,
       searchText: "",
+      donationAmount: 0,
+      stripePromise: null,
     }
   );
 
@@ -104,15 +125,15 @@ export const AppProvider = (props: any) => {
                 console.log("Success");
                 const user = await data.json();
                 console.log(user);
+                dispatch({
+                  type: "SET_USER",
+                  user,
+                });
               } else {
                 console.log("Error", await data.json());
               }
             });
-          dispatch({
-            type: "SET_USER",
-            user: result.user,
-            token: result.token,
-          });
+
           dispatch({ type: "TOGGLE_MODAL", openModal: false, modalConfig: {} });
         } catch (err) {
           console.log(err.message);
@@ -122,14 +143,21 @@ export const AppProvider = (props: any) => {
         try {
           const result = await FirebaseService.signInSocial("facebook");
           console.log(result.user, result.token);
-          WebService.postUser(result.user).subscribe((data) => {
-            console.log(data);
-          });
-          dispatch({
-            type: "SET_USER",
-            user: result.user,
-            token: result.token,
-          });
+          WebService.postUser(result.user)
+            .pipe(catchError((err) => of(`I caught: ${err}`)))
+            .subscribe(async (data) => {
+              if (data.ok) {
+                console.log("Success");
+                const user = await data.json();
+                console.log(user);
+                dispatch({
+                  type: "SET_USER",
+                  user,
+                });
+              } else {
+                console.log("Error", await data.json());
+              }
+            });
           dispatch({ type: "TOGGLE_MODAL", openModal: false, modalConfig: {} });
         } catch (err) {
           console.log(err);
@@ -139,7 +167,13 @@ export const AppProvider = (props: any) => {
         WebService.fetchSingleBusiness(selectedBusinessId).subscribe(
           (data: any) => {
             console.log(data);
+            setSelectedBusinessStripeAccountId(data.stripe_id);
+            const stripePromise = loadStripe(
+              "pk_test_51GqkJHIvBq7cPOzZUkq9YmaFXkqHMRGrjjR1Vtu1wgTBheRzG66nRvZABmllnsbybp9zbscThmhUzbkzKLnZM4EK005gPXOVAd",
+              { stripeAccount: data.stripe_id }
+            );
             dispatch({ type: "SET_SELECTED_BUSINESS", selectedBusiness: data });
+            dispatch({ type: "SET_STRIPE_PROMISE", stripePromise });
           }
         );
       },
@@ -147,6 +181,28 @@ export const AppProvider = (props: any) => {
         WebService.fetchAllBusinesses().subscribe((data: any) => {
           console.log(data);
           dispatch({ type: "SET_BUSINESS_LIST", businesses: data });
+        });
+      },
+      setDonationAmountState: (donationAmount: number) => {
+        dispatch({ type: "SET_DONATION_AMOUNT", donationAmount });
+      },
+      getClrMatchingAmount: (
+        userId: number,
+        businessId: number,
+        amount: number
+      ) => {
+        WebService.getClrMatchingAmount({
+          user_id: userId,
+          business_id: businessId,
+          donation_amount: amount,
+        }).subscribe(async (data) => {
+          if (data.ok) {
+            console.log("Success");
+            const user = await data.json();
+            console.log(user);
+          } else {
+            console.log("Error", await data.json());
+          }
         });
       },
     }),

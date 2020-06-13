@@ -1,6 +1,16 @@
 import { IBusiness } from "../models/Business";
 import { IDonation } from "../models/Donations";
 import { IUser } from "../models/User";
+import {
+  Globe,
+  Facebook,
+  Instagram,
+  Target,
+  CornerRightUp,
+  DollarSign,
+  Home,
+  Share2,
+} from "react-feather";
 
 export const mapToBusinesses = (businesses: IBusiness[]): IBusiness[] => {
   return businesses.map(mapToBusiness);
@@ -66,3 +76,8 @@ export const transformToUserForServer = (user: any) => {
     user_permissions: user.user_permissions,
   };
 };
+
+export const toUrlEncoded = (obj) =>
+  Object.keys(obj)
+    .map((k) => encodeURIComponent(k) + "=" + encodeURIComponent(obj[k]))
+    .join("&");

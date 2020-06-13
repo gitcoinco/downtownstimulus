@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import "./CheckoutForm.scss";
 import ResetButton from "../ResetButton";
@@ -6,18 +6,29 @@ import Field from "../Field";
 import CardField from "../CardField";
 import ErrorMessage from "../ErrorMessage";
 import SubmitButton from "../SubmitButton";
+import { ActionContext, StateContext } from "../../../../hooks";
+import { WebService } from "../../../../services";
 
 const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
+  const { setModalConfig } = useContext(ActionContext);
+  const { user, donationAmount, selectedBusiness } = useContext(StateContext);
   const [error, setError] = useState(null);
   const [cardComplete, setCardComplete] = useState(false);
   const [processing, setProcessing] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState(null);
   const [billingDetails, setBillingDetails] = useState({
     email: "",
     name: "",
   });
+
+  useEffect(() => {
+    if (user) {
+      setBillingDetails({ ...billingDetails, email: user.email });
+    } else {
+      setError({ message: "Please login first" });
+    }
+  }, [user]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -28,52 +39,76 @@ const CheckoutForm = () => {
       return;
     }
 
-    if (error) {
-      elements.getElement("card").focus();
-      return;
-    }
+    if (user) {
+      if (error) {
+        elements.getElement("card").focus();
+        return;
+      }
 
-    if (cardComplete) {
-      setProcessing(true);
-    }
+      if (cardComplete) {
+        setProcessing(true);
+      }
 
-    const payload = await stripe.createPaymentMethod({
-      type: "card",
-      card: elements.getElement(CardElement),
-      billing_details: billingDetails,
-    });
+      WebService.getClientSecretKey(
+        donationAmount * 100,
+        selectedBusiness.stripe_id
+      ).subscribe(async (data) => {
+        if (data.ok) {
+          console.log("Success");
+          const response = await data.json();
+          console.log(response);
+          // WebService.addCustomerPaymentDetails(
+          //   selectedBusiness.stripe_id
+          // ).subscribe(async (details) => {
+          //   const response1 = await details.json();
+          //   console.log(response1);
+          const result = await stripe.confirmCardPayment(
+            response.client_secret,
+            {
+              payment_method: {
+                card: elements.getElement(CardElement),
+                billing_details: billingDetails,
+              },
+            }
+          );
 
-    setProcessing(false);
+          setProcessing(false);
 
-    if (payload.error) {
-      setError(payload.error);
+          if (result.error) {
+            setError(result.error);
+          } else {
+            // The payment has been processed!
+            if (result.paymentIntent.status === "succeeded") {
+              // Show a success message to your customer
+              // There's a risk of the customer closing the window before callback
+              // execution. Set up a webhook or plugin to listen for the
+              // payment_intent.succeeded event that handles any business critical
+              // post-payment actions.
+              console.log(result.paymentIntent);
+              reset();
+              setModalConfig(true, { type: "thankYouDonation" });
+            }
+          }
+          // });
+        } else {
+          console.log("Error", await data.json());
+        }
+      });
     } else {
-      setPaymentMethod(payload.paymentMethod);
+      setError({ message: "Please login first" });
     }
   };
 
   const reset = () => {
     setError(null);
     setProcessing(false);
-    setPaymentMethod(null);
     setBillingDetails({
       email: "",
       name: "",
     });
   };
 
-  return paymentMethod ? (
-    <div className="Result">
-      <div className="ResultTitle" role="alert">
-        Payment successful
-      </div>
-      <div className="ResultMessage">
-        Thanks for trying Stripe Elements. No money was charged, but we
-        generated a PaymentMethod: {paymentMethod.id}
-      </div>
-      <ResetButton onClick={reset} />
-    </div>
-  ) : (
+  return (
     <form className="Form" onSubmit={handleSubmit}>
       <div className="payment-title">Your card details</div>
       <fieldset className="FormGroup top-margin-set">
@@ -85,6 +120,7 @@ const CheckoutForm = () => {
           required
           autoComplete="name"
           value={billingDetails.name}
+          disabled={false}
           onChange={(e) => {
             setBillingDetails({ ...billingDetails, name: e.target.value });
           }}
@@ -97,6 +133,7 @@ const CheckoutForm = () => {
           required
           autoComplete="email"
           value={billingDetails.email}
+          disabled={true}
           onChange={(e) => {
             setBillingDetails({ ...billingDetails, email: e.target.value });
           }}
@@ -111,8 +148,12 @@ const CheckoutForm = () => {
         />
       </fieldset>
       {error && <ErrorMessage>{error.message}</ErrorMessage>}
-      <SubmitButton processing={processing} error={error} disabled={!stripe}>
-        Pay $25
+      <SubmitButton
+        processing={processing}
+        error={error}
+        disabled={!stripe && !user}
+      >
+        Pay ${donationAmount}
       </SubmitButton>
     </form>
   );

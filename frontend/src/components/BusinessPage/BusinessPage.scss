@@ -262,8 +262,9 @@
               border: 0.559465px solid #b3b3b3;
               box-sizing: border-box;
               border-radius: 7px;
-              padding: 0px 8px;
-              margin: 0px 8px;
+              padding: 6px 8px;
+              flex: 1;
+              justify-content: center;
               .business-donation-custom-input-label {
                 font-size: 20px;
                 margin-top: 3px;
@@ -289,6 +290,16 @@
               cursor: pointer;
             }
           }
+
+          .business-donation-custom-match {
+            font-size: 20px;
+
+            .business-donation-custom-match-amount {
+              color: var(--primaryColor);
+              font-weight: 500;
+            }
+          }
+
           .business-donation-donate-container {
             display: flex;
             .business-donation-donate-button {

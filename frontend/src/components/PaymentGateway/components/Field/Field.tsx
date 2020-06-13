@@ -10,6 +10,7 @@ const Field = ({
   autoComplete,
   value,
   onChange,
+  disabled,
 }) => (
   <div className="FormRow">
     <label htmlFor={id} className="FormRowLabel">
@@ -24,6 +25,7 @@ const Field = ({
       autoComplete={autoComplete}
       value={value}
       onChange={onChange}
+      disabled={disabled}
     />
   </div>
 );

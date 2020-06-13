@@ -51,6 +51,7 @@ h1 {
   font-weight: normal;
   color: var(--header1Color);
   font-family: var(--header1Font);
+  line-height: 3rem;
   margin-block-start: 0em !important;
   margin-block-end: 0em !important;
 }
@@ -60,7 +61,7 @@ h2 {
   font-weight: normal;
   color: var(--header2Color);
   font-family: var(--header2Font);
-
+  line-height: 2.5rem;
   margin-block-start: 0em !important;
   margin-block-end: 0em !important;
 }
@@ -70,7 +71,7 @@ h3 {
   font-weight: normal;
   color: var(--header3Color);
   font-family: var(--header3Font);
-
+  line-height: 2rem;
   margin-block-start: 0em !important;
   margin-block-end: 0em !important;
 }

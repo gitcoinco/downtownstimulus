@@ -6,6 +6,7 @@ import Login from "../Login";
 import SignUp from "../SignUp";
 import PaymentGateway from "../PaymentGateway";
 import Share from "../Share";
+import DonationThank from "../DonationThank";
 
 function Modal() {
   const { setModalConfig } = useContext(ActionContext);
@@ -31,6 +32,9 @@ function Modal() {
           {modalConfig.type === "signUp" && <SignUp></SignUp>}
           {modalConfig.type === "payment" && <PaymentGateway></PaymentGateway>}
           {modalConfig.type === "share" && <Share></Share>}
+          {modalConfig.type === "thankYouDonation" && (
+            <DonationThank></DonationThank>
+          )}
         </div>
       </div>
     </div>

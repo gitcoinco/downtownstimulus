@@ -15,7 +15,7 @@ function Header() {
       </Link>
       <div className="header-profile-container">
         {user ? (
-          <img src={user.photoURL} alt="profile" className="profile-icon" />
+          <img src={user.profile_pic} alt="profile" className="profile-icon" />
         ) : (
           <>
             <div

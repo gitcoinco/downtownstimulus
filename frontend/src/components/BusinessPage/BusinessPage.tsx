@@ -19,20 +19,31 @@ import BusinessItem from "../BusinessItem";
 
 function BusinessPage() {
   let { id } = useParams();
-  const { setModalConfig, selectBusiness, fetchAllBusinesses } = useContext(
-    ActionContext
-  );
-  const { backupBusinesses, selectedBusiness } = useContext(StateContext);
+  const {
+    setModalConfig,
+    selectBusiness,
+    fetchAllBusinesses,
+    getClrMatchingAmount,
+    setDonationAmountState,
+  } = useContext(ActionContext);
+  const { backupBusinesses, selectedBusiness, user } = useContext(StateContext);
 
   const [donationType, setDonationType] = useState(0);
   const [donationAmount, setDonationAmount] = useState("1");
+  const [donationWidth, setDonationWidth] = useState(
+    (donationAmount.length + 1) * 24 + "px"
+  );
 
   useEffect(() => {
     fetchAllBusinesses();
     if (id) {
       selectBusiness(id);
+      if (user) {
+        console.log(user);
+        getClrMatchingAmount(user.id, id, 10);
+      }
     }
-  }, [id]);
+  }, [id, user]);
 
   const getExpenditureIcons = (type: string) => {
     switch (type) {
@@ -240,9 +251,10 @@ function BusinessPage() {
                           <button
                             type="button"
                             className="business-donation-suggestion-button business-donation-best-match-button "
-                            onClick={(e) =>
-                              setModalConfig(true, { type: "payment" })
-                            }
+                            onClick={(e) => {
+                              setDonationAmountState(23);
+                              setModalConfig(true, { type: "payment" });
+                            }}
                           >
                             Donate
                           </button>
@@ -277,26 +289,9 @@ function BusinessPage() {
                   {donationType === 1 && (
                     <div className="business-donation-custom-container top-margin-set bottom-margin-set">
                       <label className="business-donation-custom-label">
-                        Matched Amount
-                      </label>
-                      <div className="business-donation-custom-output bottom-margin-set">
-                        <span className="business-donation-custom-output-label">
-                          $
-                        </span>
-                        <span className="business-donation-custom-output-number">
-                          {donationAmount}
-                        </span>
-                      </div>
-                      <label className="business-donation-custom-label">
-                        You Donate
+                        Donate
                       </label>
                       <div className="business-donation-custom-input-container">
-                        <div
-                          className="business-donation-custom-input-button"
-                          onClick={(e) => decreaseDonation()}
-                        >
-                          <ChevronDown />
-                        </div>
                         <div className="business-donation-custom-input">
                           <span className="business-donation-custom-input-label">
                             $
@@ -306,25 +301,30 @@ function BusinessPage() {
                               type="number"
                               className="business-donation-custom-input-number"
                               value={donationAmount}
-                              onChange={(e) =>
-                                setDonationAmount(e.target.value)
-                              }
+                              style={{ width: donationWidth }}
+                              onChange={(e) => {
+                                setDonationAmount(e.target.value);
+                                const donationWidth =
+                                  (e.target.value.length + 1) * 24 + "px";
+                                setDonationWidth(donationWidth);
+                              }}
                             />
                           </span>
                         </div>
-                        <div
-                          className="business-donation-custom-input-button"
-                          onClick={(e) => increaseDonation()}
-                        >
-                          <ChevronUp />
-                        </div>
                       </div>
+                      <p className="business-donation-custom-match bottom-margin-set">
+                        for a{" "}
+                        <span className="business-donation-custom-match-amount">
+                          $1,000
+                        </span>{" "}
+                        match
+                      </p>
                       <div className="business-donation-donate-container top-margin-set">
                         <button
                           type="button"
                           className="business-donation-donate-button"
                           onClick={(e) =>
-                            setModalConfig(true, { type: "share" })
+                            setModalConfig(true, { type: "payment" })
                           }
                         >
                           <span>DONATE</span>
@@ -346,12 +346,14 @@ function BusinessPage() {
                 <div className="business-donation-details-container container-spacing-set">
                   <h2>How we use the funds</h2>
                   <div className="business-donation-details-types-container top-margin-set">
-                    {selectedBusiness.expenditure_details.map((tag) => (
-                      <div className="business-donation-details-type">
-                        <span>{getExpenditureIcons(tag)}</span>
-                        <span>{tag}</span>
-                      </div>
-                    ))}
+                    {selectedBusiness.expenditure_details.map(
+                      (tag: any, i: number) => (
+                        <div className="business-donation-details-type" key={i}>
+                          <span>{getExpenditureIcons(tag)}</span>
+                          <span>{tag}</span>
+                        </div>
+                      )
+                    )}
                   </div>
                   <p className="top-margin-set">
                     {selectedBusiness.other_content}
