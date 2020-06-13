@@ -54,3 +54,5 @@ class CLRCalculationSeriaziler(serializers.Serializer):
     donation_amount = serializers.FloatField()
 
 
+class CLRManySerializer(serializers.Serializer):
+        clr_objs = CLRCalculationSeriaziler(many=True)

@@ -2,6 +2,9 @@ import json
 import csv
 import io
 
+import stripe
+stripe.api_key = 'sk_test_51GqkJHIvBq7cPOzZGDx0sDolQSjRI8JxEaXCtv9OYAHyVmIFiOSD40ZLeUxrqbtQbVO1hZ2GyPLbahO0slTk05v900S87oiMhQ'
+
 from django.shortcuts import render
 from rest_framework import mixins
 from rest_framework import generics
@@ -15,7 +18,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
 
 from .models import User, Business, Donation
-from .serializers import UserSerializer, BusinessSerializer, DonationSerializer, CLRCalculationSeriaziler
+from .serializers import UserSerializer, BusinessSerializer, DonationSerializer, CLRManySerializer
 from .utils import translate_data, aggregate_contributions, calculate_clr, calculate_live_clr, account_activation_token
 
 # Create your views here.
@@ -98,8 +101,37 @@ class DonationList(mixins.ListModelMixin,
         return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+        payload = request.body
+        signature = request.headers.get("Stripe-Signature")
+        try:
+            event = stripe.Webhook.construct_event(
+                payload=payload, sig_header=signature, secret='whsec_qZMKGvPr7n8HWnywm5eDJO7e8P0vRAKT'
+            )
+        except ValueError as e:
+            # Invalid payload.
+            print(e)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        except stripe.error.SignatureVerificationError as e:
+            # Invalid Signature.
+            print(e, signature, 'whsec_qZMKGvPr7n8HWnywm5eDJO7e8P0vRAKT', payload)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        # return self.create(request, *args, **kwargs)
 
+        if event["type"] == "payment_intent.succeeded":
+            payment_intent = event["data"]["object"]
+            connected_account_id = event["account"]
+            handle_successful_payment_intent(connected_account_id, payment_intent)
+        else:
+            print(event['type'])
+            return Response(json.dumps({"success": False}), status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(json.dumps({"success": True}), status=status.HTTP_201_CREATED)
+
+
+def handle_successful_payment_intent(connected_account_id, payment_intent):
+    # Fulfill the purchase.
+    print('Connected account ID: ' + connected_account_id)
+    print('PaymentIntent: ' + str(payment_intent))
 
 class DonationListDetail(mixins.RetrieveModelMixin,
                          mixins.UpdateModelMixin,
@@ -120,56 +152,60 @@ class DonationListDetail(mixins.RetrieveModelMixin,
 
 class CLRCalculation(generics.GenericAPIView):
 
-    serializer_class = CLRCalculationSeriaziler
+    serializer_class = CLRManySerializer
 
     def post(self, request):
-        serialized_data = CLRCalculationSeriaziler(data=request.data)
+        serialized_data = CLRManySerializer(data=request.data)
         if serialized_data.is_valid(raise_exception=True):
-            user_id = serialized_data.validated_data.get('user_id')
-            business_id = serialized_data.validated_data.get('business_id')
-            donation_amount = serialized_data.validated_data.get('donation_amount')
+            clr_objs = serialized_data.validated_data.get('clr_objs')
+            clr_matches = []
+            for obj in clr_objs:
+                user_id = obj.get('user_id')
+                business_id = obj.get('business_id')
+                donation_amount = obj.get('donation_amount')
 
-            donations = Donation.objects.values()
-            donations = list(donations)
-            print('donations', list(donations))
+                donations = Donation.objects.values()
+                donations = list(donations)
+                print('donations', list(donations))
 
-            current_donation_obj = {
-                'round_number': 0,
-                'donation_amount': donation_amount,
-                'donor_id': user_id,
-                'recipient_id': business_id,
-                'transaction_id': 'string',
-                'match': True,
-                'donation_status': 'Success'
-            }
+                current_donation_obj = {
+                    'round_number': 0,
+                    'donation_amount': donation_amount,
+                    'donor_id': user_id,
+                    'recipient_id': business_id,
+                    'transaction_id': 'string',
+                    'match': True,
+                    'donation_status': 'Success'
+                }
 
-            donations.append(current_donation_obj)
+                donations.append(current_donation_obj)
 
-            translated_donation_data = translate_data(donations)
-            aggregated_contributions = aggregate_contributions(translated_donation_data)
-            calculate_clr_data, bigtot, saturation_point = calculate_live_clr(aggregated_contributions, business_id)
+                translated_donation_data = translate_data(donations)
+                aggregated_contributions = aggregate_contributions(translated_donation_data)
+                calculate_clr_data, bigtot, saturation_point = calculate_live_clr(aggregated_contributions, business_id)
 
-            print('translated_donation_data', translated_donation_data)
-            print('aggregated_contributions', aggregated_contributions)
-            print('calculate_clr_data', (calculate_clr_data))
+                print('translated_donation_data', translated_donation_data)
+                print('aggregated_contributions', aggregated_contributions)
+                print('calculate_clr_data', (calculate_clr_data))
 
-            # clr_match_details = {}
-            # for business in calculate_clr_data:
-            #     id = business.get('id')
-            #     if id == business_id:
-            #         clr_match_details = business
-            #         break
+                # clr_match_details = {}
+                # for business in calculate_clr_data:
+                #     id = business.get('id')
+                #     if id == business_id:
+                #         clr_match_details = business
+                #         break
 
-            matched_clr_amount = calculate_clr_data['clr_amount']
-            print(matched_clr_amount, 'matched_clr_amount')
+                matched_clr_amount = calculate_clr_data['clr_amount']
+                print(matched_clr_amount, 'matched_clr_amount')
 
-            business = Business.objects.get(pk=business_id)
-            current_clr_amount = business.current_clr_matching_amount
+                business = Business.objects.get(pk=business_id)
+                current_clr_amount = business.current_clr_matching_amount
 
-            user_match_amount = matched_clr_amount - float(current_clr_amount)
-            print('user_match_amount', user_match_amount)
+                user_match_amount = matched_clr_amount - float(current_clr_amount)
+                print('user_match_amount', user_match_amount)
+                clr_matches.append(user_match_amount)
 
-            return Response(json.dumps({'clr_data': user_match_amount}), status=status.HTTP_201_CREATED)
+            return Response(json.dumps({'clr_data': clr_matches}), status=status.HTTP_201_CREATED)
 
 
 def activate(request, uidb64, token):
