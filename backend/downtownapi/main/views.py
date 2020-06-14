@@ -167,7 +167,7 @@ class DonationList(mixins.ListModelMixin,
                     donor=user,
                     recipient=business,
                     transaction_id=transaction_id,
-                    match=clr_match_amount,
+                    match=True,
                     donation_status="Success"
                 )
 
