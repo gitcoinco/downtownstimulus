@@ -58,6 +58,7 @@ class Donation(models.Model):
     id = models.AutoField(primary_key=True)
     round_number = models.PositiveIntegerField(blank=True, null=True)
     donation_amount = models.FloatField(blank=False, null=False)
+    matched_amount = models.DecimalField(default=1, decimal_places=4, max_digits=50)
     donor = models.ForeignKey(User, on_delete=models.CASCADE)
     recipient = models.ForeignKey(Business, on_delete=models.CASCADE)
     donation_time = models.DateTimeField(null=False, default=now)
