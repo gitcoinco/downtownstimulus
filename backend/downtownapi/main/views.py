@@ -42,8 +42,8 @@ class UserList(mixins.ListModelMixin,
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (UserPermission,)
-    authentication_classes = [TokenAuthentication]
+    # permission_classes = (UserPermission,)
+    # authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -59,8 +59,8 @@ class UserListDetail(mixins.RetrieveModelMixin,
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (UserPermission,)
-    authentication_classes = [TokenAuthentication]
+    # permission_classes = (UserPermission,)
+    # authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
@@ -78,8 +78,8 @@ class BusinessList(mixins.ListModelMixin,
 
     queryset = Business.objects.all()
     serializer_class = BusinessSerializer
-    permission_classes = (BusinessPermission,)
-    authentication_classes = [TokenAuthentication]
+    # permission_classes = (BusinessPermission,)
+    # authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -95,8 +95,8 @@ class BusinessListDetail(mixins.RetrieveModelMixin,
 
     queryset = Business.objects.all()
     serializer_class = BusinessSerializer
-    permission_classes = (BusinessPermission,)
-    authentication_classes = [TokenAuthentication]
+    # permission_classes = (BusinessPermission,)
+    # authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
@@ -113,8 +113,8 @@ class DonationList(mixins.ListModelMixin,
 
     queryset = Donation.objects.all()
     serializer_class = DonationSerializer
-    permission_classes = (DonationPermission, )
-    authentication_classes = [TokenAuthentication]
+    # permission_classes = (DonationPermission, )
+    # authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -192,8 +192,8 @@ class DonationListDetail(mixins.RetrieveModelMixin,
 
     queryset = Donation.objects.all()
     serializer_class = DonationSerializer
-    permission_classes = (DonationPermission,)
-    authentication_classes = [TokenAuthentication]
+    # permission_classes = (DonationPermission,)
+    # authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
@@ -247,8 +247,12 @@ class CustomAuthToken(ObtainAuthToken):
             return Response({
                 'token': token.key,
                 'user_id': user.pk,
-                'email': user.email
+                'email': user.email,
+                'phone_number': user.phone_number,
+                'name': user.get_full_name(),
+                'profile_pic': user.profile_pic,
             })
+
 
 def add_business_csv(request):
     if request.method == 'GET':
