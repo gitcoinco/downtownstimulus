@@ -124,28 +124,26 @@ class DonationList(mixins.ListModelMixin,
         signature = request.headers.get("Stripe-Signature")
         try:
             event = stripe.Webhook.construct_event(
-                payload=payload, sig_header=signature, secret='whsec_qZMKGvPr7n8HWnywm5eDJO7e8P0vRAKT'
+                payload=payload, sig_header=signature, secret='whsec_6U2PlHClnA3YEcpChiEPOzdvmiQsIIpE'
             )
-            print(event.keys())
-            print(event['data'])
         except ValueError as e:
             # Invalid payload.
             print(e)
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except stripe.error.SignatureVerificationError as e:
             # Invalid Signature.
-            print(e, signature, 'whsec_qZMKGvPr7n8HWnywm5eDJO7e8P0vRAKT', payload)
+            print(e, signature, 'whsec_6U2PlHClnA3YEcpChiEPOzdvmiQsIIpE', payload)
             return Response(status=status.HTTP_400_BAD_REQUEST)
         # return self.create(request, *args, **kwargs)
 
         if event["type"] == "payment_intent.succeeded":
             payment_intent = event["data"]["object"]
             # connected_account_id = event["account"]
-            connected_account_id = 'acct_1GqkJHIvBq7cPOzZ'
+            connected_account_id = event['data']['object']['charges']['data'][0]['receipt_url'].split('/')[4]
 
             transaction_id = payment_intent['id']
             donation_amount = int(payment_intent['amount']) / 100
-            user_email = payment_intent['charges']['data']['billing_details']['email']
+            user_email = payment_intent['charges']['data'][0]['billing_details']['email']
 
             try:
                 user = User.objects.get(email=user_email)
@@ -166,6 +164,7 @@ class DonationList(mixins.ListModelMixin,
                 donation_obj = Donation(
                     round_number=1,
                     donation_amount=donation_amount,
+                    matched_amount=clr_match_amount,
                     donor=user,
                     recipient=business,
                     transaction_id=transaction_id,
