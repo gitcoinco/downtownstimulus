@@ -9,8 +9,8 @@ import { loadStripe } from "@stripe/stripe-js";
 const actionInitialValue = {
   setModalConfig: (openModal: boolean, modalConfig: any) => {},
   searchBusinesses: (searchText: string, backupBusinesses: any[]) => {},
-  googleSignIn: () => {},
-  facebookSignIn: () => {},
+  googleSignIn: (type: string) => {},
+  facebookSignIn: (type: string) => {},
   selectBusiness: (selectedBusiness: any) => {},
   fetchAllBusinesses: () => {},
   getClrMatchingAmount: (
@@ -114,50 +114,55 @@ export const AppProvider = (props: any) => {
           businesses: filteredBusinesses,
         });
       },
-      googleSignIn: async () => {
+      googleSignIn: async (type: string) => {
         try {
           const result = await FirebaseService.signInSocial("google");
           console.log(result.user, result.token);
-          WebService.postUser(transformToUserForServer(result.user))
-            .pipe(catchError((err) => of(`I caught: ${err}`)))
-            .subscribe(async (data) => {
-              if (data.ok) {
-                console.log("Success");
-                const user = await data.json();
-                console.log(user);
-                dispatch({
-                  type: "SET_USER",
-                  user,
-                });
-              } else {
-                console.log("Error", await data.json());
-              }
-            });
-
+          if (type === "signUp") {
+            WebService.postUser(transformToUserForServer(result.user))
+              .pipe(catchError((err) => of(`I caught: ${err}`)))
+              .subscribe(async (data) => {
+                if (data.ok) {
+                  console.log("Success");
+                  const user = await data.json();
+                  console.log(user);
+                  dispatch({
+                    type: "SET_USER",
+                    user,
+                  });
+                } else {
+                  console.log("Error", await data.json());
+                }
+              });
+          } else {
+          }
           dispatch({ type: "TOGGLE_MODAL", openModal: false, modalConfig: {} });
         } catch (err) {
           console.log(err.message);
         }
       },
-      facebookSignIn: async () => {
+      facebookSignIn: async (type: string) => {
         try {
           const result = await FirebaseService.signInSocial("facebook");
           console.log(result.user, result.token);
-          WebService.postUser(result.user)
-            .pipe(catchError((err) => of(`I caught: ${err}`)))
-            .subscribe(async (data) => {
-              if (data.ok) {
-                console.log("Success");
-                const user = await data.json();
-                console.log(user);
-                dispatch({
-                  type: "SET_USER",
-                  user,
-                });
-              } else {
-                console.log("Error", await data.json());
-              }
-            });
+          if (type === "signUp") {
+            WebService.postUser(result.user)
+              .pipe(catchError((err) => of(`I caught: ${err}`)))
+              .subscribe(async (data) => {
+                if (data.ok) {
+                  console.log("Success");
+                  const user = await data.json();
+                  console.log(user);
+                  dispatch({
+                    type: "SET_USER",
+                    user,
+                  });
+                } else {
+                  console.log("Error", await data.json());
+                }
+              });
+          } else {
+          }
           dispatch({ type: "TOGGLE_MODAL", openModal: false, modalConfig: {} });
         } catch (err) {
           console.log(err);

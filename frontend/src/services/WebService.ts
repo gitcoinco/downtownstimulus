@@ -120,26 +120,3 @@ export const getClientSecretKey = (amount: number, stripeAccountId: string) => {
     );
   });
 };
-
-export const addCustomerPaymentDetails = (stripeAccountId: string) => {
-  return defer(() => {
-    return from<Promise<any>>(
-      fetch(`https://api.stripe.com/v1/customers`, {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          Authorization:
-            "Bearer sk_test_51GqkJHIvBq7cPOzZGDx0sDolQSjRI8JxEaXCtv9OYAHyVmIFiOSD40ZLeUxrqbtQbVO1hZ2GyPLbahO0slTk05v900S87oiMhQ",
-        },
-        method: "POST",
-        body: toUrlEncoded({
-          name: "Jane",
-          "address[line1]": "510 Townsend St",
-          "address[postal_code]": 98140,
-          "address[city]": "San Francisco",
-          "address[state]": "CA",
-          "address[country]": "US",
-        }),
-      })
-    );
-  });
-};

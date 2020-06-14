@@ -57,11 +57,6 @@ const CheckoutForm = () => {
           console.log("Success");
           const response = await data.json();
           console.log(response);
-          // WebService.addCustomerPaymentDetails(
-          //   selectedBusiness.stripe_id
-          // ).subscribe(async (details) => {
-          //   const response1 = await details.json();
-          //   console.log(response1);
           const result = await stripe.confirmCardPayment(
             response.client_secret,
             {
@@ -89,7 +84,6 @@ const CheckoutForm = () => {
               setModalConfig(true, { type: "thankYouDonation" });
             }
           }
-          // });
         } else {
           console.log("Error", await data.json());
         }
