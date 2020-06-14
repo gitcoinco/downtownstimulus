@@ -26,9 +26,24 @@ Frontend - http://localhost:3000
 
 3. Create a New superuser for Backend API
 
-```docker exec -t downtownstimulus_api_1 downtownapi/manage.py createsuperuser```
+```docker exec -it downtownstimulus_api_1 downtownapi/manage.py createsuperuser```
 
 ## API Docs 
 
 - Swagger Docs - http://127.0.0.1:8000/swagger/
 - Redoc Docs - http://127.0.0.1:8000/redoc/
+
+
+---
+
+## Deployment From Scratch
+
+1. Install Docker - 
+2. Install docker-compose (Version > 1.25.5) `docker-compose --version`
+3. Clone Project - 
+```
+git clone https://github.com/ethifylabs/downtownstimulus
+git checkout develop
+```
+
+*Build Project Following Above Instructions*
