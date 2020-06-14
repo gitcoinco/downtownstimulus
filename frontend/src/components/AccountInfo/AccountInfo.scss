@@ -1,0 +1,32 @@
+.account-info {
+  width: 1200px;
+  margin: 1.5em auto;
+  display: flex;
+  flex-direction: column;
+
+  .account-info-form-element {
+    padding: 8px 16px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 2px solid var(--grey3Color);
+    width: 50%;
+
+    &:focus {
+      border: 2px solid var(--blackColor);
+    }
+  }
+
+  .save-button {
+    width: 53%;
+    padding: 10px;
+    background: var(--primaryColor);
+    color: var(--whiteColor);
+    font-size: 18px;
+    border-radius: 6px;
+    cursor: pointer;
+
+    &:hover {
+      background: var(--primaryHighlightColor);
+    }
+  }
+}

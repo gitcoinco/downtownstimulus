@@ -5,6 +5,7 @@ import { FirebaseService, WebService } from "../services";
 import { transformToUserForServer } from "../utils";
 import { setSelectedBusinessStripeAccountId } from "../config";
 import { loadStripe } from "@stripe/stripe-js";
+import { useHistory } from "react-router-dom";
 
 const actionInitialValue = {
   setModalConfig: (openModal: boolean, modalConfig: any) => {},
@@ -16,6 +17,8 @@ const actionInitialValue = {
   getFixedClrMatchingAmount: (allMatchingArrays: Array<any>) => {},
   getCustomClrMatchingAmount: (allMatchingArrays: Array<any>) => {},
   setDonationAmountState: (donationAmount: number) => {},
+  logoutUser: () => {},
+  updateUser: (id: string, updatedUser: any) => {},
 };
 const stateInitialValue = {
   openModal: false,
@@ -35,6 +38,7 @@ export const ActionContext = createContext(actionInitialValue);
 export const StateContext = createContext(stateInitialValue);
 
 export const AppProvider = (props: any) => {
+  const history = useHistory();
   const [state, dispatch] = React.useReducer(
     (prevState: any, action: any) => {
       switch (action.type) {
@@ -96,7 +100,9 @@ export const AppProvider = (props: any) => {
     {
       openModal: false,
       modalConfig: { type: "" },
-      user: null,
+      user: sessionStorage.getItem("user")
+        ? JSON.parse(sessionStorage.getItem("user"))
+        : null,
       token: "",
       backupBusinesses: [],
       businesses: [],
@@ -146,6 +152,7 @@ export const AppProvider = (props: any) => {
                         console.log("Success");
                         const user = await data.json();
                         console.log(user);
+                        sessionStorage.setItem("user", JSON.stringify(user));
                         dispatch({
                           type: "SET_USER",
                           user,
@@ -168,6 +175,7 @@ export const AppProvider = (props: any) => {
                   console.log("Success");
                   const user = await data.json();
                   console.log(user);
+                  sessionStorage.setItem("user", JSON.stringify(user));
                   dispatch({
                     type: "SET_USER",
                     user,
@@ -203,6 +211,7 @@ export const AppProvider = (props: any) => {
                         console.log("Success");
                         const user = await data.json();
                         console.log(user);
+                        sessionStorage.setItem("user", JSON.stringify(user));
                         dispatch({
                           type: "SET_USER",
                           user,
@@ -225,6 +234,7 @@ export const AppProvider = (props: any) => {
                   console.log("Success");
                   const user = await data.json();
                   console.log(user);
+                  sessionStorage.setItem("user", JSON.stringify(user));
                   dispatch({
                     type: "SET_USER",
                     user,
@@ -238,6 +248,33 @@ export const AppProvider = (props: any) => {
         } catch (err) {
           console.log(err);
         }
+      },
+      logoutUser: async () => {
+        sessionStorage.removeItem("user");
+        history.push("/");
+        await FirebaseService.logoutUser();
+        dispatch({
+          type: "SET_USER",
+          user: null,
+        });
+      },
+      updateUser: async (id: string, updatedUser: any) => {
+        WebService.updateUser(id, updatedUser)
+          .pipe(catchError((err) => of(`I caught: ${err}`)))
+          .subscribe(async (data) => {
+            if (data.ok) {
+              console.log("Success");
+              const user = await data.json();
+              console.log(user);
+              sessionStorage.setItem("user", JSON.stringify(user));
+              dispatch({
+                type: "SET_USER",
+                user,
+              });
+            } else {
+              console.log("Error", await data.json());
+            }
+          });
       },
       selectBusiness: (selectedBusinessId: any) => {
         WebService.fetchSingleBusiness(selectedBusinessId).subscribe(

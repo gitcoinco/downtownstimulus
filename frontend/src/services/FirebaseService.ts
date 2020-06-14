@@ -44,3 +44,7 @@ export const getAuthToken = async () => {
   console.log(result);
   return result;
 };
+
+export const logoutUser = async () => {
+  await firebase.auth().signOut();
+};
