@@ -5,14 +5,14 @@ class DonationCustomInput extends React.Component<any, any> {
     donation: "1",
     typing: false,
     typingTimeout: null,
-    donationWidth: "48px",
+    donationWidth: "36px",
   };
 
   changeDonation = (event) => {
     if (this.state.typingTimeout) {
       clearTimeout(this.state.typingTimeout);
     }
-    const donationWidth = (event.target.value.length + 1) * 24 + "px";
+    const donationWidth = (event.target.value.length + 1) * 18 + "px";
     this.setState(
       {
         donation: event.target.value,
