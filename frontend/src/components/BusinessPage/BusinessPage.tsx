@@ -16,6 +16,7 @@ import {
 import StickyBox from "react-sticky-box";
 import { ActionContext, StateContext } from "../../hooks";
 import BusinessItem from "../BusinessItem";
+import DonationCustomInput from "./components/DonationCustomInput";
 
 function BusinessPage() {
   let { id } = useParams();
@@ -23,21 +24,19 @@ function BusinessPage() {
     setModalConfig,
     selectBusiness,
     fetchAllBusinesses,
-    getClrMatchingAmount,
+    getFixedClrMatchingAmount,
     setDonationAmountState,
+    getCustomClrMatchingAmount,
   } = useContext(ActionContext);
   const {
     backupBusinesses,
     selectedBusiness,
     user,
     fixedDonationMatching,
+    customDonationMatching,
   } = useContext(StateContext);
 
   const [donationType, setDonationType] = useState(0);
-  const [donationAmount, setDonationAmount] = useState("1");
-  const [donationWidth, setDonationWidth] = useState(
-    (donationAmount.length + 1) * 24 + "px"
-  );
 
   useEffect(() => {
     fetchAllBusinesses();
@@ -45,7 +44,7 @@ function BusinessPage() {
       selectBusiness(id);
       if (user) {
         console.log("User", user);
-        const matchingArr = [
+        const matchingArr1 = [
           {
             user_id: user.id,
             business_id: id,
@@ -63,7 +62,16 @@ function BusinessPage() {
           },
         ];
 
-        getClrMatchingAmount(matchingArr);
+        getFixedClrMatchingAmount(matchingArr1);
+
+        const matchingArr2 = [
+          {
+            user_id: user.id,
+            business_id: id,
+            donation_amount: Number.parseFloat("1"),
+          },
+        ];
+        getCustomClrMatchingAmount(matchingArr2);
       }
     }
   }, [id, user]);
@@ -79,15 +87,22 @@ function BusinessPage() {
     }
   };
 
-  const decreaseDonation = () => {
-    const amount = Number.parseInt(donationAmount);
-    setDonationAmount(amount - 1 + "");
+  const handleCustomClrMatchingAmount = (donationAmount) => {
+    console.log("Logging donation change stop");
+    setDonationAmountState(donationAmount);
+    if (user) {
+      console.log(donationAmount);
+      const matchingArr = [
+        {
+          user_id: user.id,
+          business_id: id,
+          donation_amount: Number.parseFloat(donationAmount),
+        },
+      ];
+      getCustomClrMatchingAmount(matchingArr);
+    }
   };
 
-  const increaseDonation = () => {
-    const amount = Number.parseInt(donationAmount);
-    setDonationAmount(amount + 1 + "");
-  };
   return (
     <div className="business-page">
       {selectedBusiness ? (
@@ -278,7 +293,7 @@ function BusinessPage() {
                             type="button"
                             className="business-donation-suggestion-button business-donation-best-match-button "
                             onClick={(e) => {
-                              setDonationAmountState(23);
+                              setDonationAmountState(50);
                               setModalConfig(true, { type: "payment" });
                             }}
                           >
@@ -325,17 +340,10 @@ function BusinessPage() {
                             $
                           </span>
                           <span>
-                            <input
-                              type="number"
-                              className="business-donation-custom-input-number"
-                              value={donationAmount}
-                              style={{ width: donationWidth }}
-                              onChange={(e) => {
-                                setDonationAmount(e.target.value);
-                                const donationWidth =
-                                  (e.target.value.length + 1) * 24 + "px";
-                                setDonationWidth(donationWidth);
-                              }}
+                            <DonationCustomInput
+                              handleCustomClrMatchingAmount={
+                                handleCustomClrMatchingAmount
+                              }
                             />
                           </span>
                         </div>
@@ -343,7 +351,7 @@ function BusinessPage() {
                       <p className="business-donation-custom-match bottom-margin-set">
                         for a{" "}
                         <span className="business-donation-custom-match-amount">
-                          $1,000
+                          ${customDonationMatching[0].toFixed(2)}
                         </span>{" "}
                         match
                       </p>

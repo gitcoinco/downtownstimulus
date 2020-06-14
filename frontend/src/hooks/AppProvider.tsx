@@ -13,7 +13,8 @@ const actionInitialValue = {
   facebookSignIn: (type: string) => {},
   selectBusiness: (selectedBusiness: any) => {},
   fetchAllBusinesses: () => {},
-  getClrMatchingAmount: (allMatchingArrays: Array<any>) => {},
+  getFixedClrMatchingAmount: (allMatchingArrays: Array<any>) => {},
+  getCustomClrMatchingAmount: (allMatchingArrays: Array<any>) => {},
   setDonationAmountState: (donationAmount: number) => {},
 };
 const stateInitialValue = {
@@ -28,6 +29,7 @@ const stateInitialValue = {
   donationAmount: 0,
   stripePromise: null,
   fixedDonationMatching: [0, 0, 0],
+  customDonationMatching: [0],
 };
 export const ActionContext = createContext(actionInitialValue);
 export const StateContext = createContext(stateInitialValue);
@@ -83,6 +85,11 @@ export const AppProvider = (props: any) => {
             ...prevState,
             fixedDonationMatching: action.fixedDonationMatching,
           };
+        case "SET_CUSTOM_DONATION_MATCHING":
+          return {
+            ...prevState,
+            customDonationMatching: action.customDonationMatching,
+          };
         default:
       }
     },
@@ -98,6 +105,7 @@ export const AppProvider = (props: any) => {
       donationAmount: 0,
       stripePromise: null,
       fixedDonationMatching: [0, 0, 0],
+      customDonationMatching: [0],
     }
   );
 
@@ -179,7 +187,7 @@ export const AppProvider = (props: any) => {
           const result = await FirebaseService.signInSocial("facebook");
           console.log(result.user, result.token);
           if (type === "signUp") {
-            WebService.postUser(result.user)
+            WebService.postUser(transformToUserForServer(result.user))
               .pipe(catchError((err) => of(`I caught: ${err}`)))
               .subscribe(async (data) => {
                 if (data.ok) {
@@ -254,7 +262,7 @@ export const AppProvider = (props: any) => {
       setDonationAmountState: (donationAmount: number) => {
         dispatch({ type: "SET_DONATION_AMOUNT", donationAmount });
       },
-      getClrMatchingAmount: (allMatchingArrays: Array<any>) => {
+      getFixedClrMatchingAmount: (allMatchingArrays: Array<any>) => {
         console.log(allMatchingArrays);
         WebService.getClrMatchingAmount({
           clr_objs: allMatchingArrays,
@@ -265,6 +273,27 @@ export const AppProvider = (props: any) => {
             dispatch({
               type: "SET_FIXED_DONATION_MATCHING",
               fixedDonationMatching: JSON.parse(matching).clr_data,
+            });
+          } else {
+            console.log("Error", await data.json());
+          }
+        });
+      },
+      getCustomClrMatchingAmount: (allMatchingArrays: Array<any>) => {
+        console.log(allMatchingArrays);
+        WebService.getClrMatchingAmount({
+          clr_objs: allMatchingArrays,
+        }).subscribe(async (data) => {
+          if (data.ok) {
+            const matching = await data.json();
+            console.log(
+              "Matching",
+              JSON.parse(matching).clr_data,
+              allMatchingArrays
+            );
+            dispatch({
+              type: "SET_CUSTOM_DONATION_MATCHING",
+              customDonationMatching: JSON.parse(matching).clr_data,
             });
           } else {
             console.log("Error", await data.json());
