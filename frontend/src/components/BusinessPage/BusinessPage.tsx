@@ -26,7 +26,12 @@ function BusinessPage() {
     getClrMatchingAmount,
     setDonationAmountState,
   } = useContext(ActionContext);
-  const { backupBusinesses, selectedBusiness, user } = useContext(StateContext);
+  const {
+    backupBusinesses,
+    selectedBusiness,
+    user,
+    fixedDonationMatching,
+  } = useContext(StateContext);
 
   const [donationType, setDonationType] = useState(0);
   const [donationAmount, setDonationAmount] = useState("1");
@@ -39,8 +44,26 @@ function BusinessPage() {
     if (id) {
       selectBusiness(id);
       if (user) {
-        console.log(user);
-        getClrMatchingAmount(user.id, id, 10);
+        console.log("User", user);
+        const matchingArr = [
+          {
+            user_id: user.id,
+            business_id: id,
+            donation_amount: 10,
+          },
+          {
+            user_id: user.id,
+            business_id: id,
+            donation_amount: 50,
+          },
+          {
+            user_id: user.id,
+            business_id: id,
+            donation_amount: 100,
+          },
+        ];
+
+        getClrMatchingAmount(matchingArr);
       }
     }
   }, [id, user]);
@@ -213,15 +236,17 @@ function BusinessPage() {
                           </span>
                         </div>
                         <p className="business-donation-suggestion-match">
-                          for a <b>$54</b> match
+                          for a <b>${fixedDonationMatching[0].toFixed(2)}</b>{" "}
+                          match
                         </p>
                         <div className="business-donation-suggestion-button-container">
                           <button
                             type="button"
                             className="business-donation-suggestion-button"
-                            onClick={(e) =>
-                              setModalConfig(true, { type: "payment" })
-                            }
+                            onClick={(e) => {
+                              setDonationAmountState(10);
+                              setModalConfig(true, { type: "payment" });
+                            }}
                           >
                             Donate
                           </button>
@@ -241,11 +266,12 @@ function BusinessPage() {
                             $
                           </span>
                           <span className="business-donation-suggestion-amount">
-                            23
+                            50
                           </span>
                         </div>
                         <p className="business-donation-suggestion-match">
-                          for a <b>$144</b> match
+                          for a <b>${fixedDonationMatching[1].toFixed(2)}</b>{" "}
+                          match
                         </p>
                         <div className="business-donation-suggestion-button-container">
                           <button
@@ -266,19 +292,21 @@ function BusinessPage() {
                             $
                           </span>
                           <span className="business-donation-suggestion-amount">
-                            10
+                            100
                           </span>
                         </div>
                         <p className="business-donation-suggestion-match">
-                          for a <b>$54</b> match
+                          for a <b>${fixedDonationMatching[2].toFixed(2)}</b>{" "}
+                          match
                         </p>
                         <div className="business-donation-suggestion-button-container">
                           <button
                             type="button"
                             className="business-donation-suggestion-button"
-                            onClick={(e) =>
-                              setModalConfig(true, { type: "payment" })
-                            }
+                            onClick={(e) => {
+                              setDonationAmountState(100);
+                              setModalConfig(true, { type: "payment" });
+                            }}
                           >
                             Donate
                           </button>

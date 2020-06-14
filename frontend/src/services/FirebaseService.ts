@@ -41,5 +41,6 @@ export const signInSocial = async (pType: string) => {
 
 export const getAuthToken = async () => {
   const result = await firebase.auth().currentUser.getIdToken();
+  console.log(result);
   return result;
 };

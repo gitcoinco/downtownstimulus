@@ -45,6 +45,21 @@ export const postUser = (user: any): Observable<any> => {
   });
 };
 
+export const loginUser = (email: any, oauth_uuid: string): Observable<any> => {
+  return defer(() => {
+    return from<Promise<any>>(
+      fetch(`${ROOT_URL}/api-token-auth/`, {
+        headers: { "Content-Type": "application/json; charset=utf-8" },
+        method: "POST",
+        body: JSON.stringify({
+          username: email,
+          oauth_uuid,
+        }),
+      })
+    );
+  });
+};
+
 export const updateUser = (id: string, user: any): Observable<any> => {
   return defer(() => {
     return from<Promise<any>>(
@@ -84,7 +99,7 @@ export const getClrMatchingAmount = (
 ): Observable<any> => {
   return defer(() => {
     return from<Promise<any>>(
-      fetch(`${ROOT_URL}/clramountaggregation`, {
+      fetch(`${ROOT_URL}/clramountaggregation/`, {
         headers: { "Content-Type": "application/json; charset=utf-8" },
         method: "POST",
         body: JSON.stringify(donationsDetails),

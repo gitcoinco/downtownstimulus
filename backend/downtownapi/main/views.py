@@ -1,3 +1,20 @@
+from .permissions import UserPermission, BusinessPermission, DonationPermission
+from .utils import account_activation_token, calculate_clr_match
+from .serializers import UserSerializer, BusinessSerializer, DonationSerializer, CLRManySerializer, LoginTokenSerializer
+from .models import User, Business, Donation
+from django.http import HttpResponse
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.models import Token
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework import status
+from rest_framework.response import Response
+from django.core.exceptions import ObjectDoesNotExist
+from rest_framework.views import APIView
+from rest_framework import generics
+from rest_framework import mixins
+from django.shortcuts import render
 import json
 import csv
 import io
@@ -5,25 +22,6 @@ import io
 import stripe
 stripe.api_key = 'sk_test_51GqkJHIvBq7cPOzZGDx0sDolQSjRI8JxEaXCtv9OYAHyVmIFiOSD40ZLeUxrqbtQbVO1hZ2GyPLbahO0slTk05v900S87oiMhQ'
 
-from django.shortcuts import render
-from rest_framework import mixins
-from rest_framework import generics
-from rest_framework.views import APIView
-from django.core.exceptions import ObjectDoesNotExist
-from rest_framework.response import Response
-from rest_framework import status
-from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.authtoken.models import Token
-from rest_framework.authentication import TokenAuthentication
-
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import force_bytes, force_text
-from django.http import HttpResponse
-
-from .models import User, Business, Donation
-from .serializers import UserSerializer, BusinessSerializer, DonationSerializer, CLRManySerializer, LoginTokenSerializer
-from .utils import account_activation_token, calculate_clr_match
-from .permissions import UserPermission, BusinessPermission, DonationPermission
 
 # Create your views here.
 
@@ -161,7 +159,8 @@ class DonationList(mixins.ListModelMixin,
 
             if user and business:
 
-                clr_match_amount, business_total_matched_clr_amount = calculate_clr_match(user.id, business.id, donation_amount)
+                clr_match_amount, business_total_matched_clr_amount = calculate_clr_match(
+                    user.id, business.id, donation_amount)
 
                 donation_obj = Donation(
                     round_number=1,
@@ -213,7 +212,8 @@ class CLRCalculation(generics.GenericAPIView):
                 business_id = obj.get('business_id')
                 donation_amount = obj.get('donation_amount')
 
-                user_match_amount, business_matched_clr_amount = calculate_clr_match(user_id, business_id, donation_amount)
+                user_match_amount, business_matched_clr_amount = calculate_clr_match(
+                    user_id, business_id, donation_amount)
                 print(user_match_amount, business_matched_clr_amount)
                 clr_matches.append(user_match_amount)
 
@@ -246,10 +246,11 @@ class CustomAuthToken(ObtainAuthToken):
             token, created = Token.objects.get_or_create(user=user)
             return Response({
                 'token': token.key,
-                'user_id': user.pk,
+                'id': user.pk,
                 'email': user.email,
                 'phone_number': user.phone_number,
-                'name': user.get_full_name(),
+                'first_name': user.first_name,
+                'last_name': user.last_name,
                 'profile_pic': user.profile_pic,
             })
 
@@ -262,26 +263,26 @@ def add_business_csv(request):
         data_set = csv_file.read().decode('UTF-8')
         io_string = io.StringIO(data_set)
 
-        for count,row in enumerate(csv.reader(io_string, delimiter=',')):
+        for count, row in enumerate(csv.reader(io_string, delimiter=',')):
             if count == 0 or count == 1:
                 continue
             print('row', row[9])
             business = Business(
-                name = row[2],
-                owner_email = row[1],
-                short_description = row[3],
-                history = row[7],
-                covid_story = row[8],
-                expenditure_details = row[9].strip().split(','),
-                other_content = row[15],
-                website_link = row[4],
-                facebook_profile_link = row[5],
-                instagram_profile_link = row[6],
-                stripe_id = "",
-                logo = row[10],
-                cover_image = row[11],
-                main_business_image = row[11],
-                staff_images = [row[12]],
+                name=row[2],
+                owner_email=row[1],
+                short_description=row[3],
+                history=row[7],
+                covid_story=row[8],
+                expenditure_details=row[9].strip().split(','),
+                other_content=row[15],
+                website_link=row[4],
+                facebook_profile_link=row[5],
+                instagram_profile_link=row[6],
+                stripe_id="",
+                logo=row[10],
+                cover_image=row[11],
+                main_business_image=row[11],
+                staff_images=[row[12]],
             )
             business.save()
 

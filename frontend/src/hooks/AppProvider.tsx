@@ -13,11 +13,7 @@ const actionInitialValue = {
   facebookSignIn: (type: string) => {},
   selectBusiness: (selectedBusiness: any) => {},
   fetchAllBusinesses: () => {},
-  getClrMatchingAmount: (
-    userId: number,
-    businessId: number,
-    amount: number
-  ) => {},
+  getClrMatchingAmount: (allMatchingArrays: Array<any>) => {},
   setDonationAmountState: (donationAmount: number) => {},
 };
 const stateInitialValue = {
@@ -31,6 +27,7 @@ const stateInitialValue = {
   searchText: "",
   donationAmount: 0,
   stripePromise: null,
+  fixedDonationMatching: [0, 0, 0],
 };
 export const ActionContext = createContext(actionInitialValue);
 export const StateContext = createContext(stateInitialValue);
@@ -81,6 +78,11 @@ export const AppProvider = (props: any) => {
             ...prevState,
             stripePromise: action.stripePromise,
           };
+        case "SET_FIXED_DONATION_MATCHING":
+          return {
+            ...prevState,
+            fixedDonationMatching: action.fixedDonationMatching,
+          };
         default:
       }
     },
@@ -95,6 +97,7 @@ export const AppProvider = (props: any) => {
       searchText: "",
       donationAmount: 0,
       stripePromise: null,
+      fixedDonationMatching: [0, 0, 0],
     }
   );
 
@@ -126,6 +129,37 @@ export const AppProvider = (props: any) => {
                   console.log("Success");
                   const user = await data.json();
                   console.log(user);
+                  const authToken = await FirebaseService.getAuthToken();
+                  console.log("Auth Token", authToken);
+                  WebService.loginUser(result.user.email, authToken)
+                    .pipe(catchError((err) => of(`I caught: ${err}`)))
+                    .subscribe(async (data) => {
+                      if (data.ok) {
+                        console.log("Success");
+                        const user = await data.json();
+                        console.log(user);
+                        dispatch({
+                          type: "SET_USER",
+                          user,
+                        });
+                      } else {
+                        console.log("Error", await data.json());
+                      }
+                    });
+                } else {
+                  console.log("Error", await data.json());
+                }
+              });
+          } else {
+            const authToken = await FirebaseService.getAuthToken();
+            console.log("Auth Token", authToken);
+            WebService.loginUser(result.user.email, authToken)
+              .pipe(catchError((err) => of(`I caught: ${err}`)))
+              .subscribe(async (data) => {
+                if (data.ok) {
+                  console.log("Success");
+                  const user = await data.json();
+                  console.log(user);
                   dispatch({
                     type: "SET_USER",
                     user,
@@ -134,7 +168,6 @@ export const AppProvider = (props: any) => {
                   console.log("Error", await data.json());
                 }
               });
-          } else {
           }
           dispatch({ type: "TOGGLE_MODAL", openModal: false, modalConfig: {} });
         } catch (err) {
@@ -153,6 +186,37 @@ export const AppProvider = (props: any) => {
                   console.log("Success");
                   const user = await data.json();
                   console.log(user);
+                  const authToken = await FirebaseService.getAuthToken();
+                  console.log("Auth Token", authToken);
+                  WebService.loginUser(result.user.email, authToken)
+                    .pipe(catchError((err) => of(`I caught: ${err}`)))
+                    .subscribe(async (data) => {
+                      if (data.ok) {
+                        console.log("Success");
+                        const user = await data.json();
+                        console.log(user);
+                        dispatch({
+                          type: "SET_USER",
+                          user,
+                        });
+                      } else {
+                        console.log("Error", await data.json());
+                      }
+                    });
+                } else {
+                  console.log("Error", await data.json());
+                }
+              });
+          } else {
+            const authToken = await FirebaseService.getAuthToken();
+            console.log(authToken);
+            WebService.loginUser(result.user.email, authToken)
+              .pipe(catchError((err) => of(`I caught: ${err}`)))
+              .subscribe(async (data) => {
+                if (data.ok) {
+                  console.log("Success");
+                  const user = await data.json();
+                  console.log(user);
                   dispatch({
                     type: "SET_USER",
                     user,
@@ -161,7 +225,6 @@ export const AppProvider = (props: any) => {
                   console.log("Error", await data.json());
                 }
               });
-          } else {
           }
           dispatch({ type: "TOGGLE_MODAL", openModal: false, modalConfig: {} });
         } catch (err) {
@@ -191,20 +254,18 @@ export const AppProvider = (props: any) => {
       setDonationAmountState: (donationAmount: number) => {
         dispatch({ type: "SET_DONATION_AMOUNT", donationAmount });
       },
-      getClrMatchingAmount: (
-        userId: number,
-        businessId: number,
-        amount: number
-      ) => {
+      getClrMatchingAmount: (allMatchingArrays: Array<any>) => {
+        console.log(allMatchingArrays);
         WebService.getClrMatchingAmount({
-          user_id: userId,
-          business_id: businessId,
-          donation_amount: amount,
+          clr_objs: allMatchingArrays,
         }).subscribe(async (data) => {
           if (data.ok) {
-            console.log("Success");
-            const user = await data.json();
-            console.log(user);
+            const matching = await data.json();
+            console.log("Matching", JSON.parse(matching).clr_data);
+            dispatch({
+              type: "SET_FIXED_DONATION_MATCHING",
+              fixedDonationMatching: JSON.parse(matching).clr_data,
+            });
           } else {
             console.log("Error", await data.json());
           }
