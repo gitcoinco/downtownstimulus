@@ -34,8 +34,7 @@ class RootView(APIView):
         return Response(json.dumps(resp), status=status.HTTP_201_CREATED)
 
 
-class UserList(mixins.ListModelMixin,
-               mixins.CreateModelMixin,
+class UserList(mixins.CreateModelMixin,
                generics.GenericAPIView):
 
     queryset = User.objects.all()
@@ -44,7 +43,15 @@ class UserList(mixins.ListModelMixin,
     # authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+        if request.user.is_staff:
+            users = self.queryset
+            serializer = self.serializer_class(users)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            msg = {
+                "detail": "You do not have permission to perform this action."
+            }
+            return Response(msg ,status=status.HTTP_401_UNAUTHORIZED)
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
@@ -106,8 +113,7 @@ class BusinessListDetail(mixins.RetrieveModelMixin,
         return self.destroy(request, *args, **kwargs)
 
 
-class DonationList(mixins.ListModelMixin,
-                   generics.GenericAPIView):
+class DonationList(generics.GenericAPIView):
 
     queryset = Donation.objects.all()
     serializer_class = DonationSerializer
@@ -115,7 +121,9 @@ class DonationList(mixins.ListModelMixin,
     # authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+        user_donations = Donation.objects.filter(donor=request.user)
+        donation_serializer = DonationSerializer(user_donations, many=True)
+        return Response(donation_serializer.data, status=status.HTTP_201_CREATED)
 
     def post(self, request, *args, **kwargs):
         payload = request.body
