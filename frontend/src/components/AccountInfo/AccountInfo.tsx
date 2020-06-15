@@ -23,52 +23,54 @@ function AccountInfo() {
   };
   return (
     <div className="account-info">
-      <h2>Account Info</h2>
-      <div className="top-margin-set">
-        <p>First Name</p>
-        <input
-          type="text"
-          className="account-info-form-element"
-          placeholder="Jane"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-        />
-      </div>
-      <div className="top-margin-set">
-        <p>Last Name</p>
-        <input
-          type="text"
-          className="account-info-form-element"
-          placeholder="Jane"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-        />
-      </div>
-      <div className="top-margin-set">
-        <p>Email</p>
-        <input
-          type="email"
-          className="account-info-form-element"
-          placeholder="jane@gmail.com"
-          value={email}
-          disabled
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </div>
-      <div className="top-margin-set bottom-margin-set">
-        <p>Phone Number</p>
-        <input
-          type="tel"
-          className="account-info-form-element"
-          placeholder="+19999999999"
-          value={phoneNumber}
-          onChange={(e) => setPhoneNumber(e.target.value)}
-        />
-      </div>
-      <div className="top-margin-set bottom-margin-set">
-        <button className="save-button" onClick={saveUpdatedUser}>
-          Save
-        </button>
+      <div className="account-info-container">
+        <h2>Account Info</h2>
+        <div className="top-margin-set account-info-form-element-container">
+          <p>First Name</p>
+          <input
+            type="text"
+            className="account-info-form-element"
+            placeholder="Jane"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+        </div>
+        <div className="top-margin-set account-info-form-element-container">
+          <p>Last Name</p>
+          <input
+            type="text"
+            className="account-info-form-element"
+            placeholder="Jane"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+          />
+        </div>
+        <div className="top-margin-set account-info-form-element-container">
+          <p>Email</p>
+          <input
+            type="email"
+            className="account-info-form-element"
+            placeholder="jane@gmail.com"
+            value={email}
+            disabled
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div className="top-margin-set bottom-margin-set account-info-form-element-container">
+          <p>Phone Number</p>
+          <input
+            type="tel"
+            className="account-info-form-element"
+            placeholder="+19999999999"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+          />
+        </div>
+        <div className="top-margin-set bottom-margin-set account-info-form-element-container">
+          <button className="save-button" onClick={saveUpdatedUser}>
+            Save
+          </button>
+        </div>
       </div>
     </div>
   );

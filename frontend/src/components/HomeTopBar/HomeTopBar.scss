@@ -6,7 +6,7 @@
 
   .app-icon-container {
     text-align: center;
-    margin-top: -2em;
+    margin-top: 0em;
   }
   .home-head-line {
     text-align: center;
@@ -67,6 +67,30 @@
         padding: 6px 18px;
         cursor: pointer;
       }
+    }
+  }
+}
+
+$information-phone: "only screen and (max-width : 464px)";
+$information-pad: "only screen and (max-width : 1024px) and (min-width: 464px)";
+@media #{$information-phone} {
+  .list-action-container {
+    width: 100% !important;
+
+    .home-search-container {
+      margin-right: 1.5em !important;
+      margin-left: 1.5em !important;
+    }
+  }
+}
+
+@media #{$information-pad} {
+  .list-action-container {
+    width: 100% !important;
+
+    .home-search-container {
+      margin-right: 2em !important;
+      margin-left: 2em !important;
     }
   }
 }
