@@ -1,31 +1,36 @@
-from .permissions import UserPermission, BusinessPermission, DonationPermission
-from .utils import account_activation_token, calculate_clr_match
-from .serializers import UserSerializer, BusinessSerializer, DonationSerializer, CLRManySerializer, LoginTokenSerializer
-from .models import User, Business, Donation
+import json
+import csv
+import io
+import logging
+
+import stripe
+
 from django.http import HttpResponse
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import render
+
 from rest_framework.authentication import TokenAuthentication
+from rest_framework import generics
+from rest_framework import mixins
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework import status
 from rest_framework.response import Response
-from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.views import APIView
-from rest_framework import generics
-from rest_framework import mixins
-from django.shortcuts import render
-import json
-import csv
-import io
 
-import stripe
+from .permissions import UserPermission, BusinessPermission, DonationPermission
+from .utils import account_activation_token
+from .clr import calculate_clr_match
+from .serializers import UserSerializer, BusinessSerializer, DonationSerializer, CLRManySerializer, LoginTokenSerializer
+from .models import User, Business, Donation
+
 stripe.api_key = 'sk_test_51GqkJHIvBq7cPOzZGDx0sDolQSjRI8JxEaXCtv9OYAHyVmIFiOSD40ZLeUxrqbtQbVO1hZ2GyPLbahO0slTk05v900S87oiMhQ'
+logger = logging.getLogger(__name__)
 
 
 # Create your views here.
-
-
 class RootView(APIView):
     def get(self, request):
         resp = {
@@ -51,7 +56,8 @@ class UserList(mixins.CreateModelMixin,
             msg = {
                 "detail": "You do not have permission to perform this action."
             }
-            return Response(msg ,status=status.HTTP_401_UNAUTHORIZED)
+            logger.error('User is not authenticated to perform this request' + request.user.email)
+            return Response(msg, status=status.HTTP_401_UNAUTHORIZED)
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
@@ -141,7 +147,7 @@ class DonationList(generics.GenericAPIView):
             print(e, signature, 'whsec_6U2PlHClnA3YEcpChiEPOzdvmiQsIIpE', payload)
             return Response(status=status.HTTP_400_BAD_REQUEST)
         # return self.create(request, *args, **kwargs)
-
+        logger.info(f'Event Type is {event["type"]}')
         if event["type"] == "payment_intent.succeeded":
             payment_intent = event["data"]["object"]
             # connected_account_id = event["account"]
@@ -151,22 +157,29 @@ class DonationList(generics.GenericAPIView):
             donation_amount = int(payment_intent['amount']) / 100
             user_email = payment_intent['charges']['data'][0]['billing_details']['email']
 
+            logger.info(f'Payment Received {transaction_id} for Business with Stripe ID - {connected_account_id}, For Amount - {donation_amount} by User - {user_email}')
+
             try:
                 user = User.objects.get(email=user_email)
             except ObjectDoesNotExist as e:
-                print('No User Found for this Payment Intent', e)
+                logger.exception(e)
+                logger.error(f'No User Found for The Donation {transaction_id} by User Email - {transaction_id}')
                 return Response(json.dumps({"success": False}), status=status.HTTP_406_NOT_ACCEPTABLE)
 
             try:
                 business = Business.objects.get(stripe_id=connected_account_id)
             except ObjectDoesNotExist as e:
-                print('No SUch Business Found')
+                logger.exception(e)
+                logger.error(f'No Matching Business Found for The Donation {transaction_id} by User Email - {user_email}')
                 return Response(json.dumps({"success": False}), status=status.HTTP_406_NOT_ACCEPTABLE)
 
             if user and business:
 
                 clr_match_amount, business_total_matched_clr_amount = calculate_clr_match(
                     user.id, business.id, donation_amount)
+
+                logger.info(
+                    f'CLR Amount Matched for {transaction_id}, Donation Amount {donation_amount}, Matched Amount {clr_match_amount}, Business Total Matched Amount {business_total_matched_clr_amount} by User Email {user_email}')
 
                 donation_obj = Donation(
                     round_number=1,
@@ -218,11 +231,13 @@ class CLRCalculation(generics.GenericAPIView):
                 user_id = obj.get('user_id')
                 business_id = obj.get('business_id')
                 donation_amount = obj.get('donation_amount')
-
-                user_match_amount, business_matched_clr_amount = calculate_clr_match(
-                    user_id, business_id, donation_amount)
-                print(user_match_amount, business_matched_clr_amount)
-                clr_matches.append(user_match_amount)
+                try:
+                    user_match_amount, business_matched_clr_amount = calculate_clr_match(
+                        user_id, business_id, donation_amount)
+                    logger.debug(user_match_amount, business_matched_clr_amount)
+                    clr_matches.append(user_match_amount)
+                except ObjectDoesNotExist as e:
+                    logger.exception('Exception in Finding User or Business, ' + str(e))
 
             return Response(json.dumps({'clr_data': clr_matches}), status=status.HTTP_201_CREATED)
 
@@ -273,7 +288,7 @@ def add_business_csv(request):
         for count, row in enumerate(csv.reader(io_string, delimiter=',')):
             if count == 0 or count == 1:
                 continue
-            print('row', row[9])
+            logger.info(row)
             business = Business(
                 name=row[2],
                 owner_email=row[1],
