@@ -1,9 +1,15 @@
+import logging
+
 from firebase_admin import auth, credentials, initialize_app, _apps
 
 from rest_framework import serializers
+
 from django.contrib.auth import authenticate
+from django.core.exceptions import ObjectDoesNotExist
 
 from .models import Business, User, Donation
+
+logger = logging.getLogger(__name__)
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -88,13 +94,15 @@ class LoginTokenSerializer(serializers.Serializer):
             # backend.)
             if not user:
                 msg = 'Unable to log in with provided credentials.'
+                logger.info('Cant Authenticate User')
                 raise serializers.ValidationError(msg, code='authorization')
 
             attrs['user'] = user
             return attrs
+
         elif username and oauth_uuid:
-            user = User.objects.get(username=username)
             try:
+                user = User.objects.get(username=username)
                 if not _apps:
                     cred = credentials.Certificate(
                         '/backend/downtownapi/downtown-stimulus-firebase-adminsdk-litas-a4b3da02de.json')
@@ -118,14 +126,22 @@ class LoginTokenSerializer(serializers.Serializer):
                     attrs['user'] = user
                     return attrs
                 else:
+                    logger.info('Cant Authenticate User')
                     msg = 'Cant Login User! Invalid Credentials'
                     raise serializers.ValidationError(
                         msg, code='authorization')
 
+            except ObjectDoesNotExist as e:
+                logger.info('No Such User')
+                msg = 'Cant Login User! No Such User Found'
+                raise serializers.ValidationError(msg, code='authorization')
+
             except Exception as e:
+                logger.info('Firebase Cant Authenticate User, ' + str(e))
                 msg = 'Cant Login User! Invalid Credentials'
                 raise serializers.ValidationError(msg, code='authorization')
 
         else:
+            logger.info('API Bad Request. All params not included')
             msg = 'Must include "username" and "password" or "oauth_uuid"'
             raise serializers.ValidationError(msg, code='authorization')
