@@ -1,5 +1,5 @@
 import { Observable, defer, from } from "rxjs";
-import { mapToDonations, mapToBusinesses } from "../utils";
+import { mapToDonations, mapToBusinesses, toUrlEncoded } from "../utils";
 import { IBusiness } from "../models/Business";
 import { IUser } from "../models/User";
 import { IDonation } from "../models/Donations";
@@ -45,6 +45,21 @@ export const postUser = (user: any): Observable<any> => {
   });
 };
 
+export const loginUser = (email: any, oauth_uuid: string): Observable<any> => {
+  return defer(() => {
+    return from<Promise<any>>(
+      fetch(`${ROOT_URL}/api-token-auth/`, {
+        headers: { "Content-Type": "application/json; charset=utf-8" },
+        method: "POST",
+        body: JSON.stringify({
+          username: email,
+          oauth_uuid,
+        }),
+      })
+    );
+  });
+};
+
 export const updateUser = (id: string, user: any): Observable<any> => {
   return defer(() => {
     return from<Promise<any>>(
@@ -74,6 +89,48 @@ export const postDonations = (donations: any): Observable<any> => {
         headers: { "Content-Type": "application/json; charset=utf-8" },
         method: "POST",
         body: JSON.stringify(donations),
+      })
+    );
+  });
+};
+
+export const getClrMatchingAmount = (
+  donationsDetails: any
+): Observable<any> => {
+  return defer(() => {
+    return from<Promise<any>>(
+      fetch(`${ROOT_URL}/clramountaggregation/`, {
+        headers: { "Content-Type": "application/json; charset=utf-8" },
+        method: "POST",
+        body: JSON.stringify(donationsDetails),
+      })
+    );
+  });
+};
+
+export const getClientSecretKey = (amount: number, stripeAccountId: string) => {
+  return defer(() => {
+    return from<Promise<any>>(
+      fetch(`https://api.stripe.com/v1/payment_intents`, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Stripe-Account": stripeAccountId,
+          Authorization:
+            "Bearer sk_test_51GqkJHIvBq7cPOzZGDx0sDolQSjRI8JxEaXCtv9OYAHyVmIFiOSD40ZLeUxrqbtQbVO1hZ2GyPLbahO0slTk05v900S87oiMhQ",
+        },
+        method: "POST",
+        body: toUrlEncoded({
+          "payment_method_types[]": "card",
+          amount: amount,
+          currency: "usd",
+          description: "Software development services",
+          "shipping[name]": "Jane",
+          "shipping[address][line1]": "510 Townsend St",
+          "shipping[address][postal_code]": 98140,
+          "shipping[address][city]": "San Francisco",
+          "shipping[address][state]": "CA",
+          "shipping[address][country]": "US",
+        }),
       })
     );
   });

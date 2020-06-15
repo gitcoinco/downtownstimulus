@@ -38,3 +38,13 @@ export const signInSocial = async (pType: string) => {
     console.log(errorCode, errorMessage, email, credential);
   }
 };
+
+export const getAuthToken = async () => {
+  const result = await firebase.auth().currentUser.getIdToken();
+  console.log(result);
+  return result;
+};
+
+export const logoutUser = async () => {
+  await firebase.auth().signOut();
+};

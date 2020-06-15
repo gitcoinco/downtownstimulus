@@ -10,7 +10,7 @@ function SignUp() {
       <h2 className="login-header top-margin-set">
         Create a Downtown Stimulus
       </h2>
-      <SocialLogin />
+      <SocialLogin type="signUp" />
       <p className="login-text top-margin-set">
         Or create an account with your email address!
       </p>

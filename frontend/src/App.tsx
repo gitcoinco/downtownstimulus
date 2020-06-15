@@ -4,8 +4,9 @@ import Header from "./components/Header";
 import Modal from "./components/Modal";
 import Home from "./components/Home";
 import BusinessPage from "./components/BusinessPage";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import Footer from "./components/Footer";
+import AccountInfo from "./components/AccountInfo";
 
 function App() {
   return (
@@ -17,6 +18,17 @@ function App() {
         path="/business/:id"
         exact
         render={() => <BusinessPage></BusinessPage>}
+      />
+      <Route
+        path="/account"
+        exact
+        render={() =>
+          sessionStorage.getItem("user") ? (
+            <AccountInfo></AccountInfo>
+          ) : (
+            <Redirect to="/" />
+          )
+        }
       />
       <Footer></Footer>
     </div>

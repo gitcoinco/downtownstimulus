@@ -11,7 +11,7 @@ function Login() {
       <h2 className="login-header top-margin-set">
         Login to Downtown Stimulus
       </h2>
-      <SocialLogin />
+      <SocialLogin type="login" />
       <p className="login-text top-margin-set">Or login with your email!</p>
       <div className="login-input-container top-margin-set">
         <label className="login-input-label">Email</label>

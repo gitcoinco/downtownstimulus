@@ -16,7 +16,7 @@ class User(AbstractUser):
     is_email_verified = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.get_full_name() + ' - ' + str(self.id)
+        return self.get_full_name() + ' - ' + str(self.id) + ' - ' + self.email
 
 
 class Business(models.Model):
@@ -58,6 +58,7 @@ class Donation(models.Model):
     id = models.AutoField(primary_key=True)
     round_number = models.PositiveIntegerField(blank=True, null=True)
     donation_amount = models.FloatField(blank=False, null=False)
+    matched_amount = models.DecimalField(default=1, decimal_places=4, max_digits=50)
     donor = models.ForeignKey(User, on_delete=models.CASCADE)
     recipient = models.ForeignKey(Business, on_delete=models.CASCADE)
     donation_time = models.DateTimeField(null=False, default=now)

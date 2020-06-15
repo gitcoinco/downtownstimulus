@@ -36,3 +36,45 @@
     }
   }
 }
+
+$information-phone: "only screen and (max-width : 464px)";
+$information-pad: "only screen and (max-width : 1024px) and (min-width: 464px)";
+@media #{$information-phone} {
+  .footer {
+    flex-direction: column;
+    padding: 1.5em;
+
+    .footer-container-left {
+      width: 100% !important;
+    }
+
+    .footer-container-right {
+      width: 100% !important;
+    }
+
+    .container-spacing-set {
+      padding: 0rem !important;
+      margin: 0rem !important;
+    }
+  }
+}
+
+@media #{$information-pad} {
+  .footer {
+    // flex-direction: column;
+    padding: 0em !important;
+
+    .footer-container-left {
+      width: 100% !important;
+    }
+
+    .footer-container-right {
+      width: 100% !important;
+    }
+
+    .container-spacing-set {
+      padding: 0rem !important;
+      // margin: 0rem !important;
+    }
+  }
+}

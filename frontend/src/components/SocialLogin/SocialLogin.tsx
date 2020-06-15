@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import "./SocialLogin.scss";
 import { ActionContext } from "../../hooks";
 
-function SocialLogin() {
+function SocialLogin({ type }) {
   const { googleSignIn, facebookSignIn } = useContext(ActionContext);
 
   return (
@@ -11,7 +11,7 @@ function SocialLogin() {
         <button
           type="button"
           className="login-facebook-button"
-          onClick={(e) => facebookSignIn()}
+          onClick={(e) => facebookSignIn(type)}
         >
           Login with Facebook
         </button>
@@ -20,7 +20,7 @@ function SocialLogin() {
         <button
           type="button"
           className="login-google-button"
-          onClick={(e) => googleSignIn()}
+          onClick={(e) => googleSignIn(type)}
         >
           Login with Google
         </button>

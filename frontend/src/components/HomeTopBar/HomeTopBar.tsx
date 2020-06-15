@@ -24,13 +24,13 @@ function HomeTopBar() {
             onChange={(e) => searchBusinesses(e.target.value, backupBusinesses)}
           />
         </div>
-        <div className="home-sort-container">
+        {/* <div className="home-sort-container">
           <span>Sort By:</span>
           <div className="home-sort-value">
             <span>Least Funded</span>
             <ChevronDown></ChevronDown>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
