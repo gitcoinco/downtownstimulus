@@ -12,7 +12,7 @@ function Login() {
         Login to Downtown Stimulus
       </h2>
       <SocialLogin type="login" />
-      <p className="login-text top-margin-set">Or login with your email!</p>
+      {/* <p className="login-text top-margin-set">Or login with your email!</p>
       <div className="login-input-container top-margin-set">
         <label className="login-input-label">Email</label>
         <input
@@ -24,7 +24,7 @@ function Login() {
       <div className="login-input-container top-margin-set">
         <label className="login-input-label">Password</label>
         <input type="password" className="login-input" />
-      </div>
+      </div> */}
       <div className="login-create-link-container top-margin-set">
         <a
           className="login-create-link"
@@ -33,11 +33,11 @@ function Login() {
           Need to create an account? Click here!
         </a>
       </div>
-      <div className="login-email-submit-container top-margin-set">
-        <button type="button" className="login-email-submit-button">
+      {/* <div className="login-email-submit-container top-margin-set">
+        <button type="button" className="login-email-submit-button" disabled>
           Login
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -110,7 +110,7 @@ function BusinessPageBig(props) {
                   className="business-item-progress"
                   style={{
                     width:
-                      (props.selectedBusiness.donation_received /
+                      (props.selectedBusiness.current_clr_matching_amount /
                         props.selectedBusiness.goal_amount) *
                         100 +
                       "%",
@@ -118,7 +118,13 @@ function BusinessPageBig(props) {
                 ></div>
               </div>
               <div className="business-donation-progress-labels-container">
-                <span className="business-donation-progress-label">$0</span>
+                <span className="business-donation-progress-label">
+                  $
+                  {Number.parseFloat(
+                    props.selectedBusiness.current_clr_matching_amount
+                  ).toFixed(0)}{" "}
+                  matched
+                </span>
                 <span className="business-donation-progress-label">
                   ${props.selectedBusiness.goal_amount} goal
                 </span>
@@ -161,10 +167,16 @@ function BusinessPageBig(props) {
                         10
                       </span>
                     </div>
-                    <p className="business-donation-suggestion-match">
-                      for a <b>${props.fixedDonationMatching[0].toFixed(2)}</b>{" "}
-                      match
-                    </p>
+                    <span className="business-donation-suggestion-match">
+                      for a{" "}
+                      <b>
+                        $
+                        {props.fixedDonationMatching[0].toFixed(2) < 0
+                          ? 0
+                          : props.fixedDonationMatching[0].toFixed(2)}
+                      </b>{" "}
+                      estimated match
+                    </span>
                     <div className="business-donation-suggestion-button-container top-margin-set">
                       <button
                         type="button"
@@ -187,14 +199,20 @@ function BusinessPageBig(props) {
                         50
                       </span>
                     </div>
-                    <p className="business-donation-suggestion-match">
-                      for a <b>${props.fixedDonationMatching[1].toFixed(2)}</b>{" "}
-                      match
-                    </p>
+                    <span className="business-donation-suggestion-match">
+                      for a{" "}
+                      <b>
+                        $
+                        {props.fixedDonationMatching[1].toFixed(2) < 0
+                          ? 0
+                          : props.fixedDonationMatching[1].toFixed(2)}
+                      </b>{" "}
+                      estimated match
+                    </span>
                     <div className="business-donation-suggestion-button-container top-margin-set">
                       <button
                         type="button"
-                        className="business-donation-suggestion-button business-donation-best-match-button "
+                        className="business-donation-suggestion-button"
                         onClick={(e) => {
                           props.setDonationAmountState(50);
                           props.setModalConfig(true, { type: "payment" });
@@ -213,10 +231,16 @@ function BusinessPageBig(props) {
                         100
                       </span>
                     </div>
-                    <p className="business-donation-suggestion-match">
-                      for a <b>${props.fixedDonationMatching[2].toFixed(2)}</b>{" "}
-                      match
-                    </p>
+                    <span className="business-donation-suggestion-match">
+                      for a{" "}
+                      <b>
+                        $
+                        {props.fixedDonationMatching[2].toFixed(2) < 0
+                          ? 0
+                          : props.fixedDonationMatching[2].toFixed(2)}
+                      </b>{" "}
+                      estimated match
+                    </span>
                     <div className="business-donation-suggestion-button-container top-margin-set">
                       <button
                         type="button"
@@ -254,7 +278,10 @@ function BusinessPageBig(props) {
                   <p className="business-donation-custom-match bottom-margin-set">
                     for a{" "}
                     <span className="business-donation-custom-match-amount">
-                      ${props.customDonationMatching[0].toFixed(2)}
+                      $
+                      {props.customDonationMatching[0].toFixed(2) < 0
+                        ? 0
+                        : props.customDonationMatching[0].toFixed(2)}
                     </span>{" "}
                     match
                   </p>
