@@ -9,4 +9,4 @@ WORKDIR /backend
 
 RUN pip install -r requirements.txt
 
-RUN python3 /downtownapi/manage.py collectstatic
+# RUN python3 /downtownapi/manage.py collectstatic
