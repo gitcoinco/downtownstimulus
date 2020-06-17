@@ -1,16 +1,5 @@
 import { IBusiness } from "../models/Business";
 import { IDonation } from "../models/Donations";
-import { IUser } from "../models/User";
-import {
-  Globe,
-  Facebook,
-  Instagram,
-  Target,
-  CornerRightUp,
-  DollarSign,
-  Home,
-  Share2,
-} from "react-feather";
 
 export const mapToBusinesses = (businesses: IBusiness[]): IBusiness[] => {
   return businesses.map(mapToBusiness);
