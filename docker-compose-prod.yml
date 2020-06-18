@@ -10,6 +10,7 @@ services:
       - "5432:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
+    restart: always
 
   api:
     build:
@@ -22,30 +23,42 @@ services:
       - db
     volumes:
       - ./backend:/backend
+      - ./scripts:/scripts
+    working_dir: /backend/downtownapi/
     environment:
       - SENDGRID_KEY=$SENDGRID_KEY
+      - PRODUCTION=True
+      - STRIPE_KEY=$STRIPE_KEY
+      - STRIPE_WEBHOOK_KEY=$STRIPE_WEBHOOK_KEY
+      - DJANGO_SECRET_KEY=$DJANGO_SECRET_KEY
+      - DATABASE_PASSWORD=$DATABASE_PASSWORD
+      - FIREBASE_CONFIGURATION=$FIREBASE_CONFIGURATION
+    restart: always
 
-  web:
-    image: node
-    command: bash /scripts/deploy/web_deploy.sh
-    volumes:
-    - ./frontend:/frontend
-    - ./scripts:/scripts
-    working_dir: /frontend
-    depends_on:
-      - api
-    stdin_open: true
+
+#  web:
+#    image: node
+#    command: bash /scripts/deploy/web_deploy.sh
+#    volumes:
+#    - ./frontend:/frontend
+#    - ./scripts:/scripts
+#    working_dir: /frontend
+#    depends_on:
+#      - api
+#    stdin_open: true
+#    restart: always
 
   nginx:
-    image: nginx:latest
+    image: ethifylabs/downtownstimulus
     ports:
       - "80:80"
     volumes:
       - ./nginx/nginx-proxy.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./frontend/build:/var/www/frontend
+#      - ./frontend/build:/var/www/frontend
       - ./backend/downtownapi/static:/var/www/backend
     depends_on:
-      - web
+      - api
+    restart: always
 
 volumes:
   db-data:
