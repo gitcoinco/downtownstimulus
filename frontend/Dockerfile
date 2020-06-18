@@ -7,4 +7,5 @@ COPY scripts/ /scripts
 WORKDIR /frontend
 
 EXPOSE 3000
+
 RUN yarn

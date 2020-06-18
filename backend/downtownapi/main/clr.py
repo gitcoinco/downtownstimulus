@@ -184,7 +184,11 @@ def calculate_clr_match(user_id, business_id, donation_amount):
     business = Business.objects.get(pk=business_id)
     current_clr_amount = business.current_clr_matching_amount
 
-    user_match_amount = matched_clr_amount - float(current_clr_amount)
+    if float(current_clr_amount) == matched_clr_amount:
+        user_match_amount = 0
+    else:
+        user_match_amount = matched_clr_amount - float(current_clr_amount)
+
     print('user_match_amount', user_match_amount)
 
     return user_match_amount, matched_clr_amount
