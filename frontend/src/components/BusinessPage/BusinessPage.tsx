@@ -66,12 +66,13 @@ function BusinessPage() {
   }, [id, user]);
 
   const getExpenditureIcons = (type: string) => {
-    switch (type) {
-      case "Employee Salaries":
+    console.log(type);
+    switch (type.trim().toLowerCase()) {
+      case "employee salaries":
         return <DollarSign />;
-      case "Rent":
+      case "rent":
         return <Home />;
-      case "Inventory":
+      case "inventory":
         return <Globe />;
     }
   };

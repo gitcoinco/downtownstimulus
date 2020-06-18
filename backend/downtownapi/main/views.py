@@ -41,9 +41,9 @@ class RootView(APIView):
 
 class UserList(mixins.CreateModelMixin,
                generics.GenericAPIView):
-
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
     # permission_classes = (UserPermission,)
     # authentication_classes = [TokenAuthentication]
 
@@ -67,9 +67,9 @@ class UserListDetail(mixins.RetrieveModelMixin,
                      mixins.UpdateModelMixin,
                      mixins.DestroyModelMixin,
                      generics.GenericAPIView):
-
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
     # permission_classes = (UserPermission,)
     # authentication_classes = [TokenAuthentication]
 
@@ -86,9 +86,9 @@ class UserListDetail(mixins.RetrieveModelMixin,
 class BusinessList(mixins.ListModelMixin,
                    mixins.CreateModelMixin,
                    generics.GenericAPIView):
-
     queryset = Business.objects.all()
     serializer_class = BusinessSerializer
+
     # permission_classes = (BusinessPermission,)
     # authentication_classes = [TokenAuthentication]
 
@@ -103,9 +103,9 @@ class BusinessListDetail(mixins.RetrieveModelMixin,
                          mixins.UpdateModelMixin,
                          mixins.DestroyModelMixin,
                          generics.GenericAPIView):
-
     queryset = Business.objects.all()
     serializer_class = BusinessSerializer
+
     # permission_classes = (BusinessPermission,)
     # authentication_classes = [TokenAuthentication]
 
@@ -120,9 +120,9 @@ class BusinessListDetail(mixins.RetrieveModelMixin,
 
 
 class DonationList(generics.GenericAPIView):
-
     queryset = Donation.objects.all()
     serializer_class = DonationSerializer
+
     # permission_classes = (DonationPermission, )
     # authentication_classes = [TokenAuthentication]
 
@@ -157,7 +157,8 @@ class DonationList(generics.GenericAPIView):
             donation_amount = int(payment_intent['amount']) / 100
             user_email = payment_intent['charges']['data'][0]['billing_details']['email']
 
-            logger.info(f'Payment Received {transaction_id} for Business with Stripe ID - {connected_account_id}, For Amount - {donation_amount} by User - {user_email}')
+            logger.info(
+                f'Payment Received {transaction_id} for Business with Stripe ID - {connected_account_id}, For Amount - {donation_amount} by User - {user_email}')
 
             try:
                 user = User.objects.get(email=user_email)
@@ -170,7 +171,8 @@ class DonationList(generics.GenericAPIView):
                 business = Business.objects.get(stripe_id=connected_account_id)
             except ObjectDoesNotExist as e:
                 logger.exception(e)
-                logger.error(f'No Matching Business Found for The Donation {transaction_id} by User Email - {user_email}')
+                logger.error(
+                    f'No Matching Business Found for The Donation {transaction_id} by User Email - {user_email}')
                 return Response(json.dumps({"success": False}), status=status.HTTP_406_NOT_ACCEPTABLE)
 
             if user and business:
@@ -194,6 +196,9 @@ class DonationList(generics.GenericAPIView):
 
                 donation_obj.save()
 
+                if clr_match_amount == 0:
+                    business.cap_reached = True
+
                 business.current_clr_matching_amount = business_total_matched_clr_amount
                 business_current_donation = business.donation_received
                 business_new_donation = business_current_donation + donation_amount
@@ -208,9 +213,9 @@ class DonationListDetail(mixins.RetrieveModelMixin,
                          mixins.UpdateModelMixin,
                          mixins.DestroyModelMixin,
                          generics.GenericAPIView):
-
     queryset = Donation.objects.all()
     serializer_class = DonationSerializer
+
     # permission_classes = (DonationPermission,)
     # authentication_classes = [TokenAuthentication]
 
@@ -219,7 +224,6 @@ class DonationListDetail(mixins.RetrieveModelMixin,
 
 
 class CLRCalculation(generics.GenericAPIView):
-
     serializer_class = CLRManySerializer
 
     def post(self, request):
@@ -258,7 +262,6 @@ def activate(request, uidb64, token):
 
 
 class CustomAuthToken(ObtainAuthToken):
-
     serializer_class = LoginTokenSerializer
 
     def post(self, request, *args, **kwargs):

@@ -14,14 +14,16 @@
     flex-direction: column;
     .business-item-cover-bottom-border {
       height: 4.67px;
-      width: calc(100% - 1px);
+      width: 100%;
       background: var(--backgroundGradient);
-      margin-top: -5px;
-      margin-left: 1px;
+      margin-top: -4px;
+      margin-left: 0px;
     }
     .business-item-cover-image {
       width: 100%;
       height: 128px;
+      background-repeat: no-repeat;
+      background-size: cover;
     }
     .business-item-logo-image-container {
       width: 42%;

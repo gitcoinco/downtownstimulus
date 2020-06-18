@@ -8,3 +8,6 @@ COPY scripts/ /scripts
 WORKDIR /backend
 
 RUN pip install -r requirements.txt
+
+ADD . /backend/
+EXPOSE 8000

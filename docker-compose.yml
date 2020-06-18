@@ -1,5 +1,5 @@
-version: '3'
-services: 
+version: "3"
+services:
   db:
     image: postgres
     environment:
@@ -30,12 +30,12 @@ services:
       context: .
       dockerfile: ./frontend/Dockerfile
     command: yarn start
+    volumes:
+    - ./frontend:/frontend
     ports:
       - "3000:3000"
     depends_on:
       - api
-    volumes:
-      - ./frontend/src:/frontend/src
     stdin_open: true
 
 volumes:
