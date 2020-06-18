@@ -243,7 +243,8 @@ export const AppProvider = (props: any) => {
                     user,
                   });
                 } else {
-                  console.error("Error", await data.json());
+                  const error = await data.json();
+                  alert.error(error.non_field_errors.join());
                 }
               });
           }
