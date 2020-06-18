@@ -4,7 +4,7 @@ import { IBusiness } from "../models/Business";
 import { IUser } from "../models/User";
 import { IDonation } from "../models/Donations";
 
-const ROOT_URL = "http://127.0.0.1:8000";
+const ROOT_URL = "http://35.160.160.218:8000";
 
 export const fetchAllBusinesses = (): Observable<IBusiness[]> => {
   return defer(() => {

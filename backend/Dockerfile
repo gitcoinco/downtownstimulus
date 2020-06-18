@@ -9,4 +9,5 @@ WORKDIR /backend
 
 RUN pip install -r requirements.txt
 
-RUN python3 /downtownapi/manage.py collectstatic
+ADD . /backend/
+EXPOSE 8000

@@ -6,6 +6,7 @@ import { transformToUserForServer } from "../utils";
 import { setSelectedBusinessStripeAccountId } from "../config";
 import { loadStripe } from "@stripe/stripe-js";
 import { useHistory } from "react-router-dom";
+import { useAlert } from "react-alert";
 
 const actionInitialValue = {
   setModalConfig: (openModal: boolean, modalConfig: any) => {},
@@ -39,6 +40,7 @@ export const StateContext = createContext(stateInitialValue);
 
 export const AppProvider = (props: any) => {
   const history = useHistory();
+  const alert = useAlert();
   const [state, dispatch] = React.useReducer(
     (prevState: any, action: any) => {
       switch (action.type) {
@@ -158,11 +160,11 @@ export const AppProvider = (props: any) => {
                           user,
                         });
                       } else {
-                        console.log("Error", await data.json());
+                        console.error("Error", await data.json());
                       }
                     });
                 } else {
-                  console.log("Error", await data.json());
+                  console.error("Error", await data.json());
                 }
               });
           } else {
@@ -181,13 +183,14 @@ export const AppProvider = (props: any) => {
                     user,
                   });
                 } else {
-                  console.log("Error", await data.json());
+                  const error = await data.json();
+                  alert.error(error.non_field_errors.join());
                 }
               });
           }
           dispatch({ type: "TOGGLE_MODAL", openModal: false, modalConfig: {} });
         } catch (err) {
-          console.log(err.message);
+          alert.error(err.message);
         }
       },
       facebookSignIn: async (type: string) => {
@@ -221,7 +224,7 @@ export const AppProvider = (props: any) => {
                       }
                     });
                 } else {
-                  console.log("Error", await data.json());
+                  console.error("Error", await data.json());
                 }
               });
           } else {
@@ -240,13 +243,13 @@ export const AppProvider = (props: any) => {
                     user,
                   });
                 } else {
-                  console.log("Error", await data.json());
+                  console.error("Error", await data.json());
                 }
               });
           }
           dispatch({ type: "TOGGLE_MODAL", openModal: false, modalConfig: {} });
         } catch (err) {
-          console.log(err);
+          console.error(err);
         }
       },
       logoutUser: async () => {
@@ -272,7 +275,7 @@ export const AppProvider = (props: any) => {
                 user,
               });
             } else {
-              console.log("Error", await data.json());
+              console.error("Error", await data.json());
             }
           });
       },
@@ -312,7 +315,7 @@ export const AppProvider = (props: any) => {
               fixedDonationMatching: JSON.parse(matching).clr_data,
             });
           } else {
-            console.log("Error", await data.json());
+            console.error("Error", await data.json());
           }
         });
       },
@@ -333,7 +336,7 @@ export const AppProvider = (props: any) => {
               customDonationMatching: JSON.parse(matching).clr_data,
             });
           } else {
-            console.log("Error", await data.json());
+            console.error("Error", await data.json());
           }
         });
       },

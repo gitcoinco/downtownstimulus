@@ -39,11 +39,15 @@ function BusinessItem({ hii, business }: any) {
       onClick={(e) => selectBusiness(business.id)}
     >
       <div className="business-item-cover-image-container">
-        <img
+        {/* <img
           src={business.cover_image}
           alt="cover-image"
           className="business-item-cover-image"
-        />
+        /> */}
+        <div
+          className="business-item-cover-image"
+          style={{ backgroundImage: `url('${business.cover_image}')` }}
+        ></div>
         <div className="business-item-cover-bottom-border"></div>
         <div className="business-item-logo-image-container" id={floatingImgId}>
           <img
@@ -64,12 +68,17 @@ function BusinessItem({ hii, business }: any) {
           className="business-item-progress"
           style={{
             width:
-              (business.donation_received / business.goal_amount) * 100 + "%",
+              (business.current_clr_matching_amount / business.goal_amount) *
+                100 +
+              "%",
           }}
         ></div>
       </div>
       <div className="business-item-progress-labels-container">
-        <span className="business-item-progress-label">$0</span>
+        <span className="business-item-progress-label">
+          ${Number.parseFloat(business.current_clr_matching_amount).toFixed(0)}{" "}
+          matched
+        </span>
         <span className="business-item-progress-label">
           ${business.goal_amount} goal
         </span>

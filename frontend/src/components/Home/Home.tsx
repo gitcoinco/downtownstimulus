@@ -14,11 +14,15 @@ function Home() {
   return (
     <div className="home">
       <HomeTopBar></HomeTopBar>
-      <ul className="business-list">
-        {businesses.map((business, i) => (
-          <BusinessItem key={i} business={business} />
-        ))}
-      </ul>
+      {businesses.length ? (
+        <ul className="business-list">
+          {businesses.map((business, i) => (
+            <BusinessItem key={i} business={business} />
+          ))}
+        </ul>
+      ) : (
+        <div className="center-text">Doesn't match any results.</div>
+      )}
     </div>
   );
 }
