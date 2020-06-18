@@ -48,7 +48,7 @@ class Business(models.Model):
     goal_amount = models.FloatField(blank=False, default=0.00)
     donation_received = models.FloatField(blank=False, default=0.00)
     current_clr_matching_amount = models.DecimalField(default=1, decimal_places=4, max_digits=50)
-    saturation = models.BooleanField(default=False)
+    cap_reached = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name + ' - ' + str(self.id)
