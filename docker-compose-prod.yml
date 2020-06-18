@@ -26,17 +26,26 @@ services:
       - SENDGRID_KEY=$SENDGRID_KEY
 
   web:
-    build:
-      context: .
-      dockerfile: ./frontend/Dockerfile
-    command: yarn start
+    image: node
+    command: bash /scripts/deploy/web_deploy.sh
     volumes:
     - ./frontend:/frontend
-    ports:
-      - "3000:3000"
+    - ./scripts:/scripts
+    working_dir: /frontend
     depends_on:
       - api
     stdin_open: true
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx-proxy.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./frontend/build:/var/www/frontend
+      - ./backend/downtownapi/static:/var/www/backend
+    depends_on:
+      - web
 
 volumes:
   db-data:
