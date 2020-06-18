@@ -136,7 +136,7 @@ class DonationList(generics.GenericAPIView):
         signature = request.headers.get("Stripe-Signature")
         try:
             event = stripe.Webhook.construct_event(
-                payload=payload, sig_header=signature, secret='whsec_6U2PlHClnA3YEcpChiEPOzdvmiQsIIpE'
+                payload=payload, sig_header=signature, secret='whsec_lXZIXuHWeJBm9tafGcpNhv6f0cxbF2sx'
             )
         except ValueError as e:
             # Invalid payload.
@@ -144,7 +144,7 @@ class DonationList(generics.GenericAPIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except stripe.error.SignatureVerificationError as e:
             # Invalid Signature.
-            print(e, signature, 'whsec_6U2PlHClnA3YEcpChiEPOzdvmiQsIIpE', payload)
+            print(e, signature, 'whsec_lXZIXuHWeJBm9tafGcpNhv6f0cxbF2sx', payload)
             return Response(status=status.HTTP_400_BAD_REQUEST)
         # return self.create(request, *args, **kwargs)
         logger.info(f'Event Type is {event["type"]}')
