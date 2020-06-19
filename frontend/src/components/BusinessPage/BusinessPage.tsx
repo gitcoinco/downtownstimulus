@@ -98,7 +98,6 @@ function BusinessPage() {
         getCustomClrMatchingAmount(matchingArr2);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, user]);
 
   useEffect(() => {
@@ -106,7 +105,6 @@ function BusinessPage() {
       setModalConfig(true, { type: "qfExplainer" });
       setOpenedQfExplainerFirstTime(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getExpenditureIcons = (type: string) => {

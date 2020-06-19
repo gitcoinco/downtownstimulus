@@ -3,7 +3,7 @@ import csv
 from django.contrib import admin
 from django.http import HttpResponse
 # Register your models here.
-from .models import Business, User, Donation, Round
+from .models import Business, User, Donation, CLRRound
 
 
 class ExportCsvMixin:
@@ -54,4 +54,4 @@ class DonationRoundAdmin(admin.ModelAdmin, ExportCsvMixin):
 admin.site.register(Business, BusinessAdmin)
 admin.site.register(User, UserAdmin)
 admin.site.register(Donation, DonationAdmin)
-admin.site.register(Round, DonationRoundAdmin)
+admin.site.register(CLRRound, DonationRoundAdmin)

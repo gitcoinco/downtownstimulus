@@ -26,7 +26,6 @@ function Login() {
         <input type="password" className="login-input" />
       </div> */}
       <div className="login-create-link-container top-margin-set">
-        {/* eslint-disable-next-line */}
         <a
           className="login-create-link"
           onClick={(e) => setModalConfig(true, { type: "signUp" })}

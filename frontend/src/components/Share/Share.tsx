@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import "./Share.scss";
-import { StateContext } from "../../hooks";
+import { ActionContext, StateContext } from "../../hooks";
 import {
   TwitterShareButton,
   TwitterIcon,
@@ -12,6 +12,7 @@ import {
 import copy from "clipboard-copy";
 
 function Share() {
+  const { setModalConfig } = useContext(ActionContext);
   const { selectedBusiness } = useContext(StateContext);
   const shareUrl = "https://www.boulderfund.com/-biznumber-refname";
   const title = "Boulder Fund Share";

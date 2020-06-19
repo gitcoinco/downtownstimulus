@@ -56,7 +56,7 @@ class Business(models.Model):
         return self.name + ' - ' + str(self.id)
 
 
-class Round(models.Model):
+class CLRRound(models.Model):
     round_number = models.PositiveIntegerField(primary_key=True)
     round_status = models.CharField(choices=(('Ongoing', 'Ongoing'), ('Completed', 'Completed')), max_length=256, blank=True, null=True)
 
@@ -66,7 +66,7 @@ class Round(models.Model):
 
 class Donation(models.Model):
     id = models.AutoField(primary_key=True)
-    round_number = models.ForeignKey(Round, blank=False, null=False, default=CURRENT_ROUND, on_delete=models.CASCADE)
+    round_number = models.ForeignKey(CLRRound, blank=False, null=False, default=CURRENT_ROUND, on_delete=models.CASCADE)
     donation_amount = models.FloatField(blank=False, null=False)
     matched_amount = models.DecimalField(default=1, decimal_places=4, max_digits=50)
     donor = models.ForeignKey(User, on_delete=models.CASCADE)
