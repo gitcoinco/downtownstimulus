@@ -1,10 +1,16 @@
 import { Observable, defer, from } from "rxjs";
-import { mapToDonations, mapToBusinesses, toUrlEncoded } from "../utils";
+import {
+  mapToDonations,
+  mapToBusinesses,
+  toUrlEncoded,
+  mapToRound,
+} from "../utils";
 import { IBusiness } from "../models/Business";
 import { IUser } from "../models/User";
 import { IDonation } from "../models/Donations";
+import { IRound } from "../models/Round";
 
-const ROOT_URL = "http://api.downtownstimulus.com";
+const ROOT_URL = "https://api.downtownstimulus.com";
 
 export const fetchAllBusinesses = (): Observable<IBusiness[]> => {
   return defer(() => {
@@ -78,6 +84,16 @@ export const fetchDonations = (): Observable<IDonation[]> => {
       fetch(`${ROOT_URL}/donations/`)
         .then((res) => res.json())
         .then(mapToDonations)
+    );
+  });
+};
+
+export const getRound = (): Observable<IRound> => {
+  return defer(() => {
+    return from<Promise<IRound>>(
+      fetch(`${ROOT_URL}//current_round//`)
+        .then((res) => res.json())
+        .then(mapToRound)
     );
   });
 };

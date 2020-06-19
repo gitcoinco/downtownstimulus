@@ -129,6 +129,19 @@ function BusinessPageBig(props) {
                   ${props.selectedBusiness.goal_amount} goal
                 </span>
               </div>
+              {props.roundDetails.round_status === "Completed" && (
+                <p className="top-margin-set complete-round-content">
+                  <span role="img" aria-label="tada">
+                    🎉
+                  </span>{" "}
+                  Important Note: Round 1 of the Downtown Stimulus has closed!
+                  Thank you for your support!!{" "}
+                  <span role="img" aria-label="tada">
+                    🎉
+                  </span>
+                </p>
+              )}
+              {/* eslint-disable-next-line */}
               <a
                 className="business-donation-qf-link top-margin-set bottom-margin-set"
                 onClick={(e) =>
@@ -137,182 +150,188 @@ function BusinessPageBig(props) {
               >
                 Learn how our donation matching works
               </a>
-              <div className="business-donation-tabs">
-                <div
-                  className={`business-donation-tab-item ${
-                    props.donationType === 0 ? "selected-tab" : ""
-                  }`}
-                  onClick={(e) => props.setDonationType(0)}
-                >
-                  <span>
-                    <Target />
-                  </span>
-                  <span className="tab-text">Set Amounts</span>
-                </div>
-                <div
-                  className={`business-donation-tab-item ${
-                    props.donationType === 1 ? "selected-tab" : ""
-                  }`}
-                  onClick={(e) => props.setDonationType(1)}
-                >
-                  <span>
-                    <CornerRightUp />
-                  </span>
-                  <span className="tab-text">Custom</span>
-                </div>
-              </div>
-              {props.donationType === 0 && (
-                <div className="business-donation-suggestions-lists">
-                  <div className="business-donation-suggestion-item">
-                    <div className="business-donation-suggestion-amount-container">
-                      <span className="business-donation-suggestion-amount-sign">
-                        $
-                      </span>
-                      <span className="business-donation-suggestion-amount">
-                        10
-                      </span>
-                    </div>
-                    <span className="business-donation-suggestion-match">
-                      for a{" "}
-                      <b>
-                        $
-                        {props.fixedDonationMatching[0].toFixed(2) < 0
-                          ? 0
-                          : props.fixedDonationMatching[0].toFixed(2)}
-                      </b>{" "}
-                      estimated match
-                    </span>
-                    <div className="business-donation-suggestion-button-container top-margin-set">
-                      <button
-                        type="button"
-                        className="business-donation-suggestion-button"
-                        onClick={(e) => {
-                          props.setDonationAmountState(10);
-                          props.setModalConfig(true, { type: "payment" });
-                        }}
-                      >
-                        Donate
-                      </button>
-                    </div>
-                  </div>
-                  <div className="business-donation-suggestion-item">
-                    <div className="business-donation-suggestion-amount-container">
-                      <span className="business-donation-suggestion-amount-sign">
-                        $
-                      </span>
-                      <span className="business-donation-suggestion-amount">
-                        50
-                      </span>
-                    </div>
-                    <span className="business-donation-suggestion-match">
-                      for a{" "}
-                      <b>
-                        $
-                        {props.fixedDonationMatching[1].toFixed(2) < 0
-                          ? 0
-                          : props.fixedDonationMatching[1].toFixed(2)}
-                      </b>{" "}
-                      estimated match
-                    </span>
-                    <div className="business-donation-suggestion-button-container top-margin-set">
-                      <button
-                        type="button"
-                        className="business-donation-suggestion-button"
-                        onClick={(e) => {
-                          props.setDonationAmountState(50);
-                          props.setModalConfig(true, { type: "payment" });
-                        }}
-                      >
-                        Donate
-                      </button>
-                    </div>
-                  </div>
-                  <div className="business-donation-suggestion-item">
-                    <div className="business-donation-suggestion-amount-container">
-                      <span className="business-donation-suggestion-amount-sign">
-                        $
-                      </span>
-                      <span className="business-donation-suggestion-amount">
-                        100
-                      </span>
-                    </div>
-                    <span className="business-donation-suggestion-match">
-                      for a{" "}
-                      <b>
-                        $
-                        {props.fixedDonationMatching[2].toFixed(2) < 0
-                          ? 0
-                          : props.fixedDonationMatching[2].toFixed(2)}
-                      </b>{" "}
-                      estimated match
-                    </span>
-                    <div className="business-donation-suggestion-button-container top-margin-set">
-                      <button
-                        type="button"
-                        className="business-donation-suggestion-button"
-                        onClick={(e) => {
-                          props.setDonationAmountState(100);
-                          props.setModalConfig(true, { type: "payment" });
-                        }}
-                      >
-                        Donate
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
-              {props.donationType === 1 && (
-                <div className="business-donation-custom-container top-margin-set bottom-margin-set">
-                  <label className="business-donation-custom-label">
-                    Donate
-                  </label>
-                  <div className="business-donation-custom-input-container">
-                    <div className="business-donation-custom-input">
-                      <span className="business-donation-custom-input-label">
-                        $
-                      </span>
+              {props.roundDetails.round_status === "Ongoing" && (
+                <>
+                  <div className="business-donation-tabs">
+                    <div
+                      className={`business-donation-tab-item ${
+                        props.donationType === 0 ? "selected-tab" : ""
+                      }`}
+                      onClick={(e) => props.setDonationType(0)}
+                    >
                       <span>
-                        <DonationCustomInput
-                          handleCustomClrMatchingAmount={
-                            props.handleCustomClrMatchingAmount
-                          }
-                        />
+                        <Target />
                       </span>
+                      <span className="tab-text">Set Amounts</span>
+                    </div>
+                    <div
+                      className={`business-donation-tab-item ${
+                        props.donationType === 1 ? "selected-tab" : ""
+                      }`}
+                      onClick={(e) => props.setDonationType(1)}
+                    >
+                      <span>
+                        <CornerRightUp />
+                      </span>
+                      <span className="tab-text">Custom</span>
                     </div>
                   </div>
-                  <p className="business-donation-custom-match bottom-margin-set">
-                    for a{" "}
-                    <span className="business-donation-custom-match-amount">
-                      $
-                      {props.customDonationMatching[0].toFixed(2) < 0
-                        ? 0
-                        : props.customDonationMatching[0].toFixed(2)}
-                    </span>{" "}
-                    match
-                  </p>
-                  <div className="business-donation-donate-container top-margin-set">
+                  {props.donationType === 0 && (
+                    <div className="business-donation-suggestions-lists">
+                      <div className="business-donation-suggestion-item">
+                        <div className="business-donation-suggestion-amount-container">
+                          <span className="business-donation-suggestion-amount-sign">
+                            $
+                          </span>
+                          <span className="business-donation-suggestion-amount">
+                            10
+                          </span>
+                        </div>
+                        <span className="business-donation-suggestion-match">
+                          for a{" "}
+                          <b>
+                            $
+                            {props.fixedDonationMatching[0].toFixed(2) < 0
+                              ? 0
+                              : props.fixedDonationMatching[0].toFixed(2)}
+                          </b>{" "}
+                          estimated match
+                        </span>
+                        <div className="business-donation-suggestion-button-container top-margin-set">
+                          <button
+                            type="button"
+                            className="business-donation-suggestion-button"
+                            onClick={(e) => {
+                              props.setDonationAmountState(10);
+                              props.setModalConfig(true, { type: "payment" });
+                            }}
+                          >
+                            Donate
+                          </button>
+                        </div>
+                      </div>
+                      <div className="business-donation-suggestion-item">
+                        <div className="business-donation-suggestion-amount-container">
+                          <span className="business-donation-suggestion-amount-sign">
+                            $
+                          </span>
+                          <span className="business-donation-suggestion-amount">
+                            50
+                          </span>
+                        </div>
+                        <span className="business-donation-suggestion-match">
+                          for a{" "}
+                          <b>
+                            $
+                            {props.fixedDonationMatching[1].toFixed(2) < 0
+                              ? 0
+                              : props.fixedDonationMatching[1].toFixed(2)}
+                          </b>{" "}
+                          estimated match
+                        </span>
+                        <div className="business-donation-suggestion-button-container top-margin-set">
+                          <button
+                            type="button"
+                            className="business-donation-suggestion-button"
+                            onClick={(e) => {
+                              props.setDonationAmountState(50);
+                              props.setModalConfig(true, { type: "payment" });
+                            }}
+                          >
+                            Donate
+                          </button>
+                        </div>
+                      </div>
+                      <div className="business-donation-suggestion-item">
+                        <div className="business-donation-suggestion-amount-container">
+                          <span className="business-donation-suggestion-amount-sign">
+                            $
+                          </span>
+                          <span className="business-donation-suggestion-amount">
+                            100
+                          </span>
+                        </div>
+                        <span className="business-donation-suggestion-match">
+                          for a{" "}
+                          <b>
+                            $
+                            {props.fixedDonationMatching[2].toFixed(2) < 0
+                              ? 0
+                              : props.fixedDonationMatching[2].toFixed(2)}
+                          </b>{" "}
+                          estimated match
+                        </span>
+                        <div className="business-donation-suggestion-button-container top-margin-set">
+                          <button
+                            type="button"
+                            className="business-donation-suggestion-button"
+                            onClick={(e) => {
+                              props.setDonationAmountState(100);
+                              props.setModalConfig(true, { type: "payment" });
+                            }}
+                          >
+                            Donate
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  {props.donationType === 1 && (
+                    <div className="business-donation-custom-container top-margin-set bottom-margin-set">
+                      <label className="business-donation-custom-label">
+                        Donate
+                      </label>
+                      <div className="business-donation-custom-input-container">
+                        <div className="business-donation-custom-input">
+                          <span className="business-donation-custom-input-label">
+                            $
+                          </span>
+                          <span>
+                            <DonationCustomInput
+                              handleCustomClrMatchingAmount={
+                                props.handleCustomClrMatchingAmount
+                              }
+                            />
+                          </span>
+                        </div>
+                      </div>
+                      <p className="business-donation-custom-match bottom-margin-set">
+                        for a{" "}
+                        <span className="business-donation-custom-match-amount">
+                          $
+                          {props.customDonationMatching[0].toFixed(2) < 0
+                            ? 0
+                            : props.customDonationMatching[0].toFixed(2)}
+                        </span>{" "}
+                        match
+                      </p>
+                      <div className="business-donation-donate-container top-margin-set">
+                        <button
+                          type="button"
+                          className="business-donation-donate-button"
+                          onClick={(e) =>
+                            props.setModalConfig(true, { type: "payment" })
+                          }
+                        >
+                          <span>DONATE</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                  <div className="business-donation-share-container">
                     <button
                       type="button"
-                      className="business-donation-donate-button"
+                      className="business-donation-share-button"
                       onClick={(e) =>
-                        props.setModalConfig(true, { type: "payment" })
+                        props.setModalConfig(true, { type: "share" })
                       }
                     >
-                      <span>DONATE</span>
+                      <Share2 />
+                      <span>SHARE</span>
                     </button>
                   </div>
-                </div>
+                </>
               )}
-              <div className="business-donation-share-container">
-                <button
-                  type="button"
-                  className="business-donation-share-button"
-                  onClick={(e) => props.setModalConfig(true, { type: "share" })}
-                >
-                  <Share2 />
-                  <span>SHARE</span>
-                </button>
-              </div>
             </div>
             <div className="business-donation-details-container container-spacing-set">
               <h2>How we use the funds</h2>

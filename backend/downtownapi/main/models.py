@@ -1,10 +1,12 @@
+import os
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.timezone import now
 from django.contrib.postgres.fields import ArrayField
 
 DONATION_STATUS = (("Success", "Success"), ("Failure", "Failure"), ("Pending", "Pending"))
-
+CURRENT_ROUND = os.environ.get('CURRENT_ROUND', 1)
 
 # Create your models here.
 
@@ -54,9 +56,17 @@ class Business(models.Model):
         return self.name + ' - ' + str(self.id)
 
 
+class CLRRound(models.Model):
+    round_number = models.PositiveIntegerField(primary_key=True)
+    round_status = models.CharField(choices=(('Ongoing', 'Ongoing'), ('Completed', 'Completed')), max_length=256, blank=True, null=True)
+
+    def __str__(self):
+        return str(self.round_number) + ' + ' + self.round_status
+
+
 class Donation(models.Model):
     id = models.AutoField(primary_key=True)
-    round_number = models.PositiveIntegerField(blank=True, null=True)
+    round_number = models.ForeignKey(CLRRound, blank=False, null=False, default=CURRENT_ROUND, on_delete=models.CASCADE)
     donation_amount = models.FloatField(blank=False, null=False)
     matched_amount = models.DecimalField(default=1, decimal_places=4, max_digits=50)
     donor = models.ForeignKey(User, on_delete=models.CASCADE)

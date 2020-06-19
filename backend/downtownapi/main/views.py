@@ -2,6 +2,7 @@ import json
 import csv
 import io
 import logging
+import os
 
 import stripe
 
@@ -23,12 +24,12 @@ from rest_framework.views import APIView
 from .permissions import UserPermission, BusinessPermission, DonationPermission
 from .utils import account_activation_token
 from .clr import calculate_clr_match
-from .serializers import UserSerializer, BusinessSerializer, DonationSerializer, CLRManySerializer, LoginTokenSerializer
-from .models import User, Business, Donation
+from .serializers import UserSerializer, BusinessSerializer, DonationSerializer, CLRManySerializer, LoginTokenSerializer, RoundSerializer
+from .models import User, Business, Donation, CLRRound
 
 stripe.api_key = 'sk_test_51GqkJHIvBq7cPOzZGDx0sDolQSjRI8JxEaXCtv9OYAHyVmIFiOSD40ZLeUxrqbtQbVO1hZ2GyPLbahO0slTk05v900S87oiMhQ'
 logger = logging.getLogger(__name__)
-
+CURRENT_ROUND = os.environ.get('CURRENT_ROUND', 1)
 
 # Create your views here.
 class RootView(APIView):
@@ -312,3 +313,13 @@ def add_business_csv(request):
             business.save()
 
         return HttpResponse('Data Uploaded')
+
+
+class CLRRoundView(generics.GenericAPIView):
+    queryset = CLRRound.objects.all()
+    serializer_class = RoundSerializer
+
+    def get(self, request, *args, **kwargs):
+        data = CLRRound.objects.get(round_number=CURRENT_ROUND)
+        round_serializer = RoundSerializer(data)
+        return Response(round_serializer.data, status=status.HTTP_201_CREATED)

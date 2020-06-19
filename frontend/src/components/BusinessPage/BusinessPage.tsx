@@ -17,6 +17,7 @@ function BusinessPage() {
     setDonationAmountState,
     getCustomClrMatchingAmount,
     setOpenedQfExplainerFirstTime,
+    getClrRound,
   } = useContext(ActionContext);
   const {
     backupBusinesses,
@@ -25,12 +26,14 @@ function BusinessPage() {
     fixedDonationMatching,
     customDonationMatching,
     openedQfExplainerFirstTime,
+    roundDetails,
   } = useContext(StateContext);
 
   const [donationType, setDonationType] = useState(0);
 
   useEffect(() => {
     fetchAllBusinesses();
+    getClrRound();
     if (id) {
       selectBusiness(id);
       if (user) {
@@ -63,8 +66,7 @@ function BusinessPage() {
           },
         ];
         getCustomClrMatchingAmount(matchingArr2);
-      }
-      else {
+      } else {
         console.log("User", user);
         const matchingArr1 = [
           {
@@ -130,8 +132,7 @@ function BusinessPage() {
         },
       ];
       getCustomClrMatchingAmount(matchingArr);
-    }
-    else{
+    } else {
       console.log(donationAmount);
       const matchingArr = [
         {
@@ -141,7 +142,6 @@ function BusinessPage() {
         },
       ];
       getCustomClrMatchingAmount(matchingArr);
-
     }
   };
 
@@ -157,6 +157,7 @@ function BusinessPage() {
         handleCustomClrMatchingAmount={handleCustomClrMatchingAmount}
         customDonationMatching={customDonationMatching}
         getExpenditureIcons={getExpenditureIcons}
+        roundDetails={roundDetails}
       ></BusinessPageBig>
       <BusinessPageSmall
         selectedBusiness={selectedBusiness}
@@ -168,6 +169,7 @@ function BusinessPage() {
         handleCustomClrMatchingAmount={handleCustomClrMatchingAmount}
         customDonationMatching={customDonationMatching}
         getExpenditureIcons={getExpenditureIcons}
+        roundDetails={roundDetails}
       ></BusinessPageSmall>
       <div className="other-business-container">
         <div className="other-business-list-container">
