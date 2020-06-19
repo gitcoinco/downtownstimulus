@@ -122,9 +122,7 @@ function BusinessPage() {
           <h2 className="other-business-list-title">Other Local Businesses</h2>
           <p className="other-business-list-description">
             {" "}
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut
-            orci arcu. Integer semper lobortis eleifend. In id urna nec magna
-            blandit tempor ornare sed purus.
+            Please consider supporting these other amazing Boulder businesses!
           </p>
           <ul className="business-list">
             {backupBusinesses.map((business, i) => (
