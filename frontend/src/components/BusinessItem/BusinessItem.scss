@@ -48,6 +48,7 @@
     font-family: var(--header3Font);
     font-weight: normal;
     color: var(--header3Color);
+    transition: all 0.1s linear;
   }
 
   .business-item-description {
@@ -58,6 +59,7 @@
     line-height: 1.4em;
     font-family: var(--paragraphFont);
     flex: 1;
+    transition: all 0.1s linear;
   }
 
   .business-item-progress-container {

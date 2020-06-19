@@ -1,11 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 import "./QFExplainer.scss";
-import { ActionContext, StateContext } from "../../hooks";
 
 function QFExplainer() {
-  const { setModalConfig } = useContext(ActionContext);
-  const { selectedBusiness } = useContext(StateContext);
-
   return (
     <div className="qf-explainer">
       <h2 className="top-margin-set text-center">

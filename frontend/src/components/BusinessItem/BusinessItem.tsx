@@ -28,7 +28,7 @@ function BusinessItem({ hii, business }: any) {
           "-" + topMarginReq + "px",
           "important"
         );
-      }, 50);
+      }, 70);
     }
   }, [floatingImgId, floatingNameId]);
 
@@ -52,7 +52,7 @@ function BusinessItem({ hii, business }: any) {
         <div className="business-item-logo-image-container" id={floatingImgId}>
           <img
             src={business.logo}
-            alt="logo-image"
+            alt="logo"
             className="business-item-logo-image"
           />
         </div>

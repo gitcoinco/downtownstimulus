@@ -1,16 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router";
+import React from "react";
 import {
   Globe,
   Facebook,
   Instagram,
   Target,
   CornerRightUp,
-  DollarSign,
-  Home,
   Share2,
-  ChevronDown,
-  ChevronUp,
 } from "react-feather";
 import StickyBox from "react-sticky-box";
 import DonationCustomInput from "../DonationCustomInput";
@@ -129,6 +124,7 @@ function BusinessPageBig(props) {
                   ${props.selectedBusiness.goal_amount} goal
                 </span>
               </div>
+              {/* eslint-disable-next-line */}
               <a
                 className="business-donation-qf-link top-margin-set bottom-margin-set"
                 onClick={(e) =>
