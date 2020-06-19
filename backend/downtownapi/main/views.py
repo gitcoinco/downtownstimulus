@@ -184,8 +184,10 @@ class DonationList(generics.GenericAPIView):
                 logger.info(
                     f'CLR Amount Matched for {transaction_id}, Donation Amount {donation_amount}, Matched Amount {clr_match_amount}, Business Total Matched Amount {business_total_matched_clr_amount} by User Email {user_email}')
 
+                round = CLRRound.objects.get(round_number=CURRENT_ROUND)
+
                 donation_obj = Donation(
-                    round_number=1,
+                    round_number=round,
                     donation_amount=donation_amount,
                     matched_amount=clr_match_amount,
                     donor=user,
