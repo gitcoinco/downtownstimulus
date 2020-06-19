@@ -2,6 +2,7 @@ import json
 import csv
 import io
 import logging
+import os
 
 import stripe
 
@@ -28,7 +29,7 @@ from .models import User, Business, Donation, CLRRound
 
 stripe.api_key = 'sk_test_51GqkJHIvBq7cPOzZGDx0sDolQSjRI8JxEaXCtv9OYAHyVmIFiOSD40ZLeUxrqbtQbVO1hZ2GyPLbahO0slTk05v900S87oiMhQ'
 logger = logging.getLogger(__name__)
-
+CURRENT_ROUND = os.environ.get('CURRENT_ROUND', 1)
 
 # Create your views here.
 class RootView(APIView):
@@ -319,10 +320,6 @@ class CLRRoundView(generics.GenericAPIView):
     serializer_class = RoundSerializer
 
     def get(self, request, *args, **kwargs):
-        data = CLRRound.objects.filter(round_status='Ongoing').first()
-        data.round_number
-        print(data)
+        data = CLRRound.objects.get(round_number=CURRENT_ROUND)
         round_serializer = RoundSerializer(data)
-        print(round_serializer)
-        print(round_serializer.data)
         return Response(round_serializer.data, status=status.HTTP_201_CREATED)
