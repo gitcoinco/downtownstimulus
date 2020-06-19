@@ -20,6 +20,7 @@ const actionInitialValue = {
   setDonationAmountState: (donationAmount: number) => {},
   logoutUser: () => {},
   updateUser: (id: string, updatedUser: any) => {},
+  setOpenedQfExplainerFirstTime: (openedQfExplainerFirstTime: boolean) => {},
 };
 const stateInitialValue = {
   openModal: false,
@@ -34,6 +35,7 @@ const stateInitialValue = {
   stripePromise: null,
   fixedDonationMatching: [0, 0, 0],
   customDonationMatching: [0],
+  openedQfExplainerFirstTime: false,
 };
 export const ActionContext = createContext(actionInitialValue);
 export const StateContext = createContext(stateInitialValue);
@@ -96,6 +98,11 @@ export const AppProvider = (props: any) => {
             ...prevState,
             customDonationMatching: action.customDonationMatching,
           };
+        case "SET_OPENED_QF_EXPLAINER_FIRST_TIME":
+          return {
+            ...prevState,
+            openedQfExplainerFirstTime: action.openedQfExplainerFirstTime,
+          };
         default:
       }
     },
@@ -114,6 +121,7 @@ export const AppProvider = (props: any) => {
       stripePromise: null,
       fixedDonationMatching: [0, 0, 0],
       customDonationMatching: [0],
+      openedQfExplainerFirstTime: false,
     }
   );
 
@@ -339,6 +347,12 @@ export const AppProvider = (props: any) => {
           } else {
             console.error("Error", await data.json());
           }
+        });
+      },
+      setOpenedQfExplainerFirstTime: (openedQfExplainerFirstTime: boolean) => {
+        dispatch({
+          type: "SET_OPENED_QF_EXPLAINER_FIRST_TIME",
+          openedQfExplainerFirstTime,
         });
       },
     }),

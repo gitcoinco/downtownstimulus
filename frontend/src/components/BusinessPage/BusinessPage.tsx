@@ -16,6 +16,7 @@ function BusinessPage() {
     getFixedClrMatchingAmount,
     setDonationAmountState,
     getCustomClrMatchingAmount,
+    setOpenedQfExplainerFirstTime,
   } = useContext(ActionContext);
   const {
     backupBusinesses,
@@ -23,6 +24,7 @@ function BusinessPage() {
     user,
     fixedDonationMatching,
     customDonationMatching,
+    openedQfExplainerFirstTime,
   } = useContext(StateContext);
 
   const [donationType, setDonationType] = useState(0);
@@ -64,6 +66,13 @@ function BusinessPage() {
       }
     }
   }, [id, user]);
+
+  useEffect(() => {
+    if (!openedQfExplainerFirstTime) {
+      setModalConfig(true, { type: "qfExplainer" });
+      setOpenedQfExplainerFirstTime(true);
+    }
+  }, []);
 
   const getExpenditureIcons = (type: string) => {
     console.log(type);

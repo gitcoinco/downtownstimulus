@@ -6,6 +6,8 @@ import {
   TwitterIcon,
   FacebookShareButton,
   FacebookIcon,
+  EmailShareButton,
+  EmailIcon,
 } from "react-share";
 import copy from "clipboard-copy";
 
@@ -47,7 +49,9 @@ function Share() {
         </div>
         <div className="share-links-item">
           <div className="share-links-icon">
-            <img src={require("../../assets/mail.png")} alt="mail" />
+            <EmailShareButton url={shareUrl} subject={title} body="body">
+              <EmailIcon size={56} round />
+            </EmailShareButton>
           </div>
           <div>Mail</div>
         </div>

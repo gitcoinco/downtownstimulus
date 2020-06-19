@@ -7,6 +7,7 @@ import SignUp from "../SignUp";
 import PaymentGateway from "../PaymentGateway";
 import Share from "../Share";
 import DonationThank from "../DonationThank";
+import QFExplainer from "../QFExplainer";
 
 function Modal() {
   const { setModalConfig } = useContext(ActionContext);
@@ -35,6 +36,7 @@ function Modal() {
           {modalConfig.type === "thankYouDonation" && (
             <DonationThank></DonationThank>
           )}
+          {modalConfig.type === "qfExplainer" && <QFExplainer></QFExplainer>}
         </div>
       </div>
     </div>
