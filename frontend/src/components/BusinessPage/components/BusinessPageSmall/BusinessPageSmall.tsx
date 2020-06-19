@@ -1,13 +1,20 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router";
 import {
   Globe,
   Facebook,
   Instagram,
   Target,
   CornerRightUp,
+  DollarSign,
+  Home,
   Share2,
+  ChevronDown,
+  ChevronUp,
 } from "react-feather";
+import { ActionContext, StateContext } from "../../../../hooks";
 import DonationCustomInput from "../DonationCustomInput";
+import BusinessItem from "../../../BusinessItem";
 
 function BusinessPageSmall(props) {
   return props.selectedBusiness ? (
@@ -99,7 +106,6 @@ function BusinessPageSmall(props) {
                   ${props.selectedBusiness.goal_amount} goal
                 </span>
               </div>
-              {/* eslint-disable-next-line */}
               <a
                 className="business-donation-qf-link top-margin-set bottom-margin-set"
                 onClick={(e) =>

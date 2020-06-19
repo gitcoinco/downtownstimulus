@@ -24,7 +24,7 @@ urlpatterns = [
 
     re_path(r'^api-token-auth/', CustomAuthToken.as_view()),
 
-    path('add_business_csv', add_business_csv, name='add-business-csv'),
+    path('add_business_csv/', add_business_csv, name='add-business-csv'),
 
-    path('current_round', CLRRound.as_view(), name='current-clr-round')
+    path('current_round/', CLRRound.as_view(), name='current-clr-round')
 ]

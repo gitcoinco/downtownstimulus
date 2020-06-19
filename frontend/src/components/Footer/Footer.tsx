@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import "./Footer.scss";
+import { Link } from "react-router-dom";
 import { ActionContext } from "../../hooks";
 
 function Footer() {
@@ -13,11 +14,12 @@ function Footer() {
           Downtown Stimulus is a democratic way of funding projects. They’ve put
           together a matching pool of $30k from local philanthropists that is
           going to be distributed to downtown Boulder Businesses, to help bridge
-          the gap between normal and now. {/* eslint-disable-next-line */}
+          the gap between normal and now.{" "}
           <a onClick={(e) => setModalConfig(true, { type: "qfExplainer" })}>
             Read More
           </a>
         </p>
+
         <h3 className="top-margin-set">Legal Info</h3>
         <p className="top-margin-set bottom-margin-set">
           {" "}
@@ -34,29 +36,17 @@ function Footer() {
         <h3 className="top-margin-set">Contact & Follow</h3>
         <div className="footer-contact-container top-margin-set">
           <span className="footer-contact-icon">
-            <a
-              href={"mailto: founders@gitcoin.co"}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
+            <a href={"mailto: founders@gitcoin.co"}>
               <img src={require("../../assets/email.svg")} alt="mail" />
             </a>
           </span>
           <span className="footer-contact-icon">
-            <a
-              href={"https://twitter.com/gitcoin"}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href={"https://twitter.com/gitcoin"} target="_blank">
               <img src={require("../../assets/tw.svg")} alt="twitter" />
             </a>
           </span>
           <span className="footer-contact-icon">
-            <a
-              href={"https://medium.com/gitcoin"}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href={"https://medium.com/gitcoin"} target="_blank">
               <img src={require("../../assets/medium.svg")} alt="medium" />
             </a>
           </span>
@@ -64,20 +54,12 @@ function Footer() {
         <h3 className="top-margin-set">Logos of Sponsors</h3>
         <div className="top-margin-set bottom-margin-set">
           <div className="footer-sponsors-icon">
-            <a
-              href={"https://gitcoin.co/"}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href={"https://gitcoin.co/"} target="_blank">
               <img src={require("../../assets/image 23.png")} alt="Gitcoin" />
             </a>
           </div>
           <div className="footer-sponsors-icon">
-            <a
-              href={"https://boulderstartupweek.com/"}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href={"https://boulderstartupweek.com/"} target="_blank">
               <img
                 src={require("../../assets/image 26.png")}
                 alt="Boulder Startup Week"
@@ -85,11 +67,7 @@ function Footer() {
             </a>
           </div>
           <div className="footer-sponsors-icon">
-            <a
-              href={"https://labs.consensys.net/"}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href={"https://labs.consensys.net/"} target="_blank">
               <img
                 style={{ height: "50px" }}
                 src={
@@ -100,11 +78,7 @@ function Footer() {
             </a>
           </div>
           <div className="footer-sponsors-icon">
-            <a
-              href={"https://www.boulderdowntown.com/"}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href={"https://www.boulderdowntown.com/"} target="_blank">
               <img
                 style={{ height: "150px" }}
                 src={require("../../assets/boulderdowntown.jpg")}
