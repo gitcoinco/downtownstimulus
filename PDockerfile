@@ -1,0 +1,18 @@
+FROM node as builder
+
+RUN mkdir /frontend
+COPY frontend/ /frontend
+COPY scripts/ /scripts
+
+WORKDIR /frontend
+
+EXPOSE 3000
+
+RUN yarn
+RUN yarn build
+
+FROM nginx
+
+COPY --from=builder /frontend/build /var/www/frontend
+
+ENTRYPOINT ["nginx", "-g", "daemon off;"]

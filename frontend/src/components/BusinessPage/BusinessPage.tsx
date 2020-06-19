@@ -16,6 +16,7 @@ function BusinessPage() {
     getFixedClrMatchingAmount,
     setDonationAmountState,
     getCustomClrMatchingAmount,
+    setOpenedQfExplainerFirstTime,
   } = useContext(ActionContext);
   const {
     backupBusinesses,
@@ -23,6 +24,7 @@ function BusinessPage() {
     user,
     fixedDonationMatching,
     customDonationMatching,
+    openedQfExplainerFirstTime,
   } = useContext(StateContext);
 
   const [donationType, setDonationType] = useState(0);
@@ -62,8 +64,46 @@ function BusinessPage() {
         ];
         getCustomClrMatchingAmount(matchingArr2);
       }
+      else {
+        console.log("User", user);
+        const matchingArr1 = [
+          {
+            user_id: "1",
+            business_id: id,
+            donation_amount: 10,
+          },
+          {
+            user_id: "1",
+            business_id: id,
+            donation_amount: 50,
+          },
+          {
+            user_id: "1",
+            business_id: id,
+            donation_amount: 100,
+          },
+        ];
+
+        getFixedClrMatchingAmount(matchingArr1);
+
+        const matchingArr2 = [
+          {
+            user_id: "1",
+            business_id: id,
+            donation_amount: Number.parseFloat("1"),
+          },
+        ];
+        getCustomClrMatchingAmount(matchingArr2);
+      }
     }
   }, [id, user]);
+
+  useEffect(() => {
+    if (!openedQfExplainerFirstTime) {
+      setModalConfig(true, { type: "qfExplainer" });
+      setOpenedQfExplainerFirstTime(true);
+    }
+  }, []);
 
   const getExpenditureIcons = (type: string) => {
     console.log(type);
@@ -90,6 +130,18 @@ function BusinessPage() {
         },
       ];
       getCustomClrMatchingAmount(matchingArr);
+    }
+    else{
+      console.log(donationAmount);
+      const matchingArr = [
+        {
+          user_id: "1",
+          business_id: id,
+          donation_amount: Number.parseFloat(donationAmount),
+        },
+      ];
+      getCustomClrMatchingAmount(matchingArr);
+
     }
   };
 
@@ -122,9 +174,7 @@ function BusinessPage() {
           <h2 className="other-business-list-title">Other Local Businesses</h2>
           <p className="other-business-list-description">
             {" "}
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut
-            orci arcu. Integer semper lobortis eleifend. In id urna nec magna
-            blandit tempor ornare sed purus.
+            Please consider supporting these other amazing Boulder businesses!
           </p>
           <ul className="business-list">
             {backupBusinesses.map((business, i) => (

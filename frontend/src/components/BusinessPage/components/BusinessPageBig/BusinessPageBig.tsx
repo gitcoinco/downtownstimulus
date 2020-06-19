@@ -129,7 +129,12 @@ function BusinessPageBig(props) {
                   ${props.selectedBusiness.goal_amount} goal
                 </span>
               </div>
-              <a className="business-donation-qf-link top-margin-set bottom-margin-set">
+              <a
+                className="business-donation-qf-link top-margin-set bottom-margin-set"
+                onClick={(e) =>
+                  props.setModalConfig(true, { type: "qfExplainer" })
+                }
+              >
                 Learn how our donation matching works
               </a>
               <div className="business-donation-tabs">

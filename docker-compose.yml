@@ -24,6 +24,7 @@ services:
       - ./backend:/backend
     environment:
       - SENDGRID_KEY=$SENDGRID_KEY
+      - PRODUCTION=True
 
   web:
     build:

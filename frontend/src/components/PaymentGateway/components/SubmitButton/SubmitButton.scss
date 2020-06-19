@@ -26,7 +26,7 @@
 
 .SubmitButton:disabled {
   opacity: 0.5;
-  cursor: default;
-  background-color: #7795f8;
+  cursor: not-allowed;
+  background-color: var(--backgroundGradient);
   box-shadow: none;
 }

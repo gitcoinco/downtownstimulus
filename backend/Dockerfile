@@ -3,7 +3,6 @@ ENV PYTHONUNBUFFERED 1
 
 RUN mkdir /backend
 COPY backend/downtownapi/ /backend
-COPY scripts/ /scripts
 
 WORKDIR /backend
 
