@@ -64,6 +64,37 @@ function BusinessPage() {
         ];
         getCustomClrMatchingAmount(matchingArr2);
       }
+      else {
+        console.log("User", user);
+        const matchingArr1 = [
+          {
+            user_id: "1",
+            business_id: id,
+            donation_amount: 10,
+          },
+          {
+            user_id: "1",
+            business_id: id,
+            donation_amount: 50,
+          },
+          {
+            user_id: "1",
+            business_id: id,
+            donation_amount: 100,
+          },
+        ];
+
+        getFixedClrMatchingAmount(matchingArr1);
+
+        const matchingArr2 = [
+          {
+            user_id: "1",
+            business_id: id,
+            donation_amount: Number.parseFloat("1"),
+          },
+        ];
+        getCustomClrMatchingAmount(matchingArr2);
+      }
     }
   }, [id, user]);
 
@@ -99,6 +130,18 @@ function BusinessPage() {
         },
       ];
       getCustomClrMatchingAmount(matchingArr);
+    }
+    else{
+      console.log(donationAmount);
+      const matchingArr = [
+        {
+          user_id: "1",
+          business_id: id,
+          donation_amount: Number.parseFloat(donationAmount),
+        },
+      ];
+      getCustomClrMatchingAmount(matchingArr);
+
     }
   };
 
