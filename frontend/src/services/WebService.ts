@@ -4,7 +4,7 @@ import { IBusiness } from "../models/Business";
 import { IUser } from "../models/User";
 import { IDonation } from "../models/Donations";
 
-const ROOT_URL = "http://api.downtownstimulus.com";
+const ROOT_URL = "https://api.downtownstimulus.com";
 
 export const fetchAllBusinesses = (): Observable<IBusiness[]> => {
   return defer(() => {
