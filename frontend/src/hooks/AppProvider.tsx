@@ -21,6 +21,7 @@ const actionInitialValue = {
   logoutUser: () => {},
   updateUser: (id: string, updatedUser: any) => {},
   setOpenedQfExplainerFirstTime: (openedQfExplainerFirstTime: boolean) => {},
+  getClrRound: () => {},
 };
 const stateInitialValue = {
   openModal: false,
@@ -36,6 +37,10 @@ const stateInitialValue = {
   fixedDonationMatching: [0, 0, 0],
   customDonationMatching: [0],
   openedQfExplainerFirstTime: false,
+  roundDetails: {
+    round_number: 1,
+    round_status: "Ongoing",
+  },
 };
 export const ActionContext = createContext(actionInitialValue);
 export const StateContext = createContext(stateInitialValue);
@@ -103,6 +108,11 @@ export const AppProvider = (props: any) => {
             ...prevState,
             openedQfExplainerFirstTime: action.openedQfExplainerFirstTime,
           };
+        case "SET_ROUND_DETAILS":
+          return {
+            ...prevState,
+            roundDetails: action.roundDetails,
+          };
         default:
       }
     },
@@ -121,7 +131,15 @@ export const AppProvider = (props: any) => {
       stripePromise: null,
       fixedDonationMatching: [0, 0, 0],
       customDonationMatching: [0],
-      openedQfExplainerFirstTime: false,
+      openedQfExplainerFirstTime: sessionStorage.getItem(
+        "openedQfExplainerFirstTime"
+      )
+        ? JSON.parse(sessionStorage.getItem("openedQfExplainerFirstTime"))
+        : null,
+      roundDetails: {
+        round_number: 1,
+        round_status: "Ongoing",
+      },
     }
   );
 
@@ -350,9 +368,22 @@ export const AppProvider = (props: any) => {
         });
       },
       setOpenedQfExplainerFirstTime: (openedQfExplainerFirstTime: boolean) => {
+        sessionStorage.setItem(
+          "openedQfExplainerFirstTime",
+          JSON.stringify(openedQfExplainerFirstTime)
+        );
         dispatch({
           type: "SET_OPENED_QF_EXPLAINER_FIRST_TIME",
           openedQfExplainerFirstTime,
+        });
+      },
+      getClrRound: () => {
+        WebService.getRound().subscribe((data: any) => {
+          console.log(data);
+          dispatch({
+            type: "SET_ROUND_DETAILS",
+            roundDetails: data,
+          });
         });
       },
     }),

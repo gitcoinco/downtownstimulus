@@ -1,5 +1,6 @@
 import { IBusiness } from "../models/Business";
 import { IDonation } from "../models/Donations";
+import { IRound } from "../models/Round";
 
 export const mapToBusinesses = (businesses: IBusiness[]): IBusiness[] => {
   return businesses.map(mapToBusiness);
@@ -43,6 +44,13 @@ export const mapToDonation = (donation: IDonation): IDonation => {
     transaction_id: donation.transaction_id,
     donor: donation.donor,
     recipient: donation.recipient,
+  };
+};
+
+export const mapToRound = (round: IRound): IRound => {
+  return {
+    round_number: round.round_number,
+    round_status: round.round_status,
   };
 };
 
