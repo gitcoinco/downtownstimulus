@@ -15,16 +15,17 @@ services:
     build:
       context: .
       dockerfile: ./backend/Dockerfile
-    command: bash /scripts/deploy/api_deploy.sh
+    command: bash /scripts/deploy/api_deploy_dev.sh
     ports:
       - "8000:8000"
     depends_on:
       - db
     volumes:
       - ./backend:/backend
+      - ./scripts:/scripts
     environment:
       - SENDGRID_KEY=$SENDGRID_KEY
-      - PRODUCTION=True
+      - PRODUCTION=False
 
   web:
     build:

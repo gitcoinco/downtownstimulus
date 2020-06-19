@@ -1,5 +1,5 @@
 from django.urls import path, include, re_path
-from .views import RootView, UserList, UserListDetail, BusinessList, BusinessListDetail, DonationList, DonationListDetail, CLRCalculation, activate, CustomAuthToken, add_business_csv
+from .views import RootView, UserList, UserListDetail, BusinessList, BusinessListDetail, DonationList, DonationListDetail, CLRCalculation, activate, CustomAuthToken, add_business_csv, CLRRound
 
 urlpatterns = [
     path('', RootView.as_view(), name='root-view'),
@@ -24,5 +24,7 @@ urlpatterns = [
 
     re_path(r'^api-token-auth/', CustomAuthToken.as_view()),
 
-    path('add_business_csv', add_business_csv, name='add-business-csv')
+    path('add_business_csv', add_business_csv, name='add-business-csv'),
+
+    path('current_round', CLRRound.as_view(), name='current-clr-round')
 ]

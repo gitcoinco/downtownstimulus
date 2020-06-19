@@ -7,7 +7,7 @@ from rest_framework import serializers
 from django.contrib.auth import authenticate
 from django.core.exceptions import ObjectDoesNotExist
 
-from .models import Business, User, Donation
+from .models import Business, User, Donation, Round
 
 logger = logging.getLogger(__name__)
 
@@ -61,6 +61,12 @@ class CLRCalculationSeriaziler(serializers.Serializer):
     user_id = serializers.IntegerField()
     business_id = serializers.IntegerField()
     donation_amount = serializers.FloatField()
+
+
+class RoundSerializer(serializers.Serializer):
+    class Meta:
+        model = Round
+        fields = '__all__'
 
 
 class CLRManySerializer(serializers.Serializer):

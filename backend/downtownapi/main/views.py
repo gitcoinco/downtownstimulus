@@ -23,8 +23,8 @@ from rest_framework.views import APIView
 from .permissions import UserPermission, BusinessPermission, DonationPermission
 from .utils import account_activation_token
 from .clr import calculate_clr_match
-from .serializers import UserSerializer, BusinessSerializer, DonationSerializer, CLRManySerializer, LoginTokenSerializer
-from .models import User, Business, Donation
+from .serializers import UserSerializer, BusinessSerializer, DonationSerializer, CLRManySerializer, LoginTokenSerializer, RoundSerializer
+from .models import User, Business, Donation, Round
 
 stripe.api_key = 'sk_test_51GqkJHIvBq7cPOzZGDx0sDolQSjRI8JxEaXCtv9OYAHyVmIFiOSD40ZLeUxrqbtQbVO1hZ2GyPLbahO0slTk05v900S87oiMhQ'
 logger = logging.getLogger(__name__)
@@ -312,3 +312,13 @@ def add_business_csv(request):
             business.save()
 
         return HttpResponse('Data Uploaded')
+
+
+class CLRRound(generics.GenericAPIView):
+    queryset = Round.objects.all()
+    serializer_class = RoundSerializer
+
+    def get(self, request, *args, **kwargs):
+        round_donations = Round.objects.filter(status='Ongoing')
+        round_serializer = RoundSerializer(round_donations)
+        return Response(round_serializer.data, status=status.HTTP_201_CREATED)
