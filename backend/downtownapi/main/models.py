@@ -66,8 +66,7 @@ class CLRRound(models.Model):
 
 class Donation(models.Model):
     id = models.AutoField(primary_key=True)
-    # round_number = models.ForeignKey(CLRRound, blank=False, null=False, default=CURRENT_ROUND, on_delete=models.CASCADE)
-    round_number = models.PositiveIntegerField(blank=True, null=True)
+    round_number = models.ForeignKey(CLRRound, blank=False, null=False, default=CURRENT_ROUND, on_delete=models.CASCADE)
     donation_amount = models.FloatField(blank=False, null=False)
     matched_amount = models.DecimalField(default=1, decimal_places=4, max_digits=50)
     donor = models.ForeignKey(User, on_delete=models.CASCADE)

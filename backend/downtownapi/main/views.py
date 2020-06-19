@@ -314,12 +314,12 @@ def add_business_csv(request):
         return HttpResponse('Data Uploaded')
 
 
-class CLRRound(generics.GenericAPIView):
+class CLRRoundView(generics.GenericAPIView):
     queryset = CLRRound.objects.all()
     serializer_class = RoundSerializer
 
     def get(self, request, *args, **kwargs):
-        data = RoundNumber.objects.filter(round_status='Ongoing').first()
+        data = CLRRound.objects.filter(round_status='Ongoing').first()
         data.round_number
         print(data)
         round_serializer = RoundSerializer(data)
