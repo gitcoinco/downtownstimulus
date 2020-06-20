@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import "./CheckoutForm.scss";
-import ResetButton from "../ResetButton";
 import Field from "../Field";
 import CardField from "../CardField";
 import ErrorMessage from "../ErrorMessage";
@@ -28,6 +27,7 @@ const CheckoutForm = () => {
     } else {
       setError({ message: "Please login first" });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const handleSubmit = async (event) => {

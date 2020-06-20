@@ -1,16 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router";
+import React from "react";
 import {
   Globe,
   Facebook,
   Instagram,
   Target,
   CornerRightUp,
-  DollarSign,
-  Home,
   Share2,
-  ChevronDown,
-  ChevronUp,
 } from "react-feather";
 import StickyBox from "react-sticky-box";
 import DonationCustomInput from "../DonationCustomInput";

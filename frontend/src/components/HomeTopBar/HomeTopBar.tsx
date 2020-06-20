@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import "./HomeTopBar.scss";
 import { ActionContext, StateContext } from "../../hooks";
-import { Search, ChevronDown } from "react-feather";
+import { Search } from "react-feather";
 function HomeTopBar() {
   const { searchBusinesses } = useContext(ActionContext);
   const { searchText, backupBusinesses, roundDetails } = useContext(

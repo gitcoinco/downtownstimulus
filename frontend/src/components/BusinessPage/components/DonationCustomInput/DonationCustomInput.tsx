@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React from "react";
 
 class DonationCustomInput extends React.Component<any, any> {
   state = {

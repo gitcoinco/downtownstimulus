@@ -3,7 +3,7 @@ import "./BusinessItem.scss";
 import { Link } from "react-router-dom";
 import { ActionContext } from "../../hooks";
 
-function BusinessItem({ hii, business }: any) {
+function BusinessItem({ business }: any) {
   const { selectBusiness } = useContext(ActionContext);
 
   // dynamic styling for logo
@@ -52,7 +52,7 @@ function BusinessItem({ hii, business }: any) {
         <div className="business-item-logo-image-container" id={floatingImgId}>
           <img
             src={business.logo}
-            alt="logo-image"
+            alt="logo"
             className="business-item-logo-image"
           />
         </div>
