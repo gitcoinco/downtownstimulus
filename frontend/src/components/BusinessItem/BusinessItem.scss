@@ -114,9 +114,3 @@ $information-pad: "only screen and (max-width : 1024px) and (min-width: 464px)";
     margin: 1.5em;
   }
 }
-
-@media #{$information-pad} {
-  .business-item {
-    // margin: 0em 1.5em;
-  }
-}

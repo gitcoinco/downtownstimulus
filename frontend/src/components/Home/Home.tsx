@@ -10,6 +10,7 @@ function Home() {
 
   useEffect(() => {
     fetchAllBusinesses();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div className="home">
