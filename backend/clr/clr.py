@@ -37,8 +37,8 @@ def get_data(csv_filename, _seed=9, _num_biz=8, _contribs=1000):
     f = f.iloc[0:_contribs]
 
     # randomly populate grant ids
-    np.random.seed(_seed)
-    f['grant_id'] = np.random.choice(selected_ids, size=len(f))
+    # np.random.seed(_seed)
+    # f['grant_id'] = np.random.choice(selected_ids, size=len(f))
 
     # numeric to str
     f.loc[:, 'grant_id'] = f.loc[:, 'grant_id'].astype(str)
@@ -119,7 +119,7 @@ def aggregate_contributions(grant_contributions):
         saturation point
             boolean
 '''
-def calculate_clr(aggregated_contributions, _cap=6250, total_pot=25000.0):
+def calculate_clr(aggregated_contributions, _cap=8000, total_pot=25000.0):
     saturation_point = False
     bigtot = 0
     totals = []
@@ -141,6 +141,7 @@ def calculate_clr(aggregated_contributions, _cap=6250, total_pot=25000.0):
         # results for total
         totals.append({'id': proj, 'clr_amount': clr_amount})
         bigtot += clr_amount
+        
 
     # warn if sataurated
     if bigtot >= total_pot:
@@ -151,7 +152,7 @@ def calculate_clr(aggregated_contributions, _cap=6250, total_pot=25000.0):
 
 
 if __name__ == '__main__':
-    data = get_data('sample_data.csv', _contribs=141)  # 142
+    data = get_data('testing.csv', _contribs=200)  # 142
     data_agg = aggregate_contributions(data)
     totals, bigtot, sp = calculate_clr(data_agg)
     print(f'past saturation point?: {sp} w/ total pot @ {bigtot}')
