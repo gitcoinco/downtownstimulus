@@ -16,11 +16,12 @@ function BusinessPageBig(props) {
       <div className="business-page-container-big">
         <div className="business-details-container">
           <div className="business-details-header-container">
-            <img
-              src={props.selectedBusiness.main_business_image}
-              alt="cover"
+            <div
               className="business-details-cover-image"
-            />
+              style={{
+                background: `linear-gradient(360deg, rgba(0, 0, 0, 0.49) 0%, rgba(0, 0, 0, 0) 94.89%), url(${props.selectedBusiness.main_business_image})`,
+              }}
+            ></div>
             <div className="business-details-cover-bottom-border"></div>
             <div className="business-details-floating-container">
               <img

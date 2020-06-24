@@ -16,7 +16,6 @@ function BusinessPage() {
     getFixedClrMatchingAmount,
     setDonationAmountState,
     getCustomClrMatchingAmount,
-    setOpenedQfExplainerFirstTime,
     getClrRound,
   } = useContext(ActionContext);
   const {
@@ -25,7 +24,6 @@ function BusinessPage() {
     user,
     fixedDonationMatching,
     customDonationMatching,
-    openedQfExplainerFirstTime,
     roundDetails,
   } = useContext(StateContext);
 
@@ -37,7 +35,6 @@ function BusinessPage() {
     if (id) {
       selectBusiness(id);
       if (user) {
-        console.log("User", user);
         const matchingArr1 = [
           {
             user_id: user.id,
@@ -100,14 +97,6 @@ function BusinessPage() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, user]);
-
-  useEffect(() => {
-    if (!openedQfExplainerFirstTime) {
-      setModalConfig(true, { type: "qfExplainer" });
-      setOpenedQfExplainerFirstTime(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const getExpenditureIcons = (type: string) => {
     console.log(type);

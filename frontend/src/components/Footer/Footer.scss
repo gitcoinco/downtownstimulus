@@ -31,8 +31,11 @@
       display: inline-block;
       margin-right: 4em;
       margin-bottom: 1em;
-      width: 200px;
       cursor: pointer;
+
+      .footer-partner-logo {
+        width: 140px;
+      }
     }
   }
 }

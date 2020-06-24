@@ -20,7 +20,6 @@ const actionInitialValue = {
   setDonationAmountState: (donationAmount: number) => {},
   logoutUser: () => {},
   updateUser: (id: string, updatedUser: any) => {},
-  setOpenedQfExplainerFirstTime: (openedQfExplainerFirstTime: boolean) => {},
   getClrRound: () => {},
 };
 const stateInitialValue = {
@@ -36,7 +35,6 @@ const stateInitialValue = {
   stripePromise: null,
   fixedDonationMatching: [0, 0, 0],
   customDonationMatching: [0],
-  openedQfExplainerFirstTime: false,
   roundDetails: {
     round_number: 1,
     round_status: "Ongoing",
@@ -103,11 +101,6 @@ export const AppProvider = (props: any) => {
             ...prevState,
             customDonationMatching: action.customDonationMatching,
           };
-        case "SET_OPENED_QF_EXPLAINER_FIRST_TIME":
-          return {
-            ...prevState,
-            openedQfExplainerFirstTime: action.openedQfExplainerFirstTime,
-          };
         case "SET_ROUND_DETAILS":
           return {
             ...prevState,
@@ -131,11 +124,6 @@ export const AppProvider = (props: any) => {
       stripePromise: null,
       fixedDonationMatching: [0, 0, 0],
       customDonationMatching: [0],
-      openedQfExplainerFirstTime: sessionStorage.getItem(
-        "openedQfExplainerFirstTime"
-      )
-        ? JSON.parse(sessionStorage.getItem("openedQfExplainerFirstTime"))
-        : null,
       roundDetails: {
         round_number: 1,
         round_status: "Ongoing",
@@ -365,16 +353,6 @@ export const AppProvider = (props: any) => {
           } else {
             console.error("Error", await data.json());
           }
-        });
-      },
-      setOpenedQfExplainerFirstTime: (openedQfExplainerFirstTime: boolean) => {
-        sessionStorage.setItem(
-          "openedQfExplainerFirstTime",
-          JSON.stringify(openedQfExplainerFirstTime)
-        );
-        dispatch({
-          type: "SET_OPENED_QF_EXPLAINER_FIRST_TIME",
-          openedQfExplainerFirstTime,
         });
       },
       getClrRound: () => {
