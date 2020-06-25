@@ -1,14 +1,23 @@
 import * as firebase from "firebase/app";
 import "firebase/auth";
 
-const FIREBASE_KEY = process.env.REACT_APP_FIREBASE_KEY
-const FIREBASE_AUTH_DOMAIN = process.env.REACT_APP_FIREBASE_AUTH_DOMAIN
-const FIREBASE_DATABASE_URL = process.env.REACT_APP_FIREBASE_DATABASE_URL
-const FIREBASE_PROJECT_ID = process.env.REACT_APP_FIREBASE_PROJECT_ID
-const FIREBASE_STORAGE_BUCKET = process.env.REACT_APP_FIREBASE_STORAGE_BUCKET
-const FIREBASE_MESSAGING_SENDER_ID = process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID
-const FIREBASE_APPID = process.env.REACT_APP_FIREBASE_APPID
-const FIREBASE_MEASUREMENTID = process.env.REACT_APP_FIREBASE_MEASUREMENTID
+// const FIREBASE_KEY = process.env.REACT_APP_FIREBASE_KEY
+// const FIREBASE_AUTH_DOMAIN = process.env.REACT_APP_FIREBASE_AUTH_DOMAIN
+// const FIREBASE_DATABASE_URL = process.env.REACT_APP_FIREBASE_DATABASE_URL
+// const FIREBASE_PROJECT_ID = process.env.REACT_APP_FIREBASE_PROJECT_ID
+// const FIREBASE_STORAGE_BUCKET = process.env.REACT_APP_FIREBASE_STORAGE_BUCKET
+// const FIREBASE_MESSAGING_SENDER_ID = process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID
+// const FIREBASE_APPID = process.env.REACT_APP_FIREBASE_APPID
+// const FIREBASE_MEASUREMENTID = process.env.REACT_APP_FIREBASE_MEASUREMENTID
+
+const FIREBASE_KEY = 'AIzaSyDQaEt__JE2N8VpOHyDms4gdBcCrbpMe3g'
+const FIREBASE_AUTH_DOMAIN = 'downtown-stimulus.firebaseapp.com'
+const FIREBASE_DATABASE_URL = 'https://downtown-stimulus.firebaseio.com'
+const FIREBASE_PROJECT_ID = 'downtown-stimulus'
+const FIREBASE_STORAGE_BUCKET = 'downtown-stimulus.appspot.com'
+const FIREBASE_MESSAGING_SENDER_ID = '441301072810'
+const FIREBASE_APPID = '1:441301072810:web:bf6c5f83f7bd7f9b6ec9d3'
+const FIREBASE_MEASUREMENTID = 'G-9GZG7Y792M'
 
 const firebaseConfig = {
     apiKey: FIREBASE_KEY,
@@ -20,6 +29,8 @@ const firebaseConfig = {
     appId: FIREBASE_APPID,
     measurementId: FIREBASE_MEASUREMENTID
 };
+
+console.log('firebaseConfig', firebaseConfig)
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
