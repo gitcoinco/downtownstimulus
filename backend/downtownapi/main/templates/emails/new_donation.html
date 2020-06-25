@@ -1,18 +1,17 @@
 {% extends 'emails/base.html' %}
 {% block content %}
 
-    [HEADER IMAGE]
+    <img src="https://api.downtownstimulus.com/static/Header.png">
 
-Hey, {{ user_name }},
+    <h4>Hey, {{ user_name }},</h4>
 
-Thank you for donating {{ donation_amount }} to {{ donation_recipient }} and for supporting your local Boulder community.
+    <p>Thank you for donating {{ donation_amount }} to {{ donation_recipient }} and for supporting your local Boulder community.</p>
 
-Don’t stop now! Consider donating to the other businesses in our pilot, and definitely spread the word about our program so we can make the most impact to our local community. Remember, our matching mechanism is most powerful when more people donate, even if they only donate $1!
+    <p>Don’t stop now! Consider donating to the other businesses in our pilot, and definitely spread the word about our program so we can make the most impact to our local community. Remember, our matching mechanism is most powerful when more people donate, even if they only donate $1!</p>
 
-[LINK TO SHARING STUFF]
-Your continued support is making all the difference -- can’t wait to “see” you around downtown!
+    <p>Your continued support is making all the difference -- can’t wait to “see” you around downtown!</p>
 
-Downtown Stimulus team
+    <p>Downtown Stimulus team</p>
 
 
 {% endblock %}
