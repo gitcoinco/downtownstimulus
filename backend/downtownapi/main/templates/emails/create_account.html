@@ -2,8 +2,26 @@
 {% block content %}
 
 <div>
-    <h5 style="color: blue">Thanks for creating your account {{ user_name }}</h5>
-    Please click on the link to confirm your registration,http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+    [HEADER IMAGE]
+    <h4>Hi, {{ user_name }}</h4>
+    <p>Welcome to the Downtown Stimulus project! Thank you for taking an interest in supporting Boulder businesses through this pilot. Use the link below to login to your account so you can get started donating.</p>
+
+[LINK TO MAIN BUSINESS PAGE]
+
+    <p>As a reminder, your donated dollars will be supercharged from a matching fund of $30,000 using a unique matching algorithm called Quadratic Funding. Learn more about how we’re matching your contributions below:</p>
+
+[LINK TO QUADRATIC FUNDING VIDEO]
+
+    <p>Spread the word about our pilot, which runs through July 3. Every donation counts and the more friends who donate, the more impactful the matched donation will be.</p>
+
+[LINK TO SHARING STUFF]
+
+    <p>Thanks for supporting your Boulder businesses!</p>
+
+    <p>The Downtown Stimulus team</p>
+    {% if token %}
+    <p>Please click on the link to confirm your registration,{{ domain }}{% url 'activate' uidb64=uid token=token %}</p>
+    {% endif %}
 </div>
 
 {% endblock %}
