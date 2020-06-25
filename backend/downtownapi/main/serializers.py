@@ -37,7 +37,9 @@ class UserSerializer(serializers.ModelSerializer):
                 first_name=validated_data.get('first_name', ''),
                 last_name=validated_data.get('last_name', ''),
                 username=validated_data.get('email', ''),
-                email=validated_data.get('email', '')
+                email=validated_data.get('email', ''),
+                is_active=True,
+
             )
             user.set_password(validated_data['password'])
             user.save()
@@ -107,21 +109,23 @@ class LoginTokenSerializer(serializers.Serializer):
             return attrs
 
         elif username and oauth_uuid:
+            if not _apps:
+                cred = credentials.Certificate(
+                    '/backend/downtownapi/downtown-stimulus-firebase-adminsdk-litas-a4b3da02de.json')
+
+                default_app = initialize_app(cred, {
+                    'apiKey': "AIzaSyDQaEt__JE2N8VpOHyDms4gdBcCrbpMe3g",
+                    'authDomain': "downtown-stimulus.firebaseapp.com",
+                    'databaseURL': "https://downtown-stimulus.firebaseio.com",
+                    'projectId': "downtown-stimulus",
+                    'storageBucket': "downtown-stimulus.appspot.com",
+                    'messagingSenderId': "441301072810",
+                    'appId': "1:441301072810:web:bf6c5f83f7bd7f9b6ec9d3",
+                    'measurementId': "G-9GZG7Y792M"
+                })
             try:
                 user = User.objects.get(username=username)
-                if not _apps:
-                    cred = credentials.Certificate(
-                        '/backend/downtownapi/downtown-stimulus-firebase-adminsdk-litas-a4b3da02de.json')
-                    default_app = initialize_app(cred, {
-                        'apiKey': "AIzaSyDQaEt__JE2N8VpOHyDms4gdBcCrbpMe3g",
-                        'authDomain': "downtown-stimulus.firebaseapp.com",
-                        'databaseURL': "https://downtown-stimulus.firebaseio.com",
-                        'projectId': "downtown-stimulus",
-                        'storageBucket': "downtown-stimulus.appspot.com",
-                        'messagingSenderId': "441301072810",
-                        'appId': "1:441301072810:web:bf6c5f83f7bd7f9b6ec9d3",
-                        'measurementId': "G-9GZG7Y792M"
-                    })
+
 
                 user_data = auth.verify_id_token(oauth_uuid)
                 print(user_data['email'], 'user_data')
@@ -138,9 +142,29 @@ class LoginTokenSerializer(serializers.Serializer):
                         msg, code='authorization')
 
             except ObjectDoesNotExist as e:
-                logger.info('No Such User')
-                msg = 'Cant Login User! No Such User Found'
-                raise serializers.ValidationError(msg, code='authorization')
+                logger.info('Firebase Cant Authenticate User, ' + str(e))
+
+                user_verify_data = auth.verify_id_token(oauth_uuid)
+                user_id = user_verify_data['user_id']
+                user_data = auth.get_user(user_id)
+                user_fullname = user_data.display_name.split(' ')
+
+                user = User.objects.create_user(
+                    first_name=user_fullname[0],
+                    last_name="".join(user_fullname[1:]),
+                    username=user_data.email,
+                    email=user_data.email,
+                    profile_pic=user_data.photo_url,
+                    phone_number=user_data.phone_number,
+                    oauth_uuid=user_data.uid,
+                    is_email_verified=True
+                )
+                user.save()
+
+                print(user)
+
+                attrs['user'] = user
+                return attrs
 
             except Exception as e:
                 logger.info('Firebase Cant Authenticate User, ' + str(e))
