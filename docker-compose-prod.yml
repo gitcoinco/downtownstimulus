@@ -84,6 +84,6 @@ services:
       - REACT_APP_FIREBASE_MEASUREMENTID=$FIREBASE_MEASUREMENTID
       - REACT_APP_STRIPE_KEY=$STRIPE_KEY
     restart: always
-x
+
 volumes:
   db-data:
