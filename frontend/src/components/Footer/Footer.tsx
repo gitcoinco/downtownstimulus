@@ -22,13 +22,11 @@ function Footer() {
         <h3 className="top-margin-set">Legal Info</h3>
         <p className="top-margin-set bottom-margin-set">
           {" "}
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut orci
-          arcu. Integer semper lobortis eleifend. In id urna nec magna blandit
-          tempor ornare sed purus. Nulla mattis magna ex, eu volutpat augue
-          volutpat non. Nam tellus est, volutpat at viverra sit amet, interdum
-          eget nulla. Nulla et tellus ut dolor lacinia egestas ut vitae urna.
-          Aliquam sit amet tempus sapien, in varius massa. Etiam iaculis dolor
-          odio, ut ultrices ex dignissim id. Nunc nec vestibulum est.{" "}
+          By accessing and using this website, you are acknowleding and agreeing
+          to Downtown Stimulus's {/* eslint-disable-next-line */}
+          <a onClick={(e) => setModalConfig(true, { type: "legalinfo" })}>
+            Terms & Conditions and Privacy Policy
+          </a>{" "}
         </p>
       </div>
       <div className="footer-container-right container-spacing-set">

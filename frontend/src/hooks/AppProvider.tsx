@@ -2,7 +2,6 @@ import React, { createContext, useMemo, useEffect } from "react";
 import { of } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { FirebaseService, WebService } from "../services";
-import { transformToUserForServer } from "../utils";
 import { setSelectedBusinessStripeAccountId } from "../config";
 import { loadStripe } from "@stripe/stripe-js";
 import { useHistory, useLocation } from "react-router-dom";
@@ -172,48 +171,48 @@ export const AppProvider = (props: any) => {
       googleSignIn: async (type: string) => {
         try {
           const result = await FirebaseService.signInSocial("google");
-          if (type === "signUp") {
-            WebService.postUser(transformToUserForServer(result.user))
-              .pipe(catchError((err) => of(`I caught: ${err}`)))
-              .subscribe(async (data) => {
-                if (data.ok) {
-                  const authToken = await FirebaseService.getAuthToken();
-                  WebService.loginUser(result.user.email, authToken)
-                    .pipe(catchError((err) => of(`I caught: ${err}`)))
-                    .subscribe(async (data) => {
-                      if (data.ok) {
-                        const user = await data.json();
-                        sessionStorage.setItem("user", JSON.stringify(user));
-                        dispatch({
-                          type: "SET_USER",
-                          user,
-                        });
-                      } else {
-                        console.error("Error", await data.json());
-                      }
-                    });
-                } else {
-                  console.error("Error", await data.json());
-                }
-              });
-          } else {
-            const authToken = await FirebaseService.getAuthToken();
-            WebService.loginUser(result.user.email, authToken)
-              .pipe(catchError((err) => of(`I caught: ${err}`)))
-              .subscribe(async (data) => {
-                if (data.ok) {
-                  const user = await data.json();
-                  sessionStorage.setItem("user", JSON.stringify(user));
-                  dispatch({
-                    type: "SET_USER",
-                    user,
-                  });
-                } else {
-                  const error = await data.json();
-                  alert.error(error.non_field_errors.join());
-                }
-              });
-          }
+          // if (type === "signUp") {
+          //   WebService.postUser(transformToUserForServer(result.user))
+          //     .pipe(catchError((err) => of(`I caught: ${err}`)))
+          //     .subscribe(async (data) => {
+          //       if (data.ok) {
+          //         const authToken = await FirebaseService.getAuthToken();
+          //         WebService.loginUser(result.user.email, authToken)
+          //           .pipe(catchError((err) => of(`I caught: ${err}`)))
+          //           .subscribe(async (data) => {
+          //             if (data.ok) {
+          //               const user = await data.json();
+          //               sessionStorage.setItem("user", JSON.stringify(user));
+          //               dispatch({
+          //                 type: "SET_USER",
+          //                 user,
+          //               });
+          //             } else {
+          //               console.error("Error", await data.json());
+          //             }
+          //           });
+          //       } else {
+          //         console.error("Error", await data.json());
+          //       }
+          //     });
+          // } else {
+          const authToken = await FirebaseService.getAuthToken();
+          WebService.loginUser(result.user.email, authToken)
+            .pipe(catchError((err) => of(`I caught: ${err}`)))
+            .subscribe(async (data) => {
+              if (data.ok) {
+                const user = await data.json();
+                sessionStorage.setItem("user", JSON.stringify(user));
+                dispatch({
+                  type: "SET_USER",
+                  user,
+                });
+              } else {
+                const error = await data.json();
+                alert.error(error.non_field_errors.join());
+              }
+            });
+          // }
           dispatch({ type: "TOGGLE_MODAL", openModal: false, modalConfig: {} });
         } catch (err) {
           alert.error(err.message);
@@ -222,48 +221,48 @@ export const AppProvider = (props: any) => {
       facebookSignIn: async (type: string) => {
         try {
           const result = await FirebaseService.signInSocial("facebook");
-          if (type === "signUp") {
-            WebService.postUser(transformToUserForServer(result.user))
-              .pipe(catchError((err) => of(`I caught: ${err}`)))
-              .subscribe(async (data) => {
-                if (data.ok) {
-                  const authToken = await FirebaseService.getAuthToken();
-                  WebService.loginUser(result.user.email, authToken)
-                    .pipe(catchError((err) => of(`I caught: ${err}`)))
-                    .subscribe(async (data) => {
-                      if (data.ok) {
-                        const user = await data.json();
-                        sessionStorage.setItem("user", JSON.stringify(user));
-                        dispatch({
-                          type: "SET_USER",
-                          user,
-                        });
-                      } else {
-                        console.log("Error", await data.json());
-                      }
-                    });
-                } else {
-                  console.error("Error", await data.json());
-                }
-              });
-          } else {
-            const authToken = await FirebaseService.getAuthToken();
-            WebService.loginUser(result.user.email, authToken)
-              .pipe(catchError((err) => of(`I caught: ${err}`)))
-              .subscribe(async (data) => {
-                if (data.ok) {
-                  const user = await data.json();
-                  sessionStorage.setItem("user", JSON.stringify(user));
-                  dispatch({
-                    type: "SET_USER",
-                    user,
-                  });
-                } else {
-                  const error = await data.json();
-                  alert.error(error.non_field_errors.join());
-                }
-              });
-          }
+          // if (type === "signUp") {
+          //   WebService.postUser(transformToUserForServer(result.user))
+          //     .pipe(catchError((err) => of(`I caught: ${err}`)))
+          //     .subscribe(async (data) => {
+          //       if (data.ok) {
+          //         const authToken = await FirebaseService.getAuthToken();
+          //         WebService.loginUser(result.user.email, authToken)
+          //           .pipe(catchError((err) => of(`I caught: ${err}`)))
+          //           .subscribe(async (data) => {
+          //             if (data.ok) {
+          //               const user = await data.json();
+          //               sessionStorage.setItem("user", JSON.stringify(user));
+          //               dispatch({
+          //                 type: "SET_USER",
+          //                 user,
+          //               });
+          //             } else {
+          //               console.log("Error", await data.json());
+          //             }
+          //           });
+          //       } else {
+          //         console.error("Error", await data.json());
+          //       }
+          //     });
+          // } else {
+          const authToken = await FirebaseService.getAuthToken();
+          WebService.loginUser(result.user.email, authToken)
+            .pipe(catchError((err) => of(`I caught: ${err}`)))
+            .subscribe(async (data) => {
+              if (data.ok) {
+                const user = await data.json();
+                sessionStorage.setItem("user", JSON.stringify(user));
+                dispatch({
+                  type: "SET_USER",
+                  user,
+                });
+              } else {
+                const error = await data.json();
+                alert.error(error.non_field_errors.join());
+              }
+            });
+          // }
           dispatch({ type: "TOGGLE_MODAL", openModal: false, modalConfig: {} });
         } catch (err) {
           console.error(err);

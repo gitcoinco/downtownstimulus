@@ -27,9 +27,12 @@ from .clr import calculate_clr_match
 from .serializers import UserSerializer, BusinessSerializer, DonationSerializer, CLRManySerializer, LoginTokenSerializer, RoundSerializer
 from .models import User, Business, Donation, CLRRound
 
-stripe.api_key = 'sk_test_51GqkJHIvBq7cPOzZGDx0sDolQSjRI8JxEaXCtv9OYAHyVmIFiOSD40ZLeUxrqbtQbVO1hZ2GyPLbahO0slTk05v900S87oiMhQ'
-logger = logging.getLogger(__name__)
+STRIPE_KEY = os.environ.get('STRIPE_KEY')
+STRIPE_WEBHOOK_KEY = os.environ.get('STRIPE_WEBHOOK_KEY')
 CURRENT_ROUND = os.environ.get('CURRENT_ROUND', 1)
+
+stripe.api_key = STRIPE_KEY
+logger = logging.getLogger(__name__)
 
 # Create your views here.
 class RootView(APIView):
@@ -45,8 +48,8 @@ class UserList(mixins.CreateModelMixin,
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-    # permission_classes = (UserPermission,)
-    # authentication_classes = [TokenAuthentication]
+    permission_classes = (UserPermission,)
+    authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
         if request.user.is_staff:
@@ -71,8 +74,8 @@ class UserListDetail(mixins.RetrieveModelMixin,
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-    # permission_classes = (UserPermission,)
-    # authentication_classes = [TokenAuthentication]
+    permission_classes = (UserPermission,)
+    authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
@@ -90,8 +93,8 @@ class BusinessList(mixins.ListModelMixin,
     queryset = Business.objects.all()
     serializer_class = BusinessSerializer
 
-    # permission_classes = (BusinessPermission,)
-    # authentication_classes = [TokenAuthentication]
+    permission_classes = (BusinessPermission,)
+    authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -107,8 +110,8 @@ class BusinessListDetail(mixins.RetrieveModelMixin,
     queryset = Business.objects.all()
     serializer_class = BusinessSerializer
 
-    # permission_classes = (BusinessPermission,)
-    # authentication_classes = [TokenAuthentication]
+    permission_classes = (BusinessPermission,)
+    authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
@@ -124,20 +127,23 @@ class DonationList(generics.GenericAPIView):
     queryset = Donation.objects.all()
     serializer_class = DonationSerializer
 
-    # permission_classes = (DonationPermission, )
-    # authentication_classes = [TokenAuthentication]
+    permission_classes = (DonationPermission, )
+    authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
         user_donations = Donation.objects.filter(donor=request.user)
         donation_serializer = DonationSerializer(user_donations, many=True)
         return Response(donation_serializer.data, status=status.HTTP_201_CREATED)
 
+
+class StripeDonations(generics.GenericAPIView):
+
     def post(self, request, *args, **kwargs):
         payload = request.body
         signature = request.headers.get("Stripe-Signature")
         try:
             event = stripe.Webhook.construct_event(
-                payload=payload, sig_header=signature, secret='whsec_lXZIXuHWeJBm9tafGcpNhv6f0cxbF2sx'
+                payload=payload, sig_header=signature, secret=STRIPE_WEBHOOK_KEY
             )
         except ValueError as e:
             # Invalid payload.
@@ -145,7 +151,7 @@ class DonationList(generics.GenericAPIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except stripe.error.SignatureVerificationError as e:
             # Invalid Signature.
-            print(e, signature, 'whsec_lXZIXuHWeJBm9tafGcpNhv6f0cxbF2sx', payload)
+            print(e, signature, STRIPE_WEBHOOK_KEY, payload)
             return Response(status=status.HTTP_400_BAD_REQUEST)
         # return self.create(request, *args, **kwargs)
         logger.info(f'Event Type is {event["type"]}')
@@ -219,8 +225,8 @@ class DonationListDetail(mixins.RetrieveModelMixin,
     queryset = Donation.objects.all()
     serializer_class = DonationSerializer
 
-    # permission_classes = (DonationPermission,)
-    # authentication_classes = [TokenAuthentication]
+    permission_classes = (DonationPermission,)
+    authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)

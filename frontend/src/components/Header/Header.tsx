@@ -39,12 +39,12 @@ function Header() {
           </>
         ) : (
           <>
-            <div
+            {/* <div
               className="profile-item"
               onClick={(e) => setModalConfig(true, { type: "signUp" })}
             >
               Create an account
-            </div>
+            </div> */}
             <div
               className="profile-item"
               onClick={(e) => setModalConfig(true, { type: "login" })}

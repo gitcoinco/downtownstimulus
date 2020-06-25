@@ -29,7 +29,7 @@ function App() {
       <Header></Header>
       <Route path="/" exact render={() => <Home></Home>} />
       <Route
-        path="/business/:id"
+        path="/business/:id/:slug"
         exact
         render={() => <BusinessPage></BusinessPage>}
       />
