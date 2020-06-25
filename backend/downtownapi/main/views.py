@@ -135,6 +135,9 @@ class DonationList(generics.GenericAPIView):
         donation_serializer = DonationSerializer(user_donations, many=True)
         return Response(donation_serializer.data, status=status.HTTP_201_CREATED)
 
+
+class StripeDonations(generics.GenericAPIView):
+
     def post(self, request, *args, **kwargs):
         payload = request.body
         signature = request.headers.get("Stripe-Signature")
