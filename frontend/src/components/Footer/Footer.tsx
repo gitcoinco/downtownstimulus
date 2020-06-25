@@ -22,7 +22,8 @@ function Footer() {
         <h3 className="top-margin-set">Legal Info</h3>
         <p className="top-margin-set bottom-margin-set">
           {" "}
-          By accessing and using this website, you are acknowleding and agreeing to Downtown Stimulus's{" "}
+          By accessing and using this website, you are acknowleding and agreeing
+          to Downtown Stimulus's {/* eslint-disable-next-line */}
           <a onClick={(e) => setModalConfig(true, { type: "legalinfo" })}>
             Terms & Conditions and Privacy Policy
           </a>{" "}

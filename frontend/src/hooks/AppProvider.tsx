@@ -2,7 +2,6 @@ import React, { createContext, useMemo, useEffect } from "react";
 import { of } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { FirebaseService, WebService } from "../services";
-import { transformToUserForServer } from "../utils";
 import { setSelectedBusinessStripeAccountId } from "../config";
 import { loadStripe } from "@stripe/stripe-js";
 import { useHistory, useLocation } from "react-router-dom";
