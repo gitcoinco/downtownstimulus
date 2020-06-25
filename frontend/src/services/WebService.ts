@@ -39,7 +39,6 @@ export const fetchUser = (id: string): Observable<IUser> => {
 };
 
 export const postUser = (user: any): Observable<any> => {
-  console.log(user);
   return defer(() => {
     return from<Promise<any>>(
       fetch(`${ROOT_URL}/users/`, {

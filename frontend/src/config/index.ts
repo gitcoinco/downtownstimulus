@@ -8,5 +8,4 @@ export const setSelectedBusinessStripeAccountId = (
   pSelectedBusinessStripeAccountId: string
 ) => {
   selectedBusinessStripeAccountId = pSelectedBusinessStripeAccountId;
-  console.log(selectedBusinessStripeAccountId);
 };

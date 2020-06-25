@@ -64,7 +64,6 @@ function BusinessPage() {
         ];
         getCustomClrMatchingAmount(matchingArr2);
       } else {
-        console.log("User", user);
         const matchingArr1 = [
           {
             user_id: "1",
@@ -99,7 +98,6 @@ function BusinessPage() {
   }, [id, user]);
 
   const getExpenditureIcons = (type: string) => {
-    console.log(type);
     switch (type.trim().toLowerCase()) {
       case "employee salaries":
         return <DollarSign />;
@@ -111,10 +109,7 @@ function BusinessPage() {
   };
 
   const handleCustomClrMatchingAmount = (donationAmount) => {
-    console.log("Logging donation change stop");
-    setDonationAmountState(donationAmount);
     if (user) {
-      console.log(donationAmount);
       const matchingArr = [
         {
           user_id: user.id,
@@ -124,7 +119,6 @@ function BusinessPage() {
       ];
       getCustomClrMatchingAmount(matchingArr);
     } else {
-      console.log(donationAmount);
       const matchingArr = [
         {
           user_id: "1",

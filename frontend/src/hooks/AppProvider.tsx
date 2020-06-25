@@ -1,11 +1,11 @@
-import React, { createContext, useMemo } from "react";
+import React, { createContext, useMemo, useEffect } from "react";
 import { of } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { FirebaseService, WebService } from "../services";
 import { transformToUserForServer } from "../utils";
 import { setSelectedBusinessStripeAccountId } from "../config";
 import { loadStripe } from "@stripe/stripe-js";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { useAlert } from "react-alert";
 
 const actionInitialValue = {
@@ -43,8 +43,13 @@ const stateInitialValue = {
 export const ActionContext = createContext(actionInitialValue);
 export const StateContext = createContext(stateInitialValue);
 
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+};
+
 export const AppProvider = (props: any) => {
   const history = useHistory();
+  const query = useQuery();
   const alert = useAlert();
   const [state, dispatch] = React.useReducer(
     (prevState: any, action: any) => {
@@ -131,9 +136,26 @@ export const AppProvider = (props: any) => {
     }
   );
 
+  useEffect(() => {
+    if (query.get("modal") === "qfExplainer") {
+      dispatch({
+        type: "TOGGLE_MODAL",
+        openModal: true,
+        modalConfig: { type: "qfExplainer" },
+      });
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const actionContext = useMemo(
     () => ({
       setModalConfig: (openModal: boolean, modalConfig: any) => {
+        if (modalConfig.type === "qfExplainer") {
+          history.push({ search: "?modal=qfExplainer" });
+        } else {
+          history.push({ search: "" });
+        }
         dispatch({ type: "TOGGLE_MODAL", openModal, modalConfig });
       },
       searchBusinesses: (searchText: string, backupBusinesses: any[]) => {
@@ -150,24 +172,17 @@ export const AppProvider = (props: any) => {
       googleSignIn: async (type: string) => {
         try {
           const result = await FirebaseService.signInSocial("google");
-          console.log(result.user, result.token);
           if (type === "signUp") {
             WebService.postUser(transformToUserForServer(result.user))
               .pipe(catchError((err) => of(`I caught: ${err}`)))
               .subscribe(async (data) => {
                 if (data.ok) {
-                  console.log("Success");
-                  const user = await data.json();
-                  console.log(user);
                   const authToken = await FirebaseService.getAuthToken();
-                  console.log("Auth Token", authToken);
                   WebService.loginUser(result.user.email, authToken)
                     .pipe(catchError((err) => of(`I caught: ${err}`)))
                     .subscribe(async (data) => {
                       if (data.ok) {
-                        console.log("Success");
                         const user = await data.json();
-                        console.log(user);
                         sessionStorage.setItem("user", JSON.stringify(user));
                         dispatch({
                           type: "SET_USER",
@@ -183,14 +198,11 @@ export const AppProvider = (props: any) => {
               });
           } else {
             const authToken = await FirebaseService.getAuthToken();
-            console.log("Auth Token", authToken);
             WebService.loginUser(result.user.email, authToken)
               .pipe(catchError((err) => of(`I caught: ${err}`)))
               .subscribe(async (data) => {
                 if (data.ok) {
-                  console.log("Success");
                   const user = await data.json();
-                  console.log(user);
                   sessionStorage.setItem("user", JSON.stringify(user));
                   dispatch({
                     type: "SET_USER",
@@ -210,24 +222,17 @@ export const AppProvider = (props: any) => {
       facebookSignIn: async (type: string) => {
         try {
           const result = await FirebaseService.signInSocial("facebook");
-          console.log(result.user, result.token);
           if (type === "signUp") {
             WebService.postUser(transformToUserForServer(result.user))
               .pipe(catchError((err) => of(`I caught: ${err}`)))
               .subscribe(async (data) => {
                 if (data.ok) {
-                  console.log("Success");
-                  const user = await data.json();
-                  console.log(user);
                   const authToken = await FirebaseService.getAuthToken();
-                  console.log("Auth Token", authToken);
                   WebService.loginUser(result.user.email, authToken)
                     .pipe(catchError((err) => of(`I caught: ${err}`)))
                     .subscribe(async (data) => {
                       if (data.ok) {
-                        console.log("Success");
                         const user = await data.json();
-                        console.log(user);
                         sessionStorage.setItem("user", JSON.stringify(user));
                         dispatch({
                           type: "SET_USER",
@@ -243,14 +248,11 @@ export const AppProvider = (props: any) => {
               });
           } else {
             const authToken = await FirebaseService.getAuthToken();
-            console.log(authToken);
             WebService.loginUser(result.user.email, authToken)
               .pipe(catchError((err) => of(`I caught: ${err}`)))
               .subscribe(async (data) => {
                 if (data.ok) {
-                  console.log("Success");
                   const user = await data.json();
-                  console.log(user);
                   sessionStorage.setItem("user", JSON.stringify(user));
                   dispatch({
                     type: "SET_USER",
@@ -281,9 +283,7 @@ export const AppProvider = (props: any) => {
           .pipe(catchError((err) => of(`I caught: ${err}`)))
           .subscribe(async (data) => {
             if (data.ok) {
-              console.log("Success");
               const user = await data.json();
-              console.log(user);
               sessionStorage.setItem("user", JSON.stringify(user));
               dispatch({
                 type: "SET_USER",
@@ -297,7 +297,6 @@ export const AppProvider = (props: any) => {
       selectBusiness: (selectedBusinessId: any) => {
         WebService.fetchSingleBusiness(selectedBusinessId).subscribe(
           (data: any) => {
-            console.log(data);
             setSelectedBusinessStripeAccountId(data.stripe_id);
             const stripePromise = loadStripe(
               "pk_test_51GqkJHIvBq7cPOzZUkq9YmaFXkqHMRGrjjR1Vtu1wgTBheRzG66nRvZABmllnsbybp9zbscThmhUzbkzKLnZM4EK005gPXOVAd",
@@ -310,7 +309,6 @@ export const AppProvider = (props: any) => {
       },
       fetchAllBusinesses: () => {
         WebService.fetchAllBusinesses().subscribe((data: any) => {
-          console.log(data);
           dispatch({ type: "SET_BUSINESS_LIST", businesses: data });
         });
       },
@@ -318,13 +316,11 @@ export const AppProvider = (props: any) => {
         dispatch({ type: "SET_DONATION_AMOUNT", donationAmount });
       },
       getFixedClrMatchingAmount: (allMatchingArrays: Array<any>) => {
-        console.log(allMatchingArrays);
         WebService.getClrMatchingAmount({
           clr_objs: allMatchingArrays,
         }).subscribe(async (data) => {
           if (data.ok) {
             const matching = await data.json();
-            console.log("Matching", JSON.parse(matching).clr_data);
             dispatch({
               type: "SET_FIXED_DONATION_MATCHING",
               fixedDonationMatching: JSON.parse(matching).clr_data,
@@ -335,17 +331,11 @@ export const AppProvider = (props: any) => {
         });
       },
       getCustomClrMatchingAmount: (allMatchingArrays: Array<any>) => {
-        console.log(allMatchingArrays);
         WebService.getClrMatchingAmount({
           clr_objs: allMatchingArrays,
         }).subscribe(async (data) => {
           if (data.ok) {
             const matching = await data.json();
-            console.log(
-              "Matching",
-              JSON.parse(matching).clr_data,
-              allMatchingArrays
-            );
             dispatch({
               type: "SET_CUSTOM_DONATION_MATCHING",
               customDonationMatching: JSON.parse(matching).clr_data,
@@ -357,7 +347,6 @@ export const AppProvider = (props: any) => {
       },
       getClrRound: () => {
         WebService.getRound().subscribe((data: any) => {
-          console.log(data);
           dispatch({
             type: "SET_ROUND_DETAILS",
             roundDetails: data,

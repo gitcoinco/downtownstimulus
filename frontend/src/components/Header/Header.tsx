@@ -9,7 +9,6 @@ function Header() {
   const { setModalConfig, logoutUser } = useContext(ActionContext);
   const { user } = useContext(StateContext);
   const [dropdownActive, setDropdownActive] = useState(false);
-  console.log(location.pathname);
   return (
     <div
       className={`header ${
