@@ -35,13 +35,13 @@ function Footer() {
         <h3 className="top-margin-set">Contact & Follow</h3>
         <div className="footer-contact-container top-margin-set">
           <span className="footer-contact-icon">
-            <a href={"mailto: founders@gitcoin.co"}>
+            <a href={"mailto: help@downtownstimulus.com"}>
               <img src={require("../../assets/email.svg")} alt="mail" />
             </a>
           </span>
           <span className="footer-contact-icon">
             <a
-              href={"https://twitter.com/gitcoin"}
+              href={"https://twitter.com/dtstimulus"}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -58,7 +58,7 @@ function Footer() {
             </a>
           </span>
         </div>
-        <h3 className="top-margin-set">Logos of Sponsors</h3>
+        <h3 className="top-margin-set">Partners</h3>
         <div className="top-margin-set bottom-margin-set">
           <div className="footer-sponsors-icon">
             <a
@@ -66,7 +66,11 @@ function Footer() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img src={require("../../assets/image 23.png")} alt="Gitcoin" />
+              <img
+                src={require("../../assets/image 23.png")}
+                alt="Gitcoin"
+                className="footer-partner-logo"
+              />
             </a>
           </div>
           <div className="footer-sponsors-icon">
@@ -78,6 +82,7 @@ function Footer() {
               <img
                 src={require("../../assets/image 26.png")}
                 alt="Boulder Startup Week"
+                className="footer-partner-logo"
               />
             </a>
           </div>
@@ -88,11 +93,11 @@ function Footer() {
               rel="noopener noreferrer"
             >
               <img
-                style={{ height: "50px" }}
                 src={
                   "https://labs.consensys.net/static/45c707c85b9d26f5c1eb2976856974a7/af144/consensys-labs-typeface-logo-white.png"
                 }
                 alt="ConsenSys Labs"
+                className="footer-partner-logo"
               />
             </a>
           </div>
@@ -103,9 +108,9 @@ function Footer() {
               rel="noopener noreferrer"
             >
               <img
-                style={{ height: "150px" }}
-                src={require("../../assets/boulderdowntown.jpg")}
+                src={require("../../assets/downtownboulderfoundation.png")}
                 alt="Boulder Down Town"
+                className="footer-partner-logo"
               />
             </a>
           </div>

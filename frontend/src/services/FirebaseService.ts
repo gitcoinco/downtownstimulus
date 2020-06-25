@@ -21,7 +21,6 @@ export const signInSocial = async (pType: string) => {
   firebase.auth().useDeviceLanguage();
   try {
     const result = await firebase.auth().signInWithPopup(provider);
-    console.log(result);
     // This gives you a Google Access Token. You can use it to access the Google API.
     var token = (result.credential.toJSON() as any).oauthAccessToken;
     // The signed-in user info.
@@ -41,7 +40,6 @@ export const signInSocial = async (pType: string) => {
 
 export const getAuthToken = async () => {
   const result = await firebase.auth().currentUser.getIdToken();
-  console.log(result);
   return result;
 };
 

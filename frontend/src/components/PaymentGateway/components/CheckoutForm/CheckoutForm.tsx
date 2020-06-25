@@ -54,9 +54,7 @@ const CheckoutForm = () => {
         selectedBusiness.stripe_id
       ).subscribe(async (data) => {
         if (data.ok) {
-          console.log("Success");
           const response = await data.json();
-          console.log(response);
           const result = await stripe.confirmCardPayment(
             response.client_secret,
             {
@@ -79,7 +77,6 @@ const CheckoutForm = () => {
               // execution. Set up a webhook or plugin to listen for the
               // payment_intent.succeeded event that handles any business critical
               // post-payment actions.
-              console.log(result.paymentIntent);
               reset();
               setModalConfig(true, { type: "thankYouDonation" });
             }
@@ -145,7 +142,7 @@ const CheckoutForm = () => {
       <SubmitButton
         processing={processing}
         error={error}
-        disabled={!stripe && !user}
+        disabled={!stripe || !user}
       >
         Pay ${donationAmount}
       </SubmitButton>

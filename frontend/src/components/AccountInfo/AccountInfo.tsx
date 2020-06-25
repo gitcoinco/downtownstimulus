@@ -18,7 +18,6 @@ function AccountInfo() {
       username: email,
       phone_number: phoneNumber,
     };
-    console.log(user.id, updatedUser);
     updateUser(user.id, updatedUser);
   };
   return (

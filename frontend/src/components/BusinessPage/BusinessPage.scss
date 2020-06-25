@@ -1,13 +1,7 @@
 .business-page {
   .business-page-container-big {
     display: flex;
-    background: linear-gradient(
-      360deg,
-      rgba(0, 0, 0, 0.49) 0%,
-      rgba(0, 0, 0, 0) 94.89%
-    );
-    background-size: auto, auto;
-    background-size: contain;
+    background: var(--grey1Color);
     justify-content: center;
     .business-details-container {
       width: 55%;
@@ -21,6 +15,8 @@
         .business-details-cover-image {
           width: 100%;
           min-height: 500px;
+          background-size: cover !important;
+          background-repeat: no-repeat !important;
         }
         .business-details-cover-bottom-border {
           height: 4.67px;
@@ -158,7 +154,6 @@
             box-sizing: border-box;
             border-radius: 1.71431px;
             position: relative;
-            cursor: pointer;
             text-align: center;
             transition: all 0.2s linear;
             &:hover {
@@ -426,6 +421,8 @@
         .business-details-cover-image {
           width: 100%;
           min-height: 500px;
+          background-size: cover !important;
+          background-repeat: no-repeat !important;
         }
         .business-details-cover-bottom-border {
           height: 4.67px;
@@ -562,7 +559,6 @@
             box-sizing: border-box;
             border-radius: 1.71431px;
             position: relative;
-            cursor: pointer;
             text-align: center;
             transition: all 0.2s linear;
             &:hover {

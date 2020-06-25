@@ -12,7 +12,6 @@ import copy from "clipboard-copy";
 function DonationThank() {
   const { selectedBusiness, user } = useContext(StateContext);
   const shareUrl = "https://www.boulderfund.com/-biznumber-refname";
-  const title = "Boulder Fund Share";
 
   const copyShareUrl = (pValue: string) => {
     copy(pValue);
@@ -46,7 +45,10 @@ function DonationThank() {
       <div className="donation-thanks-links-container top-margin-set">
         <div className="donation-thanks-links-item">
           <div className="donation-thanks-links-icon">
-            <FacebookShareButton url={shareUrl} quote={title}>
+            <FacebookShareButton
+              url={shareUrl}
+              quote={`I just donated to ${selectedBusiness.name} as part of the Downtown Stimulus pilot program! \nFollow the link to donate to the 6 Boulder businesses participating in this new fundraiser aimed at distributing philanthropic funds to local businesses during the COVID-19 pandemic.`}
+            >
               <FacebookIcon size={56} round />
             </FacebookShareButton>
           </div>
@@ -54,7 +56,10 @@ function DonationThank() {
         </div>
         <div className="donation-thanks-links-item">
           <div className="donation-thanks-links-icon">
-            <TwitterShareButton url={shareUrl} title={title}>
+            <TwitterShareButton
+              url={shareUrl}
+              title={`I just donated to ${selectedBusiness.name} as part of the Downtown Stimulus pilot program! \nFollow the link to donate to the 6 Boulder businesses participating in this new fundraising pilot! `}
+            >
               <TwitterIcon size={56} round />
             </TwitterShareButton>
           </div>

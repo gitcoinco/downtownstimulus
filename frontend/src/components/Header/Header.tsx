@@ -2,15 +2,19 @@ import React, { useContext, useState } from "react";
 import "./Header.scss";
 import { Home, ChevronDown, ChevronUp } from "react-feather";
 import { ActionContext, StateContext } from "../../hooks";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function Header() {
+  const location = useLocation();
   const { setModalConfig, logoutUser } = useContext(ActionContext);
   const { user } = useContext(StateContext);
   const [dropdownActive, setDropdownActive] = useState(false);
-
   return (
-    <div className="header">
+    <div
+      className={`header ${
+        location.pathname !== "/" ? "header-with-shadow" : ""
+      }`}
+    >
       <Link to="/" className="header-home-container">
         <Home />
       </Link>
