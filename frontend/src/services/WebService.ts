@@ -33,7 +33,15 @@ export const fetchSingleBusiness = (id: string): Observable<IBusiness> => {
 export const fetchUser = (id: string): Observable<IUser> => {
   return defer(() => {
     return from<Promise<IUser>>(
-      fetch(`${ROOT_URL}/users/${id}/`).then((res) => res.json())
+      fetch(`${ROOT_URL}/users/${id}/`, {
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+          Authorization: `Token ${
+            JSON.parse(sessionStorage.getItem("user")).token
+          }`,
+        },
+        method: "GET",
+      }).then((res) => res.json())
     );
   });
 };
@@ -69,7 +77,12 @@ export const updateUser = (id: string, user: any): Observable<any> => {
   return defer(() => {
     return from<Promise<any>>(
       fetch(`${ROOT_URL}/users/${id}/`, {
-        headers: { "Content-Type": "application/json; charset=utf-8" },
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+          Authorization: `Token ${
+            JSON.parse(sessionStorage.getItem("user")).token
+          }`,
+        },
         method: "PUT",
         body: JSON.stringify(user),
       })
@@ -80,7 +93,15 @@ export const updateUser = (id: string, user: any): Observable<any> => {
 export const fetchDonations = (): Observable<IDonation[]> => {
   return defer(() => {
     return from<Promise<IDonation[]>>(
-      fetch(`${ROOT_URL}/donations/`)
+      fetch(`${ROOT_URL}/donations/`, {
+        headers: {
+          "Content-Type": "application/json; charset=utf-8",
+          Authorization: `Token ${
+            JSON.parse(sessionStorage.getItem("user")).token
+          }`,
+        },
+        method: "GET",
+      })
         .then((res) => res.json())
         .then(mapToDonations)
     );
@@ -90,24 +111,24 @@ export const fetchDonations = (): Observable<IDonation[]> => {
 export const getRound = (): Observable<IRound> => {
   return defer(() => {
     return from<Promise<IRound>>(
-      fetch(`${ROOT_URL}//current_round//`)
+      fetch(`${ROOT_URL}/current_round/`)
         .then((res) => res.json())
         .then(mapToRound)
     );
   });
 };
 
-export const postDonations = (donations: any): Observable<any> => {
-  return defer(() => {
-    return from<Promise<any>>(
-      fetch(`${ROOT_URL}/donations/`, {
-        headers: { "Content-Type": "application/json; charset=utf-8" },
-        method: "POST",
-        body: JSON.stringify(donations),
-      })
-    );
-  });
-};
+// export const postDonations = (donations: any): Observable<any> => {
+//   return defer(() => {
+//     return from<Promise<any>>(
+//       fetch(`${ROOT_URL}/donations/`, {
+//         headers: { "Content-Type": "application/json; charset=utf-8" },
+//         method: "POST",
+//         body: JSON.stringify(donations),
+//       })
+//     );
+//   });
+// };
 
 export const getClrMatchingAmount = (
   donationsDetails: any
@@ -130,8 +151,7 @@ export const getClientSecretKey = (amount: number, stripeAccountId: string) => {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           "Stripe-Account": stripeAccountId,
-          Authorization:
-            "Bearer sk_test_51GqkJHIvBq7cPOzZGDx0sDolQSjRI8JxEaXCtv9OYAHyVmIFiOSD40ZLeUxrqbtQbVO1hZ2GyPLbahO0slTk05v900S87oiMhQ",
+          Authorization: `Bearer ${process.env.REACT_APP_STRIPE_KEY}`,
         },
         method: "POST",
         body: toUrlEncoded({

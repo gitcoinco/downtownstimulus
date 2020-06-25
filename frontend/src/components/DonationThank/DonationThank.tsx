@@ -6,12 +6,17 @@ import {
   TwitterIcon,
   FacebookShareButton,
   FacebookIcon,
+  EmailShareButton,
+  EmailIcon,
 } from "react-share";
 import copy from "clipboard-copy";
+import slugify from "react-slugify";
 
 function DonationThank() {
   const { selectedBusiness, user } = useContext(StateContext);
-  const shareUrl = "https://www.boulderfund.com/-biznumber-refname";
+  const shareUrl = `https://downtownstimulus.com/business/${
+    selectedBusiness.id
+  }/${slugify(selectedBusiness.name)}`;
 
   const copyShareUrl = (pValue: string) => {
     copy(pValue);
@@ -66,24 +71,26 @@ function DonationThank() {
           <div>Twitter</div>
         </div>
         <div className="donation-thanks-links-item">
-          <div className="donation-thanks-links-icon">
-            <img src={require("../../assets/mail.png")} alt="mail" />
-          </div>
-          <div>Mail</div>
+          <EmailShareButton
+            url={shareUrl}
+            subject={`Help ${selectedBusiness.name}‘s Fundraise!`}
+            body={`I just donated to ${selectedBusiness.name} as part of the Downtown Stimulus pilot program! \nFollow the link to donate to the 6 Boulder businesses participating in this new fundraiser aimed at distributing philanthropic funds to local businesses during the COVID-19 pandemic.`}
+          >
+            <EmailIcon size={56} round />
+          </EmailShareButton>
+          <div>Twitter</div>
         </div>
       </div>
       <div className="donation-thanks-link-copy-container top-margin-set">
         <input
           type="text"
           className="donation-thanks-link-copy-input"
-          value="https://www.boulderfund.com/-biznumber-refname"
+          value={shareUrl}
           disabled
         />
         <button
           className="donation-thanks-link-copy-button"
-          onClick={(e) =>
-            copyShareUrl("https://www.boulderfund.com/-biznumber-refname")
-          }
+          onClick={(e) => copyShareUrl(shareUrl)}
         >
           Copy
         </button>

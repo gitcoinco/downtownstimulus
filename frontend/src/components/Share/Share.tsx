@@ -10,11 +10,16 @@ import {
   EmailIcon,
 } from "react-share";
 import copy from "clipboard-copy";
+import slugify from "react-slugify";
 
 function Share() {
   const { selectedBusiness } = useContext(StateContext);
-  const shareUrl = "https://www.boulderfund.com/-biznumber-refname";
-  const title = "Boulder Fund Share";
+  const shareUrl = `https://downtownstimulus.com/business/${
+    selectedBusiness.id
+  }/${slugify(selectedBusiness.name)}`;
+  const emailBody = `Great news -- we have been invited to participate in a pilot program called Downtown Stimulus that will distribute $30K to 6 local Boulder businesses over the next two weeks! The pilot runs through July 3 and the money will be distributed based on number and size of donations made to the participating businesses. All funds raised during this pilot will go to pay for ${selectedBusiness.expenditure_details.reduce(
+    (prevDet: string, currDet: string) => prevDet + ", " + currDet
+  )} and if the pilot is successful, it will be used as a template for helping keep downtowns all across America vibrant in spite of COVID-19. \nFollow the link in bio to our page where you can learn about our business, make a donation, and find all of the other great participating businesses! \n@downtownboulder @tridentboulder @pieceloveandchocolate @_jlounge_ @kondition_fitness @amanayoga @timewarp_comics \n#lovethelocal #downtownboulder #boulder #myboulder #bouldercolorado #pearlstreet #pearlstreetmall #colorado #coloradoliving`;
 
   const copyShareUrl = (pValue: string) => {
     copy(pValue);
@@ -32,7 +37,7 @@ function Share() {
       <div className="share-links-container top-margin-set">
         <div className="share-links-item">
           <div className="share-links-icon">
-            <FacebookShareButton url={shareUrl} quote={title}>
+            <FacebookShareButton url={shareUrl} quote={emailBody}>
               <FacebookIcon size={56} round />
             </FacebookShareButton>
           </div>
@@ -40,7 +45,10 @@ function Share() {
         </div>
         <div className="share-links-item">
           <div className="share-links-icon">
-            <TwitterShareButton url={shareUrl} title={title}>
+            <TwitterShareButton
+              url={shareUrl}
+              title={`Help ${selectedBusiness.name}‘s Fundraise!`}
+            >
               <TwitterIcon size={56} round />
             </TwitterShareButton>
           </div>
@@ -48,7 +56,11 @@ function Share() {
         </div>
         <div className="share-links-item">
           <div className="share-links-icon">
-            <EmailShareButton url={shareUrl} subject={title} body="body">
+            <EmailShareButton
+              url={shareUrl}
+              subject={`Help ${selectedBusiness.name}‘s Fundraise!`}
+              body={emailBody}
+            >
               <EmailIcon size={56} round />
             </EmailShareButton>
           </div>
@@ -59,14 +71,12 @@ function Share() {
         <input
           type="text"
           className="share-link-copy-input"
-          value="https://www.boulderfund.com/-biznumber-refname"
+          value={shareUrl}
           disabled
         />
         <button
           className="share-link-copy-button"
-          onClick={(e) =>
-            copyShareUrl("https://www.boulderfund.com/-biznumber-refname")
-          }
+          onClick={(e) => copyShareUrl(shareUrl)}
         >
           Copy
         </button>

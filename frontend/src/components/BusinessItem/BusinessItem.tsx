@@ -29,7 +29,7 @@ function BusinessItem({ business }: any) {
           "-" + topMarginReq + "px",
           "important"
         );
-      }, 50);
+      }, 60);
     }
   }, [floatingImgId, floatingNameId]);
 
