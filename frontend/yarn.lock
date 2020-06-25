@@ -9550,6 +9550,11 @@ react-share@^4.2.0:
     classnames "^2.2.5"
     jsonp "^0.2.1"
 
+react-slugify@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-slugify/-/react-slugify-2.0.1.tgz#719410fc2f6cfeb77f731d57adae4f47649ebd15"
+  integrity sha512-vy5dAh9puvno06cV1TgK/FoSviXErOYD5fSngR/qygJkwkI2V4YjF76mnhIIp2fUJyA0ox5Ab3ASH+efNzqaPQ==
+
 react-sticky-box@^0.9.3:
   version "0.9.3"
   resolved "https://registry.yarnpkg.com/react-sticky-box/-/react-sticky-box-0.9.3.tgz#8450d4cef8e4fdd7b0351520365bc98c97da11af"

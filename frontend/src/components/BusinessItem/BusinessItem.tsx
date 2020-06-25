@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import "./BusinessItem.scss";
 import { Link } from "react-router-dom";
 import { ActionContext } from "../../hooks";
+import slugify from "react-slugify";
 
 function BusinessItem({ business }: any) {
   const { selectBusiness } = useContext(ActionContext);
@@ -35,7 +36,7 @@ function BusinessItem({ business }: any) {
   return (
     <Link
       className="business-item"
-      to={`/business/${business.id}`}
+      to={`/business/${business.id}/${slugify(business.name)}`}
       onClick={(e) => selectBusiness(business.id)}
     >
       <div className="business-item-cover-image-container">
