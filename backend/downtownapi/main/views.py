@@ -45,8 +45,8 @@ class UserList(mixins.CreateModelMixin,
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-    # permission_classes = (UserPermission,)
-    # authentication_classes = [TokenAuthentication]
+    permission_classes = (UserPermission,)
+    authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
         if request.user.is_staff:
@@ -71,8 +71,8 @@ class UserListDetail(mixins.RetrieveModelMixin,
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-    # permission_classes = (UserPermission,)
-    # authentication_classes = [TokenAuthentication]
+    permission_classes = (UserPermission,)
+    authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
@@ -90,8 +90,8 @@ class BusinessList(mixins.ListModelMixin,
     queryset = Business.objects.all()
     serializer_class = BusinessSerializer
 
-    # permission_classes = (BusinessPermission,)
-    # authentication_classes = [TokenAuthentication]
+    permission_classes = (BusinessPermission,)
+    authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
@@ -107,8 +107,8 @@ class BusinessListDetail(mixins.RetrieveModelMixin,
     queryset = Business.objects.all()
     serializer_class = BusinessSerializer
 
-    # permission_classes = (BusinessPermission,)
-    # authentication_classes = [TokenAuthentication]
+    permission_classes = (BusinessPermission,)
+    authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
@@ -124,8 +124,8 @@ class DonationList(generics.GenericAPIView):
     queryset = Donation.objects.all()
     serializer_class = DonationSerializer
 
-    # permission_classes = (DonationPermission, )
-    # authentication_classes = [TokenAuthentication]
+    permission_classes = (DonationPermission, )
+    authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
         user_donations = Donation.objects.filter(donor=request.user)
@@ -219,8 +219,8 @@ class DonationListDetail(mixins.RetrieveModelMixin,
     queryset = Donation.objects.all()
     serializer_class = DonationSerializer
 
-    # permission_classes = (DonationPermission,)
-    # authentication_classes = [TokenAuthentication]
+    permission_classes = (DonationPermission,)
+    authentication_classes = [TokenAuthentication]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
