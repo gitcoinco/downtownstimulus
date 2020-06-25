@@ -85,9 +85,6 @@ function BusinessPageBig(props) {
             <p className="business-details-body-content top-margin-set">
               {props.selectedBusiness.covid_story}
             </p>
-            <p className="business-details-body-content top-margin-set">
-              Story about pivoting, and what’s provided.
-            </p>
             <img
               className="business-details-body-staff-images top-margin-set bottom-margin-set"
               src={props.selectedBusiness.staff_images[0]}
