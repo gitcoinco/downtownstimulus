@@ -1,3 +1,4 @@
+import os
 import logging
 
 from firebase_admin import auth, credentials, initialize_app, _apps
@@ -10,6 +11,15 @@ from django.core.exceptions import ObjectDoesNotExist
 from .models import Business, User, Donation, CLRRound
 
 logger = logging.getLogger(__name__)
+
+FIREBASE_KEY = os.environ.get('FIREBASE_KEY')
+FIREBASE_AUTH_DOMAIN = os.environ.get('FIREBASE_AUTH_DOMAIN')
+FIREBASE_DATABASE_URL = os.environ.get('FIREBASE_DATABASE_URL')
+FIREBASE_PROJECT_ID = os.environ.get('FIREBASE_PROJECT_ID')
+FIREBASE_STORAGE_BUCKET = os.environ.get('FIREBASE_STORAGE_BUCKET')
+FIREBASE_MESSAGING_SENDER_ID = os.environ.get('FIREBASE_MESSAGING_SENDER_ID')
+FIREBASE_APPID = os.environ.get('FIREBASE_APPID')
+FIREBASE_MEASUREMENTID = os.environ.get('FIREBASE_MEASUREMENTID')
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -114,14 +124,14 @@ class LoginTokenSerializer(serializers.Serializer):
                     '/backend/downtownapi/downtown-stimulus-firebase-adminsdk-litas-a4b3da02de.json')
 
                 default_app = initialize_app(cred, {
-                    'apiKey': "AIzaSyDQaEt__JE2N8VpOHyDms4gdBcCrbpMe3g",
-                    'authDomain': "downtown-stimulus.firebaseapp.com",
-                    'databaseURL': "https://downtown-stimulus.firebaseio.com",
-                    'projectId': "downtown-stimulus",
-                    'storageBucket': "downtown-stimulus.appspot.com",
-                    'messagingSenderId': "441301072810",
-                    'appId': "1:441301072810:web:bf6c5f83f7bd7f9b6ec9d3",
-                    'measurementId': "G-9GZG7Y792M"
+                    'apiKey': FIREBASE_KEY,
+                    'authDomain': FIREBASE_AUTH_DOMAIN,
+                    'databaseURL': FIREBASE_DATABASE_URL,
+                    'projectId': FIREBASE_PROJECT_ID,
+                    'storageBucket': FIREBASE_STORAGE_BUCKET,
+                    'messagingSenderId': FIREBASE_MESSAGING_SENDER_ID,
+                    'appId': FIREBASE_APPID,
+                    'measurementId': FIREBASE_MEASUREMENTID
                 })
             try:
                 user = User.objects.get(username=username)

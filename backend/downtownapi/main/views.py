@@ -27,9 +27,12 @@ from .clr import calculate_clr_match
 from .serializers import UserSerializer, BusinessSerializer, DonationSerializer, CLRManySerializer, LoginTokenSerializer, RoundSerializer
 from .models import User, Business, Donation, CLRRound
 
-stripe.api_key = 'sk_test_51GqkJHIvBq7cPOzZGDx0sDolQSjRI8JxEaXCtv9OYAHyVmIFiOSD40ZLeUxrqbtQbVO1hZ2GyPLbahO0slTk05v900S87oiMhQ'
-logger = logging.getLogger(__name__)
+STRIPE_KEY = os.environ.get('STRIPE_KEY')
+STRIPE_WEBHOOK_KEY = os.environ.get('STRIPE_WEBHOOK_KEY')
 CURRENT_ROUND = os.environ.get('CURRENT_ROUND', 1)
+
+stripe.api_key = STRIPE_KEY
+logger = logging.getLogger(__name__)
 
 # Create your views here.
 class RootView(APIView):
@@ -137,7 +140,7 @@ class DonationList(generics.GenericAPIView):
         signature = request.headers.get("Stripe-Signature")
         try:
             event = stripe.Webhook.construct_event(
-                payload=payload, sig_header=signature, secret='whsec_lXZIXuHWeJBm9tafGcpNhv6f0cxbF2sx'
+                payload=payload, sig_header=signature, secret=STRIPE_WEBHOOK_KEY
             )
         except ValueError as e:
             # Invalid payload.
@@ -145,7 +148,7 @@ class DonationList(generics.GenericAPIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except stripe.error.SignatureVerificationError as e:
             # Invalid Signature.
-            print(e, signature, 'whsec_lXZIXuHWeJBm9tafGcpNhv6f0cxbF2sx', payload)
+            print(e, signature, STRIPE_WEBHOOK_KEY, payload)
             return Response(status=status.HTTP_400_BAD_REQUEST)
         # return self.create(request, *args, **kwargs)
         logger.info(f'Event Type is {event["type"]}')

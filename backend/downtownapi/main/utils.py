@@ -8,7 +8,7 @@ import six
 from .models import User, Donation, Business
 
 def premailer_transform(html):
-    p = premailer.Premailer(html, base_url='http://127.0.0.1:8000/')
+    p = premailer.Premailer(html, base_url='https://downtownstimulus.com/')
     return p.transform()
 
 
