@@ -1,5 +1,5 @@
 from django.urls import path, include, re_path
-from .views import RootView, UserList, UserListDetail, BusinessList, BusinessListDetail, DonationList, DonationListDetail, CLRCalculation, activate, CustomAuthToken, add_business_csv, CLRRoundView
+from .views import RootView, UserList, UserListDetail, BusinessList, BusinessListDetail, DonationList, DonationListDetail, CLRCalculation, activate, CustomAuthToken, add_business_csv, CLRRoundView, StripeDonations
 
 urlpatterns = [
     path('', RootView.as_view(), name='root-view'),
@@ -15,6 +15,9 @@ urlpatterns = [
     # Donation APIs
     path('donations/', DonationList.as_view(), name='donation-list'),
     path('donations/<int:pk>/', DonationListDetail.as_view(), name='donation-detail'),
+
+    # Stripe Donation POST API
+    path('stripe_donations/', StripeDonations.as_view(), name='stripe-donation'),
 
     # CLR Amount Calculation APIs
     path('clramountaggregation/', CLRCalculation.as_view(), name='clr-calculation'),
