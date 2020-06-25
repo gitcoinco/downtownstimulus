@@ -1,16 +1,16 @@
 version: "3"
 services:
-#  db:
-#    image: postgres
-#    environment:
-#      - POSTGRES_DB=$POSTGRES_DB
-#      - POSTGRES_USER=$POSTGRES_USER
-#      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
-#    ports:
-#      - "5432:5432"
-#    volumes:
-#      - db-data:/var/lib/postgresql/data
-#    restart: always
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=$POSTGRES_DB
+      - POSTGRES_USER=$POSTGRES_USER
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    restart: always
 
   api:
     build:
@@ -19,8 +19,8 @@ services:
     command: bash /scripts/deploy/api_deploy.sh
     ports:
       - "8000:8000"
-#    depends_on:
-#      - db
+    depends_on:
+      - db
     volumes:
       - ./backend:/backend
       - ./scripts:/scripts
@@ -82,6 +82,7 @@ services:
       - REACT_APP_FIREBASE_MESSAGING_SENDER_ID=$FIREBASE_MESSAGING_SENDER_ID
       - REACT_APP_FIREBASE_APPID=$FIREBASE_APPID
       - REACT_APP_FIREBASE_MEASUREMENTID=$FIREBASE_MEASUREMENTID
+      - REACT_APP_STRIPE_KEY=$STRIPE_KEY
     restart: always
 
 volumes:
