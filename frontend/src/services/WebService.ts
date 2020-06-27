@@ -151,7 +151,7 @@ export const getClientSecretKey = (amount: number, stripeAccountId: string) => {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           "Stripe-Account": stripeAccountId,
-          Authorization: `Bearer ${process.env.REACT_APP_STRIPE_KEY}`,
+          Authorization: `Bearer sk_test_51GqkJHIvBq7cPOzZGDx0sDolQSjRI8JxEaXCtv9OYAHyVmIFiOSD40ZLeUxrqbtQbVO1hZ2GyPLbahO0slTk05v900S87oiMhQ`,
         },
         method: "POST",
         body: toUrlEncoded({

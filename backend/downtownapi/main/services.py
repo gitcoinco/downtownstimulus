@@ -8,7 +8,7 @@ from sendgrid.helpers.mail import *
 sendgrid_key = os.getenv('SENDGRID_KEY', 'NO API FOUND')
 print(sendgrid_key)
 sg = sendgrid.SendGridAPIClient(sendgrid_key)
-from_email = Email("manank321@gmail.com", 'gitcoin.co')
+from_email = Email("downtownstimulus@gitcoin.co", 'gitcoin.co')
 
 def send_mail(_to_mail, subject, body):
     to_email = To(_to_mail)
