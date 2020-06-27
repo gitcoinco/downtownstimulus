@@ -69,22 +69,3 @@ def send_donation_mail(sender, instance, **kwargs):
             send_mail(params['user_email'], subject, mail_body)
         except Exception as e:
             print(e)
-
-
-@receiver(post_save, sender=Business)
-def send_business_mail(sender, instance, **kwargs):
-    if kwargs['created']:
-        print('Hello User ! Your Business Listed Created')
-
-        params = {
-            'owner_email': instance.owner_email,
-            'business_name': instance.name
-        }
-
-        subject = "Thanks for Listing Your Business on Downtown Stimulus"
-
-        try:
-            mail_body = get_mail_body('new_business', params)
-            send_mail(params['owner_email'], subject, mail_body)
-        except Exception as e:
-            print(e)
