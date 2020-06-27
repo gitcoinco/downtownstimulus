@@ -14,7 +14,7 @@ function Home() {
   }, []);
   return (
     <div className="home">
-      <HomeTopBar></HomeTopBar>
+      <HomeTopBar/>
       {businesses.length ? (
         <ul className="business-list">
           {businesses.map((business, i) => (

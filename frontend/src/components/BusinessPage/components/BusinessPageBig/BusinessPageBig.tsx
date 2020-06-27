@@ -181,14 +181,13 @@ function BusinessPageBig(props) {
                           </span>
                         </div>
                         <span className="business-donation-suggestion-match">
-                          for a{" "}
+                        Estimated match of{" "}
                           <b>
                             $
                             {props.fixedDonationMatching[0].toFixed(2) < 0
                               ? 0
                               : props.fixedDonationMatching[0].toFixed(2)}
-                          </b>{" "}
-                          estimated match
+                          </b>
                         </span>
                         <div className="business-donation-suggestion-button-container top-margin-set">
                           <button
@@ -213,14 +212,13 @@ function BusinessPageBig(props) {
                           </span>
                         </div>
                         <span className="business-donation-suggestion-match">
-                          for a{" "}
+                        Estimated match of{" "}
                           <b>
                             $
                             {props.fixedDonationMatching[1].toFixed(2) < 0
                               ? 0
                               : props.fixedDonationMatching[1].toFixed(2)}
-                          </b>{" "}
-                          estimated match
+                          </b>
                         </span>
                         <div className="business-donation-suggestion-button-container top-margin-set">
                           <button
@@ -245,14 +243,13 @@ function BusinessPageBig(props) {
                           </span>
                         </div>
                         <span className="business-donation-suggestion-match">
-                          for a{" "}
+                        Estimated match of{" "}
                           <b>
                             $
                             {props.fixedDonationMatching[2].toFixed(2) < 0
                               ? 0
                               : props.fixedDonationMatching[2].toFixed(2)}
-                          </b>{" "}
-                          estimated match
+                          </b>
                         </span>
                         <div className="business-donation-suggestion-button-container top-margin-set">
                           <button

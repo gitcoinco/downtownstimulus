@@ -49,7 +49,7 @@ function Header() {
               className="profile-item"
               onClick={(e) => setModalConfig(true, { type: "login" })}
             >
-              Login
+              Sign Up/Log In
             </div>
           </>
         )}

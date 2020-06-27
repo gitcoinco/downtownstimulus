@@ -10,24 +10,29 @@ function HomeTopBar() {
 
   return (
     <div className="home-top-bar">
-      <div className="app-icon-container">
+      {/* <div className="app-icon-container">
         <img src={require("../../assets/app-icon.svg")} alt="app-icon" />
-      </div>
+      </div> */}
       <h1 className="home-head-line">Support Local Businesses</h1>
       {roundDetails.round_status === "Ongoing" ? (
-        <p className="home-tag-line">Round 1 of the Downtown Stimulus</p>
+        <div>
+          <h3 className="home-tag-line">$25k Pilot Round Live Now</h3>
+          <h4 className="home-tag-line">
+            Contribute by July 15th 2020 to get your contribution Matched!
+          </h4>
+        </div>
       ) : (
-        <p className="home-tag-line">
-          <span role="img" aria-label="tada">
-            🎉
+          <p className="home-tag-line">
+            <span role="img" aria-label="tada">
+              🎉
           </span>{" "}
-          <i>Important Note</i>: Round 1 of the Downtown Stimulus has closed!
+            <i>Important Note</i>: Round 1 of the Downtown Stimulus has closed!
           Thank you for your support!!{" "}
-          <span role="img" aria-label="tada">
-            🎉
+            <span role="img" aria-label="tada">
+              🎉
           </span>
-        </p>
-      )}
+          </p>
+        )}
       <div className="list-action-container">
         <div className="home-search-container">
           <Search></Search>

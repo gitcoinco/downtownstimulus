@@ -3,6 +3,7 @@ import "./BusinessItem.scss";
 import { Link } from "react-router-dom";
 import { ActionContext } from "../../hooks";
 import slugify from "react-slugify";
+import Truncate from 'react-truncate';
 
 function BusinessItem({ business }: any) {
   const { selectBusiness } = useContext(ActionContext);
@@ -62,7 +63,9 @@ function BusinessItem({ business }: any) {
         {business.name}
       </h2>
       <p className="business-item-description top-margin-set">
-        {business.short_description}
+        <Truncate lines={2} ellipsis={<span>...</span>}>
+          {business.short_description}
+        </Truncate>
       </p>
       <div className="business-item-progress-container">
         <div
@@ -70,7 +73,7 @@ function BusinessItem({ business }: any) {
           style={{
             width:
               (business.current_clr_matching_amount / business.goal_amount) *
-                100 +
+              100 +
               "%",
           }}
         ></div>

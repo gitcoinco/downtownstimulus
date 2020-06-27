@@ -73,19 +73,6 @@ function Footer() {
           </div>
           <div className="footer-sponsors-icon">
             <a
-              href={"https://boulderstartupweek.com/"}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                src={require("../../assets/image 26.png")}
-                alt="Boulder Startup Week"
-                className="footer-partner-logo"
-              />
-            </a>
-          </div>
-          <div className="footer-sponsors-icon">
-            <a
               href={"https://labs.consensys.net/"}
               target="_blank"
               rel="noopener noreferrer"
