@@ -3,7 +3,7 @@ import "./LegalInfo.scss";
 
 function LegalInfo() {
   return (
-    <div className="qf-explainer">
+    <div className="legal-info">
       <h2 className="top-margin-set text-center">
         Downtown Stimulus <br />
         Legal Info + Privacy Policy

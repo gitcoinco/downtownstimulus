@@ -24,7 +24,7 @@ function Footer() {
           {" "}
           By accessing and using this website, you are acknowleding and agreeing
           to Downtown Stimulus's {/* eslint-disable-next-line */}
-          <a onClick={(e) => setModalConfig(true, { type: "legalinfo" })}>
+          <a onClick={(e) => setModalConfig(true, { type: "legalInfo" })}>
             Terms & Conditions and Privacy Policy
           </a>{" "}
         </p>

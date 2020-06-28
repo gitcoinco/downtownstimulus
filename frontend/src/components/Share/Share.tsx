@@ -19,7 +19,7 @@ function Share() {
   }/${slugify(selectedBusiness.name)}`;
   const emailBody = `Great news -- we have been invited to participate in a pilot program called Downtown Stimulus that will distribute $30K to 6 local Boulder businesses over the next two weeks! The pilot runs through July 3 and the money will be distributed based on number and size of donations made to the participating businesses. All funds raised during this pilot will go to pay for ${selectedBusiness.expenditure_details.reduce(
     (prevDet: string, currDet: string) => prevDet + ", " + currDet
-  )} and if the pilot is successful, it will be used as a template for helping keep downtowns all across America vibrant in spite of COVID-19. \nFollow the link in bio to our page where you can learn about our business, make a donation, and find all of the other great participating businesses! \n@downtownboulder @tridentboulder @pieceloveandchocolate @_jlounge_ @kondition_fitness @amanayoga @timewarp_comics \n#lovethelocal #downtownboulder #boulder #myboulder #bouldercolorado #pearlstreet #pearlstreetmall #colorado #coloradoliving`;
+  )} and if the pilot is successful, it will be used as a template for helping keep downtowns all across America vibrant in spite of COVID-19. \n\nFollow the link in bio to our page where you can learn about our business, make a donation, and find all of the other great participating businesses! \n@downtownboulder @tridentboulder @pieceloveandchocolate @_jlounge_ @kondition_fitness @amanayoga @timewarp_comics \n\n#lovethelocal #downtownboulder #boulder #myboulder #bouldercolorado #pearlstreet #pearlstreetmall #colorado #coloradoliving`;
 
   const copyShareUrl = (pValue: string) => {
     copy(pValue);
@@ -47,7 +47,7 @@ function Share() {
           <div className="share-links-icon">
             <TwitterShareButton
               url={shareUrl}
-              title={`Help ${selectedBusiness.name}‘s Fundraise!`}
+              title={`Help local ${selectedBusiness.name} and other #Boulder businesses and see every dollar matched! Check out @dtstimulus for more info!\n#lovethelocal #downtownboulder #boulder #myboulder #bouldercolorado #pearlstreet #pearlstreetmall #colorado #coloradoliving`}
             >
               <TwitterIcon size={56} round />
             </TwitterShareButton>

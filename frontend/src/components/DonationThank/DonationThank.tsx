@@ -78,7 +78,7 @@ function DonationThank() {
           >
             <EmailIcon size={56} round />
           </EmailShareButton>
-          <div>Twitter</div>
+          <div>Mail</div>
         </div>
       </div>
       <div className="donation-thanks-link-copy-container top-margin-set">

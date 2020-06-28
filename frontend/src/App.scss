@@ -116,3 +116,19 @@ a {
 .small-container-spacing-set {
   padding: 1.5rem;
 }
+
+$information-phone: "only screen and (max-width : 464px)";
+$information-pad: "only screen and (max-width : 1200px) and (min-width: 464px)";
+@media #{$information-phone} {
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1rem;
+  }
+}

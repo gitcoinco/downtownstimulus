@@ -3,7 +3,7 @@ import "./BusinessItem.scss";
 import { Link } from "react-router-dom";
 import { ActionContext } from "../../hooks";
 import slugify from "react-slugify";
-import Truncate from 'react-truncate';
+import Truncate from "react-truncate";
 
 function BusinessItem({ business }: any) {
   const { selectBusiness } = useContext(ActionContext);
@@ -30,7 +30,7 @@ function BusinessItem({ business }: any) {
           "-" + topMarginReq + "px",
           "important"
         );
-      }, 60);
+      }, 100);
     }
   }, [floatingImgId, floatingNameId]);
 
@@ -73,7 +73,7 @@ function BusinessItem({ business }: any) {
           style={{
             width:
               (business.current_clr_matching_amount / business.goal_amount) *
-              100 +
+                100 +
               "%",
           }}
         ></div>

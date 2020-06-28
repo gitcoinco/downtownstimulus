@@ -8,6 +8,11 @@ class DonationCustomInput extends React.Component<any, any> {
     donationWidth: "36px",
   };
 
+  componentDidMount() {
+    this.props.setDonationAmountState(this.state.donation);
+    this.props.handleCustomClrMatchingAmount(this.state.donation);
+  }
+
   changeDonation = (event) => {
     if (this.state.typingTimeout) {
       clearTimeout(this.state.typingTimeout);
@@ -23,6 +28,7 @@ class DonationCustomInput extends React.Component<any, any> {
         this.setState({
           typingTimeout: setTimeout(() => {
             if (this.state.donation) {
+              this.props.setDonationAmountState(this.state.donation);
               this.props.handleCustomClrMatchingAmount(this.state.donation);
             }
           }, 1000),

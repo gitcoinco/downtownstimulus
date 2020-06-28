@@ -98,12 +98,27 @@ function BusinessPageBig(props) {
               <h3 className="business-donation-widget-title top-margin-set">
                 Support {props.selectedBusiness.name}
               </h3>
+              <p className="top-margin-set business-donation-widget-donation-details">
+                <span className="business-donation-widget-donation-details-amount">
+                  ${props.selectedBusiness.donation_received}
+                </span>{" "}
+                donated +{" "}
+                <span className="business-donation-widget-donation-details-amount">
+                  ${props.selectedBusiness.current_clr_matching_amount}
+                </span>{" "}
+                estimated match
+              </p>
               <div className="business-donation-progress-container">
                 <div
                   className="business-item-progress"
                   style={{
                     width:
-                      (props.selectedBusiness.current_clr_matching_amount /
+                      ((Number.parseFloat(
+                        props.selectedBusiness.donation_received
+                      ) +
+                        Number.parseFloat(
+                          props.selectedBusiness.current_clr_matching_amount
+                        )) /
                         props.selectedBusiness.goal_amount) *
                         100 +
                       "%",
@@ -113,10 +128,15 @@ function BusinessPageBig(props) {
               <div className="business-donation-progress-labels-container">
                 <span className="business-donation-progress-label">
                   $
-                  {Number.parseFloat(
-                    props.selectedBusiness.current_clr_matching_amount
+                  {(
+                    Number.parseFloat(
+                      props.selectedBusiness.donation_received
+                    ) +
+                    Number.parseFloat(
+                      props.selectedBusiness.current_clr_matching_amount
+                    )
                   ).toFixed(0)}{" "}
-                  matched
+                  estimated total
                 </span>
                 <span className="business-donation-progress-label">
                   ${props.selectedBusiness.goal_amount} goal
@@ -181,7 +201,7 @@ function BusinessPageBig(props) {
                           </span>
                         </div>
                         <span className="business-donation-suggestion-match">
-                        Estimated match of{" "}
+                          Estimated match of{" "}
                           <b>
                             $
                             {props.fixedDonationMatching[0].toFixed(2) < 0
@@ -212,7 +232,7 @@ function BusinessPageBig(props) {
                           </span>
                         </div>
                         <span className="business-donation-suggestion-match">
-                        Estimated match of{" "}
+                          Estimated match of{" "}
                           <b>
                             $
                             {props.fixedDonationMatching[1].toFixed(2) < 0
@@ -243,7 +263,7 @@ function BusinessPageBig(props) {
                           </span>
                         </div>
                         <span className="business-donation-suggestion-match">
-                        Estimated match of{" "}
+                          Estimated match of{" "}
                           <b>
                             $
                             {props.fixedDonationMatching[2].toFixed(2) < 0
@@ -281,6 +301,9 @@ function BusinessPageBig(props) {
                               handleCustomClrMatchingAmount={
                                 props.handleCustomClrMatchingAmount
                               }
+                              setDonationAmountState={
+                                props.setDonationAmountState
+                              }
                             />
                           </span>
                         </div>
@@ -291,7 +314,9 @@ function BusinessPageBig(props) {
                           $
                           {props.customDonationMatching[0].toFixed(2) < 0
                             ? 0
-                            : props.customDonationMatching[0].toFixed(2)}
+                            : Math.abs(
+                                props.customDonationMatching[0].toFixed(2)
+                              )}
                         </span>{" "}
                         match
                       </p>
