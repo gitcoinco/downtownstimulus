@@ -1,15 +1,19 @@
-import React, { useContext } from "react";
+import React from "react";
 import "./Login.scss";
 import SocialLogin from "../SocialLogin";
-import { ActionContext } from "../../hooks";
+// import { ActionContext } from "../../hooks";
 
 function Login() {
-  const { setModalConfig } = useContext(ActionContext);
+  // const { setModalConfig } = useContext(ActionContext);
 
   return (
     <div className="login">
-      <h2 className="login-header top-margin-set">
-        Login to Downtown Stimulus
+        <img
+          src={require("../../assets/app-icon.svg")}
+          alt="logo"
+        />
+      <h2 className="login-header">
+        Connect with Downtown Stimulus
       </h2>
       <SocialLogin type="login" />
       {/* <p className="login-text top-margin-set">Or login with your email!</p>
@@ -24,9 +28,9 @@ function Login() {
       <div className="login-input-container top-margin-set">
         <label className="login-input-label">Password</label>
         <input type="password" className="login-input" />
-      </div> */}
+      </div> 
       <div className="login-create-link-container top-margin-set">
-        {/* eslint-disable-next-line */}
+        
         <a
           className="login-create-link"
           onClick={(e) => setModalConfig(true, { type: "signUp" })}
@@ -34,7 +38,7 @@ function Login() {
           Need to create an account? Click here!
         </a>
       </div>
-      {/* <div className="login-email-submit-container top-margin-set">
+      <div className="login-email-submit-container top-margin-set">
         <button type="button" className="login-email-submit-button" disabled>
           Login
         </button>

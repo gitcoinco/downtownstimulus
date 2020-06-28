@@ -6,7 +6,7 @@ import BusinessItem from "../BusinessItem";
 
 function Home() {
   const { fetchAllBusinesses } = useContext(ActionContext);
-  const { businesses } = useContext(StateContext);
+  const { businesses, businessLoader } = useContext(StateContext);
 
   useEffect(() => {
     fetchAllBusinesses();
@@ -14,7 +14,7 @@ function Home() {
   }, []);
   return (
     <div className="home">
-      <HomeTopBar></HomeTopBar>
+      <HomeTopBar />
       {businesses.length ? (
         <ul className="business-list">
           {businesses.map((business, i) => (
@@ -22,7 +22,11 @@ function Home() {
           ))}
         </ul>
       ) : (
-        <div className="center-text">Doesn't match any results.</div>
+        <div className="center-text">
+          {businessLoader
+            ? "Loading businesses..."
+            : "Doesn't match any results."}
+        </div>
       )}
     </div>
   );

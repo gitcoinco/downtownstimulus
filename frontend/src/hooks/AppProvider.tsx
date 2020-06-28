@@ -38,6 +38,7 @@ const stateInitialValue = {
     round_number: 1,
     round_status: "Ongoing",
   },
+  businessLoader: false,
 };
 export const ActionContext = createContext(actionInitialValue);
 export const StateContext = createContext(stateInitialValue);
@@ -110,6 +111,11 @@ export const AppProvider = (props: any) => {
             ...prevState,
             roundDetails: action.roundDetails,
           };
+        case "SET_BUSINESS_LOADER":
+          return {
+            ...prevState,
+            businessLoader: action.businessLoader,
+          };
         default:
       }
     },
@@ -132,6 +138,7 @@ export const AppProvider = (props: any) => {
         round_number: 1,
         round_status: "Ongoing",
       },
+      businessLoader: false,
     }
   );
 
@@ -294,8 +301,10 @@ export const AppProvider = (props: any) => {
           });
       },
       selectBusiness: (selectedBusinessId: any) => {
+        console.log("Enterong", selectedBusinessId);
         WebService.fetchSingleBusiness(selectedBusinessId).subscribe(
           (data: any) => {
+            console.log("Reloading", data);
             setSelectedBusinessStripeAccountId(data.stripe_id);
             const stripePromise = loadStripe(
               "pk_test_51GqkJHIvBq7cPOzZUkq9YmaFXkqHMRGrjjR1Vtu1wgTBheRzG66nRvZABmllnsbybp9zbscThmhUzbkzKLnZM4EK005gPXOVAd",
@@ -307,8 +316,10 @@ export const AppProvider = (props: any) => {
         );
       },
       fetchAllBusinesses: () => {
+        dispatch({ type: "SET_BUSINESS_LOADER", businessLoader: true });
         WebService.fetchAllBusinesses().subscribe((data: any) => {
           dispatch({ type: "SET_BUSINESS_LIST", businesses: data });
+          dispatch({ type: "SET_BUSINESS_LOADER", businessLoader: false });
         });
       },
       setDonationAmountState: (donationAmount: number) => {

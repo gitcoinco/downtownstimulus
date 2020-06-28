@@ -21,7 +21,17 @@ function Modal() {
         onClick={(e) => setModalConfig(false, {})}
       ></div>
 
-      <div className={`modal ${!openModal ? "closed" : ""}`} id="modal">
+      <div
+        className={`modal ${!openModal ? "closed" : ""}`}
+        style={{
+          minWidth:
+            modalConfig.type === "qfExplainer" ||
+            modalConfig.type === "legalInfo"
+              ? "80%"
+              : 400,
+        }}
+        id="modal"
+      >
         <button
           className="close-button"
           id="close-button"
@@ -34,7 +44,7 @@ function Modal() {
           {modalConfig.type === "signUp" && <SignUp></SignUp>}
           {modalConfig.type === "payment" && <PaymentGateway></PaymentGateway>}
           {modalConfig.type === "share" && <Share></Share>}
-          {modalConfig.type === "legalinfo" && <LegalInfo></LegalInfo>}
+          {modalConfig.type === "legalInfo" && <LegalInfo></LegalInfo>}
           {modalConfig.type === "thankYouDonation" && (
             <DonationThank></DonationThank>
           )}

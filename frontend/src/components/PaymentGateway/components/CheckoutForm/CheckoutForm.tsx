@@ -11,7 +11,9 @@ import { WebService } from "../../../../services";
 const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
-  const { setModalConfig } = useContext(ActionContext);
+  const { setModalConfig, fetchAllBusinesses, selectBusiness } = useContext(
+    ActionContext
+  );
   const { user, donationAmount, selectedBusiness } = useContext(StateContext);
   const [error, setError] = useState(null);
   const [cardComplete, setCardComplete] = useState(false);
@@ -25,7 +27,8 @@ const CheckoutForm = () => {
     if (user) {
       setBillingDetails({ ...billingDetails, email: user.email });
     } else {
-      setError({ message: "Please login first" });
+      // setError({ message: "Please login first" });
+      setModalConfig(true, { type: "login" });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
@@ -79,6 +82,10 @@ const CheckoutForm = () => {
               // post-payment actions.
               reset();
               setModalConfig(true, { type: "thankYouDonation" });
+              setTimeout(() => {
+                fetchAllBusinesses();
+                selectBusiness(selectedBusiness.id);
+              }, 5000);
             }
           }
         } else {
@@ -86,7 +93,8 @@ const CheckoutForm = () => {
         }
       });
     } else {
-      setError({ message: "Please login first" });
+      // setError({ message: "Please login first" });
+      setModalConfig(true, { type: "login" });
     }
   };
 

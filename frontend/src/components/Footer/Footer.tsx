@@ -24,7 +24,7 @@ function Footer() {
           {" "}
           By accessing and using this website, you are acknowleding and agreeing
           to Downtown Stimulus's {/* eslint-disable-next-line */}
-          <a onClick={(e) => setModalConfig(true, { type: "legalinfo" })}>
+          <a onClick={(e) => setModalConfig(true, { type: "legalInfo" })}>
             Terms & Conditions and Privacy Policy
           </a>{" "}
         </p>
@@ -67,19 +67,6 @@ function Footer() {
               <img
                 src={require("../../assets/image 23.png")}
                 alt="Gitcoin"
-                className="footer-partner-logo"
-              />
-            </a>
-          </div>
-          <div className="footer-sponsors-icon">
-            <a
-              href={"https://boulderstartupweek.com/"}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                src={require("../../assets/image 26.png")}
-                alt="Boulder Startup Week"
                 className="footer-partner-logo"
               />
             </a>
