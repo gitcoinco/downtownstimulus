@@ -78,11 +78,11 @@ function BusinessPageSmall(props) {
               </h3>
               <p className="top-margin-set business-donation-widget-donation-details">
                 <span className="business-donation-widget-donation-details-amount">
-                  ${props.selectedBusiness.donation_received}
+                  ${Number.parseFloat(props.selectedBusiness.donation_received).toFixed(2)}
                 </span>{" "}
                 donated +{" "}
                 <span className="business-donation-widget-donation-details-amount">
-                  ${props.selectedBusiness.current_clr_matching_amount}
+                  ${Number.parseFloat(props.selectedBusiness.current_clr_matching_amount).toFixed(2)}
                 </span>{" "}
                 estimated match
               </p>
