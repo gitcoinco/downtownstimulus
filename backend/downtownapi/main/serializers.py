@@ -90,7 +90,7 @@ class StripeSecretKey(serializers.Serializer):
     name = serializers.CharField(label= "Donor Name")
     shipping_address = serializers.CharField(label='Shipping Address')
     shipping_country = serializers.CharField(label='Shipping Country')
-    stripe_id = serializers.CharField(label='Business Stripe Id')
+    business_id = serializers.CharField(label='Business Id')
 
 
 class LoginTokenSerializer(serializers.Serializer):

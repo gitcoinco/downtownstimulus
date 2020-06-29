@@ -60,9 +60,7 @@ services:
 #    restart: always
 
   nginx:
-    build:
-      context: .
-      dockerfile: ./PDockerfile
+    image: ethifylabs/downtownstimulus
     ports:
       - "80:80"
       - "443:443"

@@ -344,12 +344,14 @@ class StripeSecretKeyView(generics.GenericAPIView):
         print(request.META)
         if serializer.is_valid(raise_exception=True):
             try:
+                business_id = serializer.validated_data.get('business_id')
+                business = Business.objects.get(pk=int(business_id))
                 resp = stripe.PaymentIntent.create(
                     amount=serializer.validated_data.get('amount'),
                     currency='usd',
                     payment_method_types=['card'],
                     description='Downtown Stimulus Donation',
-                    stripe_account=serializer.validated_data.get('stripe_id'),
+                    stripe_account=business.stripe_id,
                     shipping={
                         'address': {
                             'line1': serializer.validated_data.get('shipping_address', ''),
