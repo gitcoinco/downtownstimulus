@@ -1,7 +1,5 @@
 import * as firebase from "firebase/app";
 import "firebase/auth";
-import dotenv from "dotenv";
-dotenv.config();
 
 // const FIREBASE_KEY = process.env.FIREBASE_KEY;
 // const FIREBASE_AUTH_DOMAIN = process.env.FIREBASE_AUTH_DOMAIN;
@@ -32,7 +30,6 @@ const firebaseConfig = {
   measurementId: FIREBASE_MEASUREMENT_ID,
 };
 
-console.log("firebaseConfig", firebaseConfig);
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 

@@ -6,7 +6,7 @@ import BusinessPageSmall from "./components/BusinessPageSmall";
 import BusinessItem from "../BusinessItem";
 import { useParams } from "react-router-dom";
 import { DollarSign, Home, Globe } from "react-feather";
-import MetaTags from 'react-meta-tags';
+import MetaTags from "react-meta-tags";
 
 function BusinessPage() {
   let { id } = useParams();
@@ -133,13 +133,18 @@ function BusinessPage() {
 
   return (
     <div className="business-page">
-      <MetaTags>
-        <title>{selectedBusiness.name}</title>
-        <meta name="description" content={selectedBusiness.short_description} />
-        <meta property="og:title" content={selectedBusiness.name} />
-        <meta property="og:image" content="../../assets/cover.jpg" />
-        <meta name="twitter:card" content="summary_large_image"/>
-      </MetaTags>
+      {selectedBusiness && (
+        <MetaTags>
+          <title>{selectedBusiness.name}</title>
+          <meta
+            name="description"
+            content={selectedBusiness.short_description}
+          />
+          <meta property="og:title" content={selectedBusiness.name} />
+          <meta property="og:image" content="../../assets/cover.jpg" />
+          <meta name="twitter:card" content="summary_large_image" />
+        </MetaTags>
+      )}
       <BusinessPageBig
         selectedBusiness={selectedBusiness}
         donationType={donationType}

@@ -1,10 +1,5 @@
 import { Observable, defer, from } from "rxjs";
-import {
-  mapToDonations,
-  mapToBusinesses,
-  toUrlEncoded,
-  mapToRound,
-} from "../utils";
+import { mapToDonations, mapToBusinesses, mapToRound } from "../utils";
 import { IBusiness } from "../models/Business";
 import { IUser } from "../models/User";
 import { IDonation } from "../models/Donations";
@@ -144,27 +139,29 @@ export const getClrMatchingAmount = (
   });
 };
 
-export const getClientSecretKey = (amount: number, stripeAccountId: string) => {
+export const getClientSecretKey = (
+  amount: number,
+  business_id: string,
+  name: string,
+  shipping_address: string,
+  shipping_country: string
+) => {
   return defer(() => {
     return from<Promise<any>>(
-      fetch(`https://api.stripe.com/v1/payment_intents`, {
+      fetch(`${ROOT_URL}/stripe_secret/`, {
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          "Stripe-Account": stripeAccountId,
-          Authorization: `Bearer sk_test_51GqkJHIvBq7cPOzZGDx0sDolQSjRI8JxEaXCtv9OYAHyVmIFiOSD40ZLeUxrqbtQbVO1hZ2GyPLbahO0slTk05v900S87oiMhQ`,
+          "Content-Type": "application/json; charset=utf-8",
+          Authorization: `Token ${
+            JSON.parse(sessionStorage.getItem("user")).token
+          }`,
         },
         method: "POST",
-        body: toUrlEncoded({
-          "payment_method_types[]": "card",
-          amount: amount,
-          currency: "usd",
-          description: "Software development services",
-          "shipping[name]": "Jane",
-          "shipping[address][line1]": "510 Townsend St",
-          "shipping[address][postal_code]": 98140,
-          "shipping[address][city]": "San Francisco",
-          "shipping[address][state]": "CA",
-          "shipping[address][country]": "US",
+        body: JSON.stringify({
+          amount,
+          name,
+          shipping_address,
+          shipping_country,
+          business_id,
         }),
       })
     );

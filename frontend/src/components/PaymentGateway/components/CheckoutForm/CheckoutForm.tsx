@@ -21,6 +21,8 @@ const CheckoutForm = () => {
   const [billingDetails, setBillingDetails] = useState({
     email: "",
     name: "",
+    address: "",
+    country: "",
   });
 
   useEffect(() => {
@@ -54,16 +56,22 @@ const CheckoutForm = () => {
 
       WebService.getClientSecretKey(
         donationAmount * 100,
-        selectedBusiness.stripe_id
+        selectedBusiness.id,
+        billingDetails.name,
+        billingDetails.address,
+        billingDetails.country
       ).subscribe(async (data) => {
         if (data.ok) {
           const response = await data.json();
           const result = await stripe.confirmCardPayment(
-            response.client_secret,
+            JSON.parse(response).secret_key,
             {
               payment_method: {
                 card: elements.getElement(CardElement),
-                billing_details: billingDetails,
+                billing_details: {
+                  email: billingDetails.email,
+                  name: billingDetails.name,
+                },
               },
             }
           );
@@ -104,6 +112,8 @@ const CheckoutForm = () => {
     setBillingDetails({
       email: "",
       name: "",
+      address: "",
+      country: "",
     });
   };
 
@@ -135,6 +145,32 @@ const CheckoutForm = () => {
           disabled={true}
           onChange={(e) => {
             setBillingDetails({ ...billingDetails, email: e.target.value });
+          }}
+        />
+        <Field
+          label="Address"
+          id="address"
+          type="text"
+          placeholder="510 Townsend St"
+          required
+          autoComplete="address"
+          value={billingDetails.address}
+          disabled={false}
+          onChange={(e) => {
+            setBillingDetails({ ...billingDetails, address: e.target.value });
+          }}
+        />
+        <Field
+          label="Country"
+          id="country"
+          type="text"
+          placeholder="US"
+          required
+          autoComplete="address"
+          value={billingDetails.country}
+          disabled={false}
+          onChange={(e) => {
+            setBillingDetails({ ...billingDetails, country: e.target.value });
           }}
         />
       </fieldset>
