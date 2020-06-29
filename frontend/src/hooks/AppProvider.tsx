@@ -301,10 +301,8 @@ export const AppProvider = (props: any) => {
           });
       },
       selectBusiness: (selectedBusinessId: any) => {
-        console.log("Enterong", selectedBusinessId);
         WebService.fetchSingleBusiness(selectedBusinessId).subscribe(
           (data: any) => {
-            console.log("Reloading", data);
             setSelectedBusinessStripeAccountId(data.stripe_id);
             const stripePromise = loadStripe(
               "pk_test_51GqkJHIvBq7cPOzZUkq9YmaFXkqHMRGrjjR1Vtu1wgTBheRzG66nRvZABmllnsbybp9zbscThmhUzbkzKLnZM4EK005gPXOVAd",

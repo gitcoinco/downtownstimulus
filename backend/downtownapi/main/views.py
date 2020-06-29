@@ -13,18 +13,18 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 
 from rest_framework.authentication import TokenAuthentication
-from rest_framework import generics
-from rest_framework import mixins
+from rest_framework import generics, mixins, status
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.exceptions import APIException
 
 from .permissions import UserPermission, BusinessPermission, DonationPermission
 from .utils import account_activation_token
 from .clr import calculate_clr_match
-from .serializers import UserSerializer, BusinessSerializer, DonationSerializer, CLRManySerializer, LoginTokenSerializer, RoundSerializer
+from .serializers import UserSerializer, BusinessSerializer, DonationSerializer, CLRManySerializer, LoginTokenSerializer, RoundSerializer, StripeSecretKey
 from .models import User, Business, Donation, CLRRound
 
 STRIPE_KEY = os.environ.get('STRIPE_KEY')
@@ -331,3 +331,37 @@ class CLRRoundView(generics.GenericAPIView):
         data = CLRRound.objects.get(round_number=CURRENT_ROUND)
         round_serializer = RoundSerializer(data)
         return Response(round_serializer.data, status=status.HTTP_201_CREATED)
+
+
+class StripeSecretKeyView(generics.GenericAPIView):
+
+    serializer_class = StripeSecretKey
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = [TokenAuthentication]
+
+    def post(self, request, *args, **kwargs):
+        serializer = StripeSecretKey(data=request.data)
+        print(request.META)
+        if serializer.is_valid(raise_exception=True):
+            try:
+                business_id = serializer.validated_data.get('business_id')
+                business = Business.objects.get(pk=int(business_id))
+                resp = stripe.PaymentIntent.create(
+                    amount=serializer.validated_data.get('amount'),
+                    currency='usd',
+                    payment_method_types=['card'],
+                    description='Downtown Stimulus Donation',
+                    stripe_account=business.stripe_id,
+                    shipping={
+                        'address': {
+                            'line1': serializer.validated_data.get('shipping_address', ''),
+                            'country': serializer.validated_data.get('shipping_country', 'US')
+                        },
+                        'name': serializer.validated_data.get('name'),
+                    }
+                )
+            except Exception as e:
+                logger.exception('Cannot Create Stripe Client Secret Key ' + str(e))
+                raise APIException('Cannot Create Stripe Client Secret Key')
+
+            return Response(json.dumps({'secret_key': resp['client_secret']}), status=status.HTTP_201_CREATED)

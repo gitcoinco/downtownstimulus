@@ -85,6 +85,14 @@ class CLRManySerializer(serializers.Serializer):
     clr_objs = CLRCalculationSeriaziler(many=True)
 
 
+class StripeSecretKey(serializers.Serializer):
+    amount = serializers.IntegerField()
+    name = serializers.CharField(label= "Donor Name")
+    shipping_address = serializers.CharField(label='Shipping Address')
+    shipping_country = serializers.CharField(label='Shipping Country')
+    business_id = serializers.CharField(label='Business Id')
+
+
 class LoginTokenSerializer(serializers.Serializer):
     username = serializers.CharField(label="Email ID")
     password = serializers.CharField(

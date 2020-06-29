@@ -1,5 +1,5 @@
 from django.urls import path, include, re_path
-from .views import RootView, UserList, UserListDetail, BusinessList, BusinessListDetail, DonationList, DonationListDetail, CLRCalculation, activate, CustomAuthToken, add_business_csv, CLRRoundView, StripeDonations
+from .views import RootView, UserList, UserListDetail, BusinessList, BusinessListDetail, DonationList, DonationListDetail, CLRCalculation, activate, CustomAuthToken, add_business_csv, CLRRoundView, StripeDonations, StripeSecretKeyView
 
 urlpatterns = [
     path('', RootView.as_view(), name='root-view'),
@@ -29,5 +29,7 @@ urlpatterns = [
 
     path('add_business_csv/', add_business_csv, name='add-business-csv'),
 
-    path('current_round/', CLRRoundView.as_view(), name='current-clr-round')
+    path('current_round/', CLRRoundView.as_view(), name='current-clr-round'),
+
+    path('stripe_secret/', StripeSecretKeyView.as_view(), name='stripe-secret')
 ]

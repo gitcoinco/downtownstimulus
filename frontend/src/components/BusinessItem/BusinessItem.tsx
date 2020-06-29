@@ -30,7 +30,7 @@ function BusinessItem({ business }: any) {
           "-" + topMarginReq + "px",
           "important"
         );
-      }, 100);
+      }, 200);
     }
   }, [floatingImgId, floatingNameId]);
 
@@ -67,12 +67,24 @@ function BusinessItem({ business }: any) {
           {business.short_description}
         </Truncate>
       </p>
+      <p className="top-margin-set business-donation-widget-donation-details">
+        <span className="business-donation-widget-donation-details-amount">
+          ${Number.parseFloat(business.donation_received).toFixed(2)}
+        </span>{" "}
+        donated +{" "}
+        <span className="business-donation-widget-donation-details-amount">
+          ${Number.parseFloat(business.current_clr_matching_amount).toFixed(2)}
+        </span>{" "}
+        estimated match
+      </p>
       <div className="business-item-progress-container">
         <div
           className="business-item-progress"
           style={{
             width:
-              (business.current_clr_matching_amount / business.goal_amount) *
+              ((Number.parseFloat(business.donation_received) +
+                Number.parseFloat(business.current_clr_matching_amount)) /
+                business.goal_amount) *
                 100 +
               "%",
           }}
@@ -80,8 +92,12 @@ function BusinessItem({ business }: any) {
       </div>
       <div className="business-item-progress-labels-container">
         <span className="business-item-progress-label">
-          ${Number.parseFloat(business.current_clr_matching_amount).toFixed(0)}{" "}
-          matched
+          $
+          {(
+            Number.parseFloat(business.donation_received) +
+            Number.parseFloat(business.current_clr_matching_amount)
+          ).toFixed(0)}{" "}
+          estimated total
         </span>
         <span className="business-item-progress-label">
           ${business.goal_amount} goal
