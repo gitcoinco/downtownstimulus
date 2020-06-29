@@ -60,7 +60,9 @@ services:
 #    restart: always
 
   nginx:
-    image: ethifylabs/downtownstimulus
+    build:
+      context: .
+      dockerfile: ./PDockerfile
     ports:
       - "80:80"
       - "443:443"
@@ -73,16 +75,6 @@ services:
       - /docker-volumes/etc/letsencrypt/live/downtownstimulus.com/privkey.pem:/etc/letsencrypt/live/downtownstimulus.com/privkey.pem
     depends_on:
       - api
-    environment:
-      - REACT_APP_FIREBASE_KEY=$FIREBASE_KEY
-      - REACT_APP_FIREBASE_AUTH_DOMAIN=$FIREBASE_AUTH_DOMAIN
-      - REACT_APP_FIREBASE_DATABASE_URL=$FIREBASE_DATABASE_URL
-      - REACT_APP_FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID
-      - REACT_APP_FIREBASE_STORAGE_BUCKET=$FIREBASE_STORAGE_BUCKET
-      - REACT_APP_FIREBASE_MESSAGING_SENDER_ID=$FIREBASE_MESSAGING_SENDER_ID
-      - REACT_APP_FIREBASE_APPID=$FIREBASE_APPID
-      - REACT_APP_FIREBASE_MEASUREMENTID=$FIREBASE_MEASUREMENTID
-      - REACT_APP_STRIPE_KEY=$STRIPE_KEY
     restart: always
 
 volumes:
