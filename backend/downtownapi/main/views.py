@@ -187,8 +187,6 @@ class StripeDonations(generics.GenericAPIView):
                 clr_match_amount, business_total_matched_clr_amount, business_totals = calculate_clr_match(
                     user.id, business.id, donation_amount)
 
-                print(business_totals)
-
                 logger.info(
                     f'CLR Amount Matched for {transaction_id}, Donation Amount {donation_amount}, Matched Amount {clr_match_amount}, Business Total Matched Amount {business_total_matched_clr_amount} by User Email {user_email}')
 
@@ -220,9 +218,9 @@ class StripeDonations(generics.GenericAPIView):
                 for t in business_totals:
                     bid = t['id']
                     b = Business.objects.get(pk=int(bid))
-                    print('Changing Business' + b.name)
-                    b.current_clr_matching_amount = t['clr_amount']
-                    b.save()
+                    if t['clr_amount'] > 0:
+                        b.current_clr_matching_amount = t['clr_amount']
+                        b.save()
 
         return Response(json.dumps({"success": True}), status=status.HTTP_201_CREATED)
 
