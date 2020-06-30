@@ -85,6 +85,7 @@ function BusinessPageBig(props) {
                   className="business-detail-video-iframe"
                   src={props.selectedBusiness.business_video_link}
                   frameBorder="0"
+                  title="business youtube video"
                 />
               </div>
             )}
