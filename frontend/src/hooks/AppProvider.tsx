@@ -304,7 +304,7 @@ export const AppProvider = (props: any) => {
         WebService.fetchSingleBusiness(selectedBusinessId).subscribe((data: any) => {
           setSelectedBusinessStripeAccountId(data.stripe_id);
           const stripePromise = loadStripe(
-            "pk_test_51GqkJHIvBq7cPOzZUkq9YmaFXkqHMRGrjjR1Vtu1wgTBheRzG66nRvZABmllnsbybp9zbscThmhUzbkzKLnZM4EK005gPXOVAd",
+            "pk_live_UT57A3l38wyhTUM2zKDqKl3400riLE9T3m",
             { stripeAccount: data.stripe_id },
           );
           dispatch({ type: "SET_SELECTED_BUSINESS", selectedBusiness: data });
