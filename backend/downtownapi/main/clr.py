@@ -90,19 +90,30 @@ def calculate_clr(aggregated_contributions, _cap=6250, total_pot=25000.0):
         # non-clr pairwise formula
         clr_amount = (ssq ** 2) - tot
 
-        # implement cap
-        if clr_amount >= _cap:
-            clr_amount = _cap
-
         # results for total
         totals.append({'id': proj, 'clr_amount': clr_amount})
         bigtot += clr_amount
 
-    # warn if sataurated
-    if bigtot >= total_pot:
+    bigtot_normalized_cap = 0
+    for t in totals:
+        clr_amount = t['clr_amount']
+
+        # 1. normalize
+        if bigtot >= total_pot:
+            t['clr_amount'] = ((clr_amount / bigtot) * total_pot) 
+
+        # 2. cap clr amount
+        if clr_amount >= _cap:
+            t['clr_amount'] = _cap
+        
+        # 3. calculate the total clr to be distributed
+        bigtot_normalized_cap += t['clr_amount']
+
+    if bigtot_normalized_cap >= total_pot:
         saturation_point = True
 
-    return totals, bigtot, saturation_point
+
+    return totals, bigtot_normalized_cap, saturation_point
 
 
 def calculate_live_clr(aggregated_contributions, business_id, _cap=6250, total_pot=25000.0):
