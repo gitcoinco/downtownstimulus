@@ -128,7 +128,7 @@ def calculate_live_clr(aggregated_contributions, business_id, _cap=6250, total_p
     '''
     saturation_point = False
     bigtot = 0
-
+    totals = []
     business_data = {}
     for proj, contribz in aggregated_contributions.items():
         ssq = 0
@@ -141,20 +141,33 @@ def calculate_live_clr(aggregated_contributions, business_id, _cap=6250, total_p
         # non-clr pairwise formula
         clr_amount = (ssq ** 2) - tot
 
-        # implement cap
-        if clr_amount >= _cap:
-            clr_amount = _cap
-
-        # results for total
-        if proj == business_id:
-            business_data = {'id': proj, 'clr_amount': clr_amount}
+        totals.append({'id': proj, 'clr_amount': clr_amount})
         bigtot += clr_amount
 
-    # warn if sataurated
-    if bigtot >= total_pot:
+    bigtot_normalized_cap = 0
+    for t in totals:
+        clr_amount = t['clr_amount']
+
+        # 1. normalize
+        if bigtot >= total_pot:
+            t['clr_amount'] = ((clr_amount / bigtot) * total_pot)
+
+            # 2. cap clr amount
+        if clr_amount >= _cap:
+            t['clr_amount'] = _cap
+
+        # 3. calculate the total clr to be distributed
+        bigtot_normalized_cap += t['clr_amount']
+
+    for t in totals:
+        if t['id'] == business_id:
+            business_data = t
+            break
+
+    if bigtot_normalized_cap >= total_pot:
         saturation_point = True
 
-    return business_data, bigtot, saturation_point
+    return business_data, bigtot, saturation_point, totals
 
 
 def calculate_clr_match(user_id, business_id, donation_amount):
@@ -176,7 +189,7 @@ def calculate_clr_match(user_id, business_id, donation_amount):
 
     translated_donation_data = translate_data(donations)
     aggregated_contributions = aggregate_contributions(translated_donation_data)
-    calculate_clr_data, bigtot, saturation_point = calculate_live_clr(aggregated_contributions, business_id)
+    calculate_clr_data, bigtot, saturation_point, business_totals = calculate_live_clr(aggregated_contributions, business_id)
 
     print('translated_donation_data', translated_donation_data)
     print('aggregated_contributions', aggregated_contributions)
@@ -202,4 +215,4 @@ def calculate_clr_match(user_id, business_id, donation_amount):
 
     print('user_match_amount', user_match_amount)
 
-    return user_match_amount, matched_clr_amount
+    return user_match_amount, matched_clr_amount, business_totals
