@@ -78,11 +78,17 @@ function BusinessPageSmall(props) {
               </h3>
               <p className="top-margin-set business-donation-widget-donation-details">
                 <span className="business-donation-widget-donation-details-amount">
-                  ${Number.parseFloat(props.selectedBusiness.donation_received).toFixed(2)}
+                  $
+                  {Number.parseFloat(
+                    props.selectedBusiness.donation_received
+                  ).toFixed(2)}
                 </span>{" "}
                 donated +{" "}
                 <span className="business-donation-widget-donation-details-amount">
-                  ${Number.parseFloat(props.selectedBusiness.current_clr_matching_amount).toFixed(2)}
+                  $
+                  {Number.parseFloat(
+                    props.selectedBusiness.current_clr_matching_amount
+                  ).toFixed(2)}
                 </span>{" "}
                 estimated match
               </p>
@@ -344,6 +350,15 @@ function BusinessPageSmall(props) {
             <p className="business-details-body-content top-margin-set">
               {props.selectedBusiness.history}
             </p>
+            {props.selectedBusiness.business_video_link && (
+              <div className="top-margin-set ">
+                <iframe
+                  className="business-detail-video-iframe"
+                  src={props.selectedBusiness.business_video_link}
+                  frameBorder="0"
+                />
+              </div>
+            )}
             <h2 className="business-details-body-title top-margin-set">
               And Then COVID Happened...
             </h2>

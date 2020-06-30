@@ -29,6 +29,7 @@ export const mapToBusiness = (business: IBusiness): IBusiness => {
     facebook_profile_link: business.facebook_profile_link,
     instagram_profile_link: business.instagram_profile_link,
     saturation: business.saturation,
+    accepting_donations: business.accepting_donations,
   };
 };
 

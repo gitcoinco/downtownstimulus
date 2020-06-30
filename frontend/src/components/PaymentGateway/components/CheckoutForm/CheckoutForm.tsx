@@ -186,7 +186,7 @@ const CheckoutForm = () => {
       <SubmitButton
         processing={processing}
         error={error}
-        disabled={!stripe || !user}
+        disabled={!stripe || !user || !selectedBusiness.accepting_donations}
       >
         Pay ${donationAmount}
       </SubmitButton>

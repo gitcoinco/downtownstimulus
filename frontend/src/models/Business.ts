@@ -20,4 +20,5 @@ export interface IBusiness {
   facebook_profile_link: string;
   instagram_profile_link: string;
   saturation: boolean;
+  accepting_donations: boolean;
 }
