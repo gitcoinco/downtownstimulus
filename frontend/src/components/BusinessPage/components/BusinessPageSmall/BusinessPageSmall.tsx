@@ -80,14 +80,14 @@ function BusinessPageSmall(props) {
                 <span className="business-donation-widget-donation-details-amount">
                   $
                   {Number.parseFloat(
-                    props.selectedBusiness.donation_received
+                    props.selectedBusiness.donation_received,
                   ).toFixed(2)}
                 </span>{" "}
                 donated +{" "}
                 <span className="business-donation-widget-donation-details-amount">
                   $
                   {Number.parseFloat(
-                    props.selectedBusiness.current_clr_matching_amount
+                    props.selectedBusiness.current_clr_matching_amount,
                   ).toFixed(2)}
                 </span>{" "}
                 estimated match
@@ -96,11 +96,11 @@ function BusinessPageSmall(props) {
                 <div
                   className="business-item-progress"
                   style={{
-                    width:
+                    width: `${
                       (props.selectedBusiness.current_clr_matching_amount /
                         props.selectedBusiness.goal_amount) *
-                        100 +
-                      "%",
+                      100
+                    }%`,
                   }}
                 ></div>
               </div>
@@ -108,11 +108,9 @@ function BusinessPageSmall(props) {
                 <span className="business-donation-progress-label">
                   $
                   {(
+                    Number.parseFloat(props.selectedBusiness.donation_received) +
                     Number.parseFloat(
-                      props.selectedBusiness.donation_received
-                    ) +
-                    Number.parseFloat(
-                      props.selectedBusiness.current_clr_matching_amount
+                      props.selectedBusiness.current_clr_matching_amount,
                     )
                   ).toFixed(0)}{" "}
                   estimated total
@@ -126,8 +124,8 @@ function BusinessPageSmall(props) {
                   <span role="img" aria-label="tada">
                     🎉
                   </span>{" "}
-                  <i>Important Note</i>: Round 1 of the Downtown Stimulus has
-                  closed! Thank you for your support!!{" "}
+                  <i>Important Note</i>: Round 1 of the Downtown Stimulus has closed!
+                  Thank you for your support!!{" "}
                   <span role="img" aria-label="tada">
                     🎉
                   </span>
@@ -136,9 +134,7 @@ function BusinessPageSmall(props) {
               {/* eslint-disable-next-line */}
               <a
                 className="business-donation-qf-link top-margin-set bottom-margin-set"
-                onClick={(e) =>
-                  props.setModalConfig(true, { type: "qfExplainer" })
-                }
+                onClick={(e) => props.setModalConfig(true, { type: "qfExplainer" })}
               >
                 Learn how our donation matching works
               </a>
@@ -280,9 +276,7 @@ function BusinessPageSmall(props) {
                               handleCustomClrMatchingAmount={
                                 props.handleCustomClrMatchingAmount
                               }
-                              setDonationAmountState={
-                                props.setDonationAmountState
-                              }
+                              setDonationAmountState={props.setDonationAmountState}
                             />
                           </span>
                         </div>
@@ -293,9 +287,7 @@ function BusinessPageSmall(props) {
                           $
                           {props.customDonationMatching[0].toFixed(2) < 0
                             ? 0
-                            : Math.abs(
-                                props.customDonationMatching[0].toFixed(2)
-                              )}
+                            : Math.abs(props.customDonationMatching[0].toFixed(2))}
                         </span>
                       </p>
                       <div className="business-donation-donate-container top-margin-set">
@@ -315,9 +307,7 @@ function BusinessPageSmall(props) {
                     <button
                       type="button"
                       className="business-donation-share-button"
-                      onClick={(e) =>
-                        props.setModalConfig(true, { type: "share" })
-                      }
+                      onClick={(e) => props.setModalConfig(true, { type: "share" })}
                     >
                       <Share2 />
                       <span>SHARE</span>
@@ -335,7 +325,7 @@ function BusinessPageSmall(props) {
                       <span>{props.getExpenditureIcons(tag)}</span>
                       <span>{tag}</span>
                     </div>
-                  )
+                  ),
                 )}
               </div>
               <p className="top-margin-set">

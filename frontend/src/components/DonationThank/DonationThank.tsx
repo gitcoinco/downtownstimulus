@@ -37,15 +37,15 @@ function DonationThank() {
         </div>
         <div className="donation-thanks-company-right">
           <p>
-            "We can’t tell you what your donation means to us! Thank you for
-            helping us weather the storm!"
+            "We can’t tell you what your donation means to us! Thank you for helping
+            us weather the storm!"
           </p>
         </div>
       </div>
       <p className="top-margin-set">
-        Please considering sharing with your friends and family! If we all pitch
-        in, we can keep our community a vital and vibrant place for locally
-        owned businesses in this difficult time.
+        Please considering sharing with your friends and family! If we all pitch in,
+        we can keep our community a vital and vibrant place for locally owned
+        businesses in this difficult time.
       </p>
       <div className="donation-thanks-links-container top-margin-set">
         <div className="donation-thanks-links-item">
@@ -96,9 +96,9 @@ function DonationThank() {
         </button>
       </div>
       <p className="top-margin-set">
-        Finished sharing? Scroll down to check out a few more businesses that
-        need our help and please consider donating to the local small businesses
-        that make living in Boulder so amazing.
+        Finished sharing? Scroll down to check out a few more businesses that need
+        our help and please consider donating to the local small businesses that make
+        living in Boulder so amazing.
       </p>
     </div>
   );

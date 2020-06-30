@@ -12,7 +12,7 @@ const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
   const { setModalConfig, fetchAllBusinesses, selectBusiness } = useContext(
-    ActionContext
+    ActionContext,
   );
   const { user, donationAmount, selectedBusiness } = useContext(StateContext);
   const [error, setError] = useState(null);
@@ -59,7 +59,7 @@ const CheckoutForm = () => {
         selectedBusiness.id,
         billingDetails.name,
         billingDetails.address,
-        billingDetails.country
+        billingDetails.country,
       ).subscribe(async (data) => {
         if (data.ok) {
           const response = await data.json();
@@ -73,7 +73,7 @@ const CheckoutForm = () => {
                   name: billingDetails.name,
                 },
               },
-            }
+            },
           );
 
           setProcessing(false);
@@ -97,7 +97,8 @@ const CheckoutForm = () => {
             }
           }
         } else {
-          console.log("Error", await data.json());
+          // eslint-disable-next-line
+          console.log("Error", await data.json())
         }
       });
     } else {

@@ -52,12 +52,12 @@ function BusinessItem({ business }: any) {
         <div
           className="business-item-progress"
           style={{
-            width:
+            width: `${
               ((Number.parseFloat(business.donation_received) +
                 Number.parseFloat(business.current_clr_matching_amount)) /
                 business.goal_amount) *
-                100 +
-              "%",
+              100
+            }%`,
           }}
         ></div>
       </div>
