@@ -10,14 +10,13 @@ import "firebase/auth";
 // const FIREBASE_APP_ID = process.env.FIREBASE_APP_ID;
 // const FIREBASE_MEASUREMENT_ID = process.env.FIREBASE_MEASUREMENT_ID;
 
-const FIREBASE_KEY = "AIzaSyDQaEt__JE2N8VpOHyDms4gdBcCrbpMe3g";
-const FIREBASE_AUTH_DOMAIN = "downtown-stimulus.firebaseapp.com";
-const FIREBASE_DATABASE_URL = "https://downtown-stimulus.firebaseio.com";
-const FIREBASE_PROJECT_ID = "downtown-stimulus";
-const FIREBASE_STORAGE_BUCKET = "downtown-stimulus.appspot.com";
-const FIREBASE_MESSAGING_SENDER_ID = "441301072810";
-const FIREBASE_APP_ID = "1:441301072810:web:bf6c5f83f7bd7f9b6ec9d3";
-const FIREBASE_MEASUREMENT_ID = "G-9GZG7Y792M";
+const FIREBASE_KEY = "AIzaSyCkhlUKdbkaMnorgs4OeQ0-pro93v-rWHo";
+const FIREBASE_AUTH_DOMAIN = "downtownstimulus.firebaseapp.com";
+const FIREBASE_DATABASE_URL = "https://downtownstimulus.firebaseio.com";
+const FIREBASE_PROJECT_ID = "downtownstimulus";
+const FIREBASE_STORAGE_BUCKET = "downtownstimulus.appspot.com";
+const FIREBASE_MESSAGING_SENDER_ID = "993720869238";
+const FIREBASE_APP_ID = "1:993720869238:web:b22cb483737dd5c71dda57";
 
 const firebaseConfig = {
   apiKey: FIREBASE_KEY,
@@ -27,7 +26,6 @@ const firebaseConfig = {
   storageBucket: FIREBASE_STORAGE_BUCKET,
   messagingSenderId: FIREBASE_MESSAGING_SENDER_ID,
   appId: FIREBASE_APP_ID,
-  measurementId: FIREBASE_MEASUREMENT_ID,
 };
 
 // Initialize Firebase
