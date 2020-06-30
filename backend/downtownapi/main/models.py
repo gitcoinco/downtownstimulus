@@ -51,6 +51,7 @@ class Business(models.Model):
     donation_received = models.FloatField(blank=False, default=0.00)
     current_clr_matching_amount = models.DecimalField(default=1, decimal_places=4, max_digits=50)
     cap_reached = models.BooleanField(default=False)
+    accepting_donations = models.BooleanField(default=True, help_text='Whether or not this contribution is being accepted', verbose_name='Accepting Donations ?')
 
     def __str__(self):
         return self.name + ' - ' + str(self.id)

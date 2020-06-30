@@ -100,6 +100,12 @@ function Footer() {
             </a>
           </div>
         </div>
+        <h4 className="footer-support-header">Pilot Funding proudly supported by:</h4>
+        <ul>
+          <li><a href="https://feld.com" rel="noopener noreferrer" target="_blank">Brad Feld</a></li>
+          <li><a href="https://gitcoin.co/grants" rel="noopener noreferrer" target="_blank">GitCoin Grantees</a></li>
+          <li><a href="https://owocki.com" rel="noopener noreferrer" target="_blank">Kevin Owocki</a></li>
+        </ul>
       </div>
     </div>
   );
