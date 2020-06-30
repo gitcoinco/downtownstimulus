@@ -23,9 +23,7 @@ function Home() {
         </ul>
       ) : (
         <div className="center-text">
-          {businessLoader
-            ? "Loading businesses..."
-            : "Doesn't match any results."}
+          {businessLoader ? "Loading businesses..." : "Doesn't match any results."}
         </div>
       )}
     </div>

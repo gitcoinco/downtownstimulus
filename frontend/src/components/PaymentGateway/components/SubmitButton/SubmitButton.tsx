@@ -3,9 +3,7 @@ import "./SubmitButton.scss";
 
 const SubmitButton = ({ processing, error, children, disabled }) => (
   <button
-    className={`SubmitButton top-margin-set ${
-      error ? "SubmitButton--error" : ""
-    }`}
+    className={`SubmitButton top-margin-set ${error ? "SubmitButton--error" : ""}`}
     type="submit"
     disabled={processing || disabled}
   >

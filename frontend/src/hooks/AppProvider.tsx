@@ -139,7 +139,7 @@ export const AppProvider = (props: any) => {
         round_status: "Ongoing",
       },
       businessLoader: false,
-    }
+    },
   );
 
   useEffect(() => {
@@ -167,7 +167,7 @@ export const AppProvider = (props: any) => {
       searchBusinesses: (searchText: string, backupBusinesses: any[]) => {
         const filteredBusinesses = backupBusinesses.filter(
           (business) =>
-            business.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
+            business.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1,
         );
         dispatch({ type: "SET_SEARCH_TEXT", searchText });
         dispatch({
@@ -301,17 +301,15 @@ export const AppProvider = (props: any) => {
           });
       },
       selectBusiness: (selectedBusinessId: any) => {
-        WebService.fetchSingleBusiness(selectedBusinessId).subscribe(
-          (data: any) => {
-            setSelectedBusinessStripeAccountId(data.stripe_id);
-            const stripePromise = loadStripe(
-              "pk_test_51GqkJHIvBq7cPOzZUkq9YmaFXkqHMRGrjjR1Vtu1wgTBheRzG66nRvZABmllnsbybp9zbscThmhUzbkzKLnZM4EK005gPXOVAd",
-              { stripeAccount: data.stripe_id }
-            );
-            dispatch({ type: "SET_SELECTED_BUSINESS", selectedBusiness: data });
-            dispatch({ type: "SET_STRIPE_PROMISE", stripePromise });
-          }
-        );
+        WebService.fetchSingleBusiness(selectedBusinessId).subscribe((data: any) => {
+          setSelectedBusinessStripeAccountId(data.stripe_id);
+          const stripePromise = loadStripe(
+            "pk_test_51GqkJHIvBq7cPOzZUkq9YmaFXkqHMRGrjjR1Vtu1wgTBheRzG66nRvZABmllnsbybp9zbscThmhUzbkzKLnZM4EK005gPXOVAd",
+            { stripeAccount: data.stripe_id },
+          );
+          dispatch({ type: "SET_SELECTED_BUSINESS", selectedBusiness: data });
+          dispatch({ type: "SET_STRIPE_PROMISE", stripePromise });
+        });
       },
       fetchAllBusinesses: () => {
         dispatch({ type: "SET_BUSINESS_LOADER", businessLoader: true });
@@ -363,13 +361,11 @@ export const AppProvider = (props: any) => {
       },
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [],
   );
   return (
     <ActionContext.Provider value={actionContext}>
-      <StateContext.Provider value={state}>
-        {props.children}
-      </StateContext.Provider>
+      <StateContext.Provider value={state}>{props.children}</StateContext.Provider>
     </ActionContext.Provider>
   );
 };

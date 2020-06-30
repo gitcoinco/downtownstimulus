@@ -9,7 +9,7 @@ import { DollarSign, Home, Globe } from "react-feather";
 import MetaTags from "react-meta-tags";
 
 function BusinessPage() {
-  let { id } = useParams();
+  const { id } = useParams();
   const {
     setModalConfig,
     selectBusiness,
@@ -136,10 +136,7 @@ function BusinessPage() {
       {selectedBusiness && (
         <MetaTags>
           <title>Downtown Stimulus</title>
-          <meta
-            name="description"
-            content={selectedBusiness.short_description}
-          />
+          <meta name="description" content={selectedBusiness.short_description} />
           <meta property="og:title" content={selectedBusiness.name} />
           <meta property="og:image" content="../../assets/cover.jpg" />
           <meta name="twitter:card" content="summary_large_image" />

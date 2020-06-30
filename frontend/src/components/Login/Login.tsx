@@ -8,13 +8,8 @@ function Login() {
 
   return (
     <div className="login">
-        <img
-          src={require("../../assets/app-icon.svg")}
-          alt="logo"
-        />
-      <h2 className="login-header">
-        Connect with Downtown Stimulus
-      </h2>
+      <img src={require("../../assets/app-icon.svg")} alt="logo" />
+      <h2 className="login-header">Connect with Downtown Stimulus</h2>
       <SocialLogin type="login" />
       {/* <p className="login-text top-margin-set">Or login with your email!</p>
       <div className="login-input-container top-margin-set">

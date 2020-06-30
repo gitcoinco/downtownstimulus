@@ -14,6 +14,11 @@
     "@types/react-dom": "^16.9.0",
     "@types/react-router-dom": "^5.1.5",
     "clipboard-copy": "^3.1.0",
+    "eslint": "6.8.0",
+    "eslint-config-prettier": "6.11.0",
+    "eslint-plugin-prettier": "3.1.4",
+    "husky": "4.2.5",
+    "lint-staged": "10.2.10",
     "firebase": "^7.14.6",
     "lodash": "^4.17.15",
     "node-sass": "^4.14.1",
@@ -36,11 +41,22 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "fix": "npm run fix:other && npm run fix:code",
+    "fix:code": "npm run test:code -- --fix",
+    "fix:other": "npm run prettier -- --write",
+    "prettier": "prettier \"**/*.{css,scss,json,md,html,yml}\" --ignore-path=.eslintignore",
+    "test:code": "eslint --max-warnings=0 --ignore-path .gitignore --ext .js,.ts,.tsx ."
   },
   "eslintConfig": {
     "extends": "react-app"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "bugs": "https://github.com/excalidraw/excalidraw-embed/issues",
   "browserslist": {
     "production": [
       ">0.2%",

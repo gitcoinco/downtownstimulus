@@ -11,9 +11,7 @@ function Header() {
   const [dropdownActive, setDropdownActive] = useState(false);
   return (
     <div
-      className={`header ${
-        location.pathname !== "/" ? "header-with-shadow" : ""
-      }`}
+      className={`header ${location.pathname !== "/" ? "header-with-shadow" : ""}`}
     >
       <Link to="/" className="header-home-container">
         <Home />
@@ -21,11 +19,7 @@ function Header() {
       <div className="header-profile-container">
         {user ? (
           <>
-            <img
-              src={user.profile_pic}
-              alt="profile"
-              className="profile-icon"
-            />
+            <img src={user.profile_pic} alt="profile" className="profile-icon" />
             <div
               className="header-profile-drop-down-icon"
               onClick={(e) => setDropdownActive(!dropdownActive)}

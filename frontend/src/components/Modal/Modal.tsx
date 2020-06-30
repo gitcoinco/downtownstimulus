@@ -25,8 +25,7 @@ function Modal() {
         className={`modal ${!openModal ? "closed" : ""}`}
         style={{
           minWidth:
-            modalConfig.type === "qfExplainer" ||
-            modalConfig.type === "legalInfo"
+            modalConfig.type === "qfExplainer" || modalConfig.type === "legalInfo"
               ? "80%"
               : 400,
         }}
