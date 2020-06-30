@@ -1,32 +1,70 @@
-version: '3'
-services: 
+version: "3"
+services:
   db:
     image: postgres
     environment:
-       - POSTGRES_DB=postgres
-       - POSTGRES_USER=postgres
-       - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
 
   api:
     build:
       context: .
       dockerfile: ./backend/Dockerfile
-    command: python manage.py runserver 0.0.0.0:8000
+    command: bash /scripts/deploy/api_deploy_dev.sh
     ports:
       - "8000:8000"
     depends_on:
       - db
     volumes:
       - ./backend:/backend
+      - ./scripts:/scripts
+    environment:
+      - SENDGRID_KEY=$SENDGRID_KEY
+      - PRODUCTION=False
+      - STRIPE_KEY=$STRIPE_KEY
+      - STRIPE_WEBHOOK_KEY=$STRIPE_WEBHOOK_KEY
+      - DJANGO_SECRET_KEY=$DJANGO_SECRET_KEY
+      - CURRENT_ROUND=1
+      - FIREBASE_KEY=$FIREBASE_KEY
+      - FIREBASE_AUTH_DOMAIN=$FIREBASE_AUTH_DOMAIN
+      - FIREBASE_DATABASE_URL=$FIREBASE_DATABASE_URL
+      - FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID
+      - FIREBASE_STORAGE_BUCKET=$FIREBASE_STORAGE_BUCKET
+      - FIREBASE_MESSAGING_SENDER_ID=$FIREBASE_MESSAGING_SENDER_ID
+      - FIREBASE_APPID=$FIREBASE_APPID
+      - FIREBASE_MEASUREMENTID=$FIREBASE_MEASUREMENTID
+      - POSTGRES_HOST=$POSTGRES_HOST
+      - POSTGRES_DB=$POSTGRES_DB
+      - POSTGRES_USER=$POSTGRES_USER
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
 
   web:
     build:
       context: .
       dockerfile: ./frontend/Dockerfile
     command: yarn start
+    volumes:
+    - ./frontend/src:/frontend/src
     ports:
-      - "3000:3000"  
+      - "3000:3000"
     depends_on:
       - api
-    volumes:
-      - ./frontend:/frontend
+    environment:
+      - REACT_APP_FIREBASE_KEY=$FIREBASE_KEY
+      - REACT_APP_FIREBASE_AUTH_DOMAIN=$FIREBASE_AUTH_DOMAIN
+      - REACT_APP_FIREBASE_DATABASE_URL=$FIREBASE_DATABASE_URL
+      - REACT_APP_FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID
+      - REACT_APP_FIREBASE_STORAGE_BUCKET=$FIREBASE_STORAGE_BUCKET
+      - REACT_APP_FIREBASE_MESSAGING_SENDER_ID=$FIREBASE_MESSAGING_SENDER_ID
+      - REACT_APP_FIREBASE_APPID=$FIREBASE_APPID
+      - REACT_APP_FIREBASE_MEASUREMENTID=$FIREBASE_MEASUREMENTID
+      - REACT_APP_STRIPE_KEY=$STRIPE_KEY
+    stdin_open: true
+
+volumes:
+  db-data:

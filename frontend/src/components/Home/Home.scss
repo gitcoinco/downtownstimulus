@@ -1,0 +1,33 @@
+.home {
+  .business-list {
+    margin: 1.5em auto;
+    width: 1200px;
+    padding: 0px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+  }
+
+  .center-text {
+    text-align: center;
+    padding: 3em 0em;
+    font-weight: 500;
+    font-size: 1.5em;
+  }
+}
+
+$information-phone: "only screen and (max-width : 464px)";
+$information-pad: "only screen and (max-width : 1200px) and (min-width: 464px)";
+@media #{$information-phone} {
+  .business-list {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+}
+
+@media #{$information-pad} {
+  .business-list {
+    width: 93% !important;
+  }
+}

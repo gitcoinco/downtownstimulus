@@ -1,0 +1,50 @@
+version: "3"
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
+    command: bash /scripts/deploy/api_deploy.sh
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/backend
+      - ./scripts:/scripts
+    working_dir: /backend/downtownapi/
+    environment:
+      - SENDGRID_KEY=$SENDGRID_KEY
+      - PRODUCTION=True
+      - STRIPE_KEY=$STRIPE_KEY
+      - STRIPE_WEBHOOK_KEY=$STRIPE_WEBHOOK_KEY
+      - DJANGO_SECRET_KEY=$DJANGO_SECRET_KEY
+      - CURRENT_ROUND=1
+      - FIREBASE_KEY=$FIREBASE_KEY
+      - FIREBASE_AUTH_DOMAIN=$FIREBASE_AUTH_DOMAIN
+      - FIREBASE_DATABASE_URL=$FIREBASE_DATABASE_URL
+      - FIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID
+      - FIREBASE_STORAGE_BUCKET=$FIREBASE_STORAGE_BUCKET
+      - FIREBASE_MESSAGING_SENDER_ID=$FIREBASE_MESSAGING_SENDER_ID
+      - FIREBASE_APPID=$FIREBASE_APPID
+      - POSTGRES_HOST=$POSTGRES_HOST
+      - POSTGRES_DB=$POSTGRES_DB
+      - POSTGRES_USER=$POSTGRES_USER
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+    restart: always
+
+  nginx:
+    image: ethifylabs/downtownstimulus
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx-proxy.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./backend/downtownapi/static:/var/www/backend
+      - ./dh-param/dhparam-2048.pem:/etc/ssl/certs/dhparam-2048.pem
+      - /docker-volumes/etc/letsencrypt/live/downtownstimulus.com/fullchain.pem:/etc/letsencrypt/live/downtownstimulus.com/fullchain.pem
+      - /docker-volumes/etc/letsencrypt/live/downtownstimulus.com/privkey.pem:/etc/letsencrypt/live/downtownstimulus.com/privkey.pem
+    depends_on:
+      - api
+    restart: always
+
+volumes:
+  db-data:

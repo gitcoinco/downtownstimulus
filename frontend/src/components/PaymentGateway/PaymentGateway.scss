@@ -1,0 +1,23 @@
+input,
+button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+  border-style: none;
+}
+
+.AppWrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  min-width: 464px;
+}
+
+$information-phone: "only screen and (max-width : 800px)";
+$information-pad: "only screen and (min-width: 800px)";
+@media #{$information-phone} {
+  .AppWrapper {
+    min-width: auto !important;
+  }
+}

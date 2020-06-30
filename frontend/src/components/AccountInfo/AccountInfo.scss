@@ -1,0 +1,82 @@
+.account-info {
+  width: 1200px;
+  margin: 1.5em auto;
+  display: flex;
+  flex-direction: column;
+
+  .account-info-container {
+    margin: 1.5em;
+    display: flex;
+    flex-direction: column;
+
+    .account-info-form-element {
+      padding: 8px 16px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 2px solid var(--grey3Color);
+      width: 50%;
+
+      &:focus {
+        border: 2px solid var(--blackColor);
+      }
+    }
+
+    .save-button {
+      width: 53%;
+      padding: 10px;
+      background: var(--primaryColor);
+      color: var(--whiteColor);
+      font-size: 18px;
+      border-radius: 6px;
+      cursor: pointer;
+
+      &:hover {
+        background: var(--primaryHighlightColor);
+      }
+    }
+  }
+}
+
+$information-phone: "only screen and (max-width : 464px)";
+$information-pad: "only screen and (max-width : 1024px) and (min-width: 464px)";
+@media #{$information-phone} {
+  .account-info {
+    width: 100% !important;
+
+    .account-info-container {
+      .account-info-form-element-container {
+        display: flex;
+        flex-direction: column;
+        .account-info-form-element {
+          width: auto !important;
+          flex: 1;
+        }
+
+        .save-button {
+          width: 100% !important;
+        }
+      }
+    }
+  }
+}
+
+@media #{$information-pad} {
+  .account-info {
+    width: 100% !important;
+    .account-info-container {
+      .account-info-form-element-container {
+        display: flex;
+        flex-direction: column;
+        .account-info-form-element {
+          width: auto !important;
+          flex: 1;
+        }
+
+        .save-button {
+          width: 50% !important;
+          margin: 0px auto;
+        }
+      }
+    }
+  }
+}

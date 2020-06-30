@@ -1,0 +1,47 @@
+.login-facebook-button-container {
+  .login-facebook-button {
+    width: 100%;
+    background: #375594;
+    color: var(--whiteColor);
+    border: 1px solid #375594;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 29px;
+    border-radius: 6px;
+    padding: 8px;
+    cursor: pointer;
+    outline: none;
+    &:active {
+      background: darken(#375594, 10);
+    }
+    &:hover {
+      background: darken(#375594, 5);
+    }
+  }
+}
+
+.login-google-button-container {
+  .login-google-button {
+    width: 100%;
+    background: #cf4332;
+    color: var(--whiteColor);
+    border: 1px solid #cf4332;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 29px;
+    border-radius: 6px;
+    padding: 8px;
+    cursor: pointer;
+    outline: none;
+    &:active {
+      background: darken(#cf4332, 10);
+    }
+    &:hover {
+      background: darken(#cf4332, 5);
+    }
+  }
+}

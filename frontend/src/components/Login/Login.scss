@@ -1,0 +1,58 @@
+.login {
+  text-align: center;
+  margin: 1.5em;
+  padding: 1.5em;
+
+  .login-header {
+    font-size: 26.9008px;
+  }
+
+  .login-text {
+    font-family: Roboto;
+    font-size: 16px;
+    line-height: 23px;
+    text-align: center;
+  }
+
+  .login-input-container {
+    display: flex;
+    flex-direction: column;
+    .login-input-label {
+      color: var(--grey4Color);
+      justify-content: flex-start;
+      display: flex;
+    }
+    .login-input {
+      padding: 0.8em;
+      border: 1px solid var(--grey3Color);
+      border-radius: 4px;
+      margin-top: 4px;
+    }
+  }
+
+  .login-create-link-container {
+    .login-create-link {
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  }
+
+  .login-email-submit-container {
+    .login-email-submit-button {
+      width: 100%;
+      border-radius: 42px;
+      background: var(--primaryColor);
+      color: var(--whiteColor);
+      border: 0;
+      padding: 0.65em;
+      font-size: 16px;
+      font-weight: bold;
+      outline: none;
+      cursor: pointer;
+      &:active {
+        background: darken(#ff8a00, 10);
+      }
+    }
+  }
+}

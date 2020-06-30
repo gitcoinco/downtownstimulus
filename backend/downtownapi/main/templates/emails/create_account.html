@@ -1,0 +1,23 @@
+{% extends 'emails/base.html' %}
+{% block content %}
+
+<div>
+    <img src="https://api.downtownstimulus.com/static/Header.png">
+    <h4>Hi, {{ user_name }}</h4>
+    <p>Welcome to the Downtown Stimulus project! Thank you for taking an interest in supporting Boulder businesses through this pilot. Use the link below to login to your account so you can get started donating.</p>
+
+    <a href="https://downtownstimulus.com">Downtown Stimulus Website</a>
+    <p>As a reminder, your donated dollars will be supercharged from a matching fund of $30,000 using a unique matching algorithm called Quadratic Funding. Learn more about how we’re matching your contributions below:</p>
+
+    <p>Spread the word about our pilot, which runs through July 3. Every donation counts and the more friends who donate, the more impactful the matched donation will be.</p>
+
+    <p>Thanks for supporting your Boulder businesses!</p>
+
+    {% if token %}
+    <p>Please click on the link to confirm your registration,{{ domain }}{% url 'activate' uidb64=uid token=token %}</p>
+    {% endif %}
+
+    <p>The Downtown Stimulus team</p>
+</div>
+
+{% endblock %}

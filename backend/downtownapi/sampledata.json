@@ -1,0 +1,408 @@
+[
+  {
+    "model": "main.business",
+    "pk": 1,
+    "fields": {
+      "name": "Awesome Business",
+      "owner_email": "user3@example.com",
+      "short_description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+      "history": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,",
+      "covid_story": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+      "other_content": "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
+      "logo": "https://logomaster.ai/static/media/gallery002.936afb9d.png",
+      "cover_image": "http://localhost:3000/static/media/image%2048.d014bad5.png",
+      "main_business_image": "http://localhost:3000/static/media/Rectangle%201.2b0b679a.png",
+      "staff_images": "[\"http://localhost:3000/static/media/Rectangle%201.2b0b679a.png\", \"http://localhost:3000/static/media/Rectangle%201.2b0b679a.png\"]",
+      "business_video_link": "string",
+      "website_link": "awesomebusiness.com",
+      "facebook_profile_link": "awesome.business",
+      "instagram_profile_link": "awesome.business",
+      "stripe_id": "GVBU12345GHJK",
+      "expenditure_details": "[\"Rent\", \"Employee Salaries\", \"Inventory\"]",
+      "goal_amount": 5000.0,
+      "donation_received": 200.0,
+      "current_clr_matching_amount": "0.0000",
+      "saturation": false
+    }
+  },
+  {
+    "model": "main.business",
+    "pk": 2,
+    "fields": {
+      "name": "Amazing Business",
+      "owner_email": "user1@example.com",
+      "short_description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+      "history": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,",
+      "covid_story": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+      "other_content": "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
+      "logo": "https://logomaster.ai/static/media/gallery002.936afb9d.png",
+      "cover_image": "http://localhost:3000/static/media/image%2048.d014bad5.png",
+      "main_business_image": "http://localhost:3000/static/media/Rectangle%201.2b0b679a.png",
+      "staff_images": "[\"http://localhost:3000/static/media/Rectangle%201.2b0b679a.png\", \"http://localhost:3000/static/media/Rectangle%201.2b0b679a.png\"]",
+      "business_video_link": "string",
+      "website_link": "amazingbusiness.com",
+      "facebook_profile_link": "amazing.business",
+      "instagram_profile_link": "amazing.business",
+      "stripe_id": "GVBU12345GHJK",
+      "expenditure_details": "[\"Rent\", \"Inventory\", \"Employee Salaries\"]",
+      "goal_amount": 5000.0,
+      "donation_received": 250.0,
+      "current_clr_matching_amount": "0.0000",
+      "saturation": false
+    }
+  },
+  {
+    "model": "main.business",
+    "pk": 3,
+    "fields": {
+      "name": "Great Store",
+      "owner_email": "user1@example.com",
+      "short_description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+      "history": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,",
+      "covid_story": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+      "other_content": "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.",
+      "logo": "https://logomaster.ai/static/media/gallery002.936afb9d.png",
+      "cover_image": "http://localhost:3000/static/media/image%2048.d014bad5.png",
+      "main_business_image": "http://localhost:3000/static/media/Rectangle%201.2b0b679a.png",
+      "staff_images": "[\"http://localhost:3000/static/media/Rectangle%201.2b0b679a.png\", \"http://localhost:3000/static/media/Rectangle%201.2b0b679a.png\"]",
+      "business_video_link": "string",
+      "website_link": "greatstore.com",
+      "facebook_profile_link": "great.store",
+      "instagram_profile_link": "great.store",
+      "stripe_id": "GVBU12345GHJK",
+      "expenditure_details": "[\"Employee Salaries\", \"Rent\", \"Inventory\"]",
+      "goal_amount": 5000.0,
+      "donation_received": 3000.0,
+      "current_clr_matching_amount": "0.0000",
+      "saturation": false
+    }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 1,
+    "fields": { "app_label": "main", "model": "user" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 2,
+    "fields": { "app_label": "main", "model": "business" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 3,
+    "fields": { "app_label": "main", "model": "donation" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 4,
+    "fields": { "app_label": "admin", "model": "logentry" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 5,
+    "fields": { "app_label": "auth", "model": "permission" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 6,
+    "fields": { "app_label": "auth", "model": "group" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 7,
+    "fields": { "app_label": "contenttypes", "model": "contenttype" }
+  },
+  {
+    "model": "contenttypes.contenttype",
+    "pk": 8,
+    "fields": { "app_label": "sessions", "model": "session" }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 1,
+    "fields": {
+      "name": "Can add user",
+      "content_type": 1,
+      "codename": "add_user"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 2,
+    "fields": {
+      "name": "Can change user",
+      "content_type": 1,
+      "codename": "change_user"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 3,
+    "fields": {
+      "name": "Can delete user",
+      "content_type": 1,
+      "codename": "delete_user"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 4,
+    "fields": {
+      "name": "Can view user",
+      "content_type": 1,
+      "codename": "view_user"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 5,
+    "fields": {
+      "name": "Can add business",
+      "content_type": 2,
+      "codename": "add_business"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 6,
+    "fields": {
+      "name": "Can change business",
+      "content_type": 2,
+      "codename": "change_business"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 7,
+    "fields": {
+      "name": "Can delete business",
+      "content_type": 2,
+      "codename": "delete_business"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 8,
+    "fields": {
+      "name": "Can view business",
+      "content_type": 2,
+      "codename": "view_business"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 9,
+    "fields": {
+      "name": "Can add donation",
+      "content_type": 3,
+      "codename": "add_donation"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 10,
+    "fields": {
+      "name": "Can change donation",
+      "content_type": 3,
+      "codename": "change_donation"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 11,
+    "fields": {
+      "name": "Can delete donation",
+      "content_type": 3,
+      "codename": "delete_donation"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 12,
+    "fields": {
+      "name": "Can view donation",
+      "content_type": 3,
+      "codename": "view_donation"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 13,
+    "fields": {
+      "name": "Can add log entry",
+      "content_type": 4,
+      "codename": "add_logentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 14,
+    "fields": {
+      "name": "Can change log entry",
+      "content_type": 4,
+      "codename": "change_logentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 15,
+    "fields": {
+      "name": "Can delete log entry",
+      "content_type": 4,
+      "codename": "delete_logentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 16,
+    "fields": {
+      "name": "Can view log entry",
+      "content_type": 4,
+      "codename": "view_logentry"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 17,
+    "fields": {
+      "name": "Can add permission",
+      "content_type": 5,
+      "codename": "add_permission"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 18,
+    "fields": {
+      "name": "Can change permission",
+      "content_type": 5,
+      "codename": "change_permission"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 19,
+    "fields": {
+      "name": "Can delete permission",
+      "content_type": 5,
+      "codename": "delete_permission"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 20,
+    "fields": {
+      "name": "Can view permission",
+      "content_type": 5,
+      "codename": "view_permission"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 21,
+    "fields": {
+      "name": "Can add group",
+      "content_type": 6,
+      "codename": "add_group"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 22,
+    "fields": {
+      "name": "Can change group",
+      "content_type": 6,
+      "codename": "change_group"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 23,
+    "fields": {
+      "name": "Can delete group",
+      "content_type": 6,
+      "codename": "delete_group"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 24,
+    "fields": {
+      "name": "Can view group",
+      "content_type": 6,
+      "codename": "view_group"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 25,
+    "fields": {
+      "name": "Can add content type",
+      "content_type": 7,
+      "codename": "add_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 26,
+    "fields": {
+      "name": "Can change content type",
+      "content_type": 7,
+      "codename": "change_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 27,
+    "fields": {
+      "name": "Can delete content type",
+      "content_type": 7,
+      "codename": "delete_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 28,
+    "fields": {
+      "name": "Can view content type",
+      "content_type": 7,
+      "codename": "view_contenttype"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 29,
+    "fields": {
+      "name": "Can add session",
+      "content_type": 8,
+      "codename": "add_session"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 30,
+    "fields": {
+      "name": "Can change session",
+      "content_type": 8,
+      "codename": "change_session"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 31,
+    "fields": {
+      "name": "Can delete session",
+      "content_type": 8,
+      "codename": "delete_session"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 32,
+    "fields": {
+      "name": "Can view session",
+      "content_type": 8,
+      "codename": "view_session"
+    }
+  }
+]
