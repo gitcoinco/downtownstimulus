@@ -220,6 +220,7 @@ class StripeDonations(generics.GenericAPIView):
                 for t in business_totals:
                     bid = t['id']
                     b = Business.objects.get(pk=int(bid))
+                    print('Changing Business' + b.name)
                     b.current_clr_matching_amount = t['clr_amount']
                     b.save()
 

@@ -146,11 +146,9 @@ class LoginTokenSerializer(serializers.Serializer):
 
 
                 user_data = auth.verify_id_token(oauth_uuid)
-                print(user_data['email'], 'user_data')
                 user_email = user_data['email']
 
                 if user_email == user.email:
-                    print('User is same')
                     attrs['user'] = user
                     return attrs
                 else:
@@ -178,8 +176,6 @@ class LoginTokenSerializer(serializers.Serializer):
                     is_email_verified=True
                 )
                 user.save()
-
-                print(user)
 
                 attrs['user'] = user
                 return attrs

@@ -6,7 +6,6 @@ from sendgrid.helpers.mail import *
 
 
 sendgrid_key = os.getenv('SENDGRID_KEY', 'NO API FOUND')
-print(sendgrid_key)
 sg = sendgrid.SendGridAPIClient(sendgrid_key)
 from_email = Email("downtownstimulus@gitcoin.co", 'gitcoin.co')
 
@@ -15,9 +14,6 @@ def send_mail(_to_mail, subject, body):
     content = Content("text/html", body)
     mail = Mail(from_email, to_email, subject, content)
     response = sg.client.mail.send.post(request_body=mail.get())
-    print(response.status_code)
-    print(response.body)
-    print(response.headers)
 
 
 def calculate_clr(aggregated_contributions, _cap=6250, total_pot=25000.0):

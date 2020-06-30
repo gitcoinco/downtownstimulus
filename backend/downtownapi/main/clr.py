@@ -173,7 +173,6 @@ def calculate_live_clr(aggregated_contributions, business_id, _cap=6250, total_p
 def calculate_clr_match(user_id, business_id, donation_amount):
     donations = Donation.objects.values()
     donations = list(donations)
-    print('donations', list(donations))
 
     current_donation_obj = {
         'round_number': 0,
@@ -191,10 +190,6 @@ def calculate_clr_match(user_id, business_id, donation_amount):
     aggregated_contributions = aggregate_contributions(translated_donation_data)
     calculate_clr_data, bigtot, saturation_point, business_totals = calculate_live_clr(aggregated_contributions, business_id)
 
-    print('translated_donation_data', translated_donation_data)
-    print('aggregated_contributions', aggregated_contributions)
-    print('calculate_clr_data', (calculate_clr_data))
-
     # clr_match_details = {}
     # for business in calculate_clr_data:
     #     id = business.get('id')
@@ -203,7 +198,6 @@ def calculate_clr_match(user_id, business_id, donation_amount):
     #         break
 
     matched_clr_amount = calculate_clr_data['clr_amount']
-    print(matched_clr_amount, 'matched_clr_amount')
 
     business = Business.objects.get(pk=business_id)
     current_clr_amount = business.current_clr_matching_amount
@@ -212,7 +206,5 @@ def calculate_clr_match(user_id, business_id, donation_amount):
         user_match_amount = 0
     else:
         user_match_amount = matched_clr_amount - float(current_clr_amount)
-
-    print('user_match_amount', user_match_amount)
 
     return user_match_amount, matched_clr_amount, business_totals
