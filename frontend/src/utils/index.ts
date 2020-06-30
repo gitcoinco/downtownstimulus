@@ -77,5 +77,5 @@ export const transformToUserForServer = (user: any) => {
 
 export const toUrlEncoded = (obj) =>
   Object.keys(obj)
-    .map((k) => encodeURIComponent(k) + "=" + encodeURIComponent(obj[k]))
+    .map((k) => `${encodeURIComponent(k)}=${encodeURIComponent(obj[k])}`)
     .join("&");

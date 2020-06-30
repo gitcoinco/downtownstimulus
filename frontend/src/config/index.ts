@@ -5,7 +5,7 @@ export const getSelectedBusinessStripeAccountId = (): string => {
 };
 
 export const setSelectedBusinessStripeAccountId = (
-  pSelectedBusinessStripeAccountId: string
+  pSelectedBusinessStripeAccountId: string,
 ) => {
   selectedBusinessStripeAccountId = pSelectedBusinessStripeAccountId;
 };

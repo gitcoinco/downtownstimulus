@@ -11,9 +11,9 @@ function Footer() {
         <p className="top-margin-set">
           {" "}
           Downtown Stimulus is a democratic way of funding projects. They’ve put
-          together a matching pool of $30k from local philanthropists that is
-          going to be distributed to downtown Boulder Businesses, to help bridge
-          the gap between normal and now. {/* eslint-disable-next-line */}
+          together a matching pool of $30k from local philanthropists that is going
+          to be distributed to downtown Boulder Businesses, to help bridge the gap
+          between normal and now. {/* eslint-disable-next-line */}
           <a onClick={(e) => setModalConfig(true, { type: "qfExplainer" })}>
             Read More
           </a>
@@ -22,8 +22,8 @@ function Footer() {
         <h3 className="top-margin-set">Legal Info</h3>
         <p className="top-margin-set bottom-margin-set">
           {" "}
-          By accessing and using this website, you are acknowleding and agreeing
-          to Downtown Stimulus's {/* eslint-disable-next-line */}
+          By accessing and using this website, you are acknowleding and agreeing to
+          Downtown Stimulus's {/* eslint-disable-next-line */}
           <a onClick={(e) => setModalConfig(true, { type: "legalInfo" })}>
             Terms & Conditions and Privacy Policy
           </a>{" "}
@@ -100,11 +100,29 @@ function Footer() {
             </a>
           </div>
         </div>
-        <h4 className="footer-support-header">Pilot Funding proudly supported by:</h4>
+        <h4 className="footer-support-header">
+          Pilot Funding proudly supported by:
+        </h4>
         <ul>
-          <li><a href="https://feld.com" rel="noopener noreferrer" target="_blank">Brad Feld</a></li>
-          <li><a href="https://gitcoin.co/grants" rel="noopener noreferrer" target="_blank">GitCoin Grantees</a></li>
-          <li><a href="https://owocki.com" rel="noopener noreferrer" target="_blank">Kevin Owocki</a></li>
+          <li>
+            <a href="https://feld.com" rel="noopener noreferrer" target="_blank">
+              Brad Feld
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://gitcoin.co/grants"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              GitCoin Grantees
+            </a>
+          </li>
+          <li>
+            <a href="https://owocki.com" rel="noopener noreferrer" target="_blank">
+              Kevin Owocki
+            </a>
+          </li>
         </ul>
       </div>
     </div>

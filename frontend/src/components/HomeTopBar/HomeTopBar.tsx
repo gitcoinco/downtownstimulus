@@ -4,9 +4,7 @@ import { ActionContext, StateContext } from "../../hooks";
 import { Search } from "react-feather";
 function HomeTopBar() {
   const { searchBusinesses } = useContext(ActionContext);
-  const { searchText, backupBusinesses, roundDetails } = useContext(
-    StateContext
-  );
+  const { searchText, backupBusinesses, roundDetails } = useContext(StateContext);
 
   return (
     <div className="home-top-bar">
@@ -22,17 +20,17 @@ function HomeTopBar() {
           </h4>
         </div>
       ) : (
-          <p className="home-tag-line">
-            <span role="img" aria-label="tada">
-              🎉
+        <p className="home-tag-line">
+          <span role="img" aria-label="tada">
+            🎉
           </span>{" "}
-            <i>Important Note</i>: Round 1 of the Downtown Stimulus has closed!
-          Thank you for your support!!{" "}
-            <span role="img" aria-label="tada">
-              🎉
+          <i>Important Note</i>: Round 1 of the Downtown Stimulus has closed! Thank
+          you for your support!!{" "}
+          <span role="img" aria-label="tada">
+            🎉
           </span>
-          </p>
-        )}
+        </p>
+      )}
       <div className="list-action-container">
         <div className="home-search-container">
           <Search></Search>
