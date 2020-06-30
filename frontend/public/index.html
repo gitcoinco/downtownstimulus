@@ -49,11 +49,14 @@
       name="description"
       content="Downtown Stimulus’s goal is the democratization of fund distribution. Grant processes can be opaque, laborious, and painful. Hours of application prep for unknown returns. Quadratic Funding puts the ask to the community: Demonstrate what you value by funding it, and we will boost you."
     />
-    <meta property="og:title" content="Downtown Stimulus">
-    <meta property="og:description" content="Downtown Stimulus’s goal is the democratization of fund distribution. Grant processes can be opaque, laborious, and painful. Hours of application prep for unknown returns. Quadratic Funding puts the ask to the community: Demonstrate what you value by funding it, and we will boost you.">
-    <meta property="og:image" content="/cover.jpg">
-    <meta property="og:url" content="https://downtownstimulus.com/">
-    <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:title" content="Downtown Stimulus" />
+    <meta
+      property="og:description"
+      content="Downtown Stimulus’s goal is the democratization of fund distribution. Grant processes can be opaque, laborious, and painful. Hours of application prep for unknown returns. Quadratic Funding puts the ask to the community: Demonstrate what you value by funding it, and we will boost you."
+    />
+    <meta property="og:image" content="/cover.jpg" />
+    <meta property="og:url" content="https://downtownstimulus.com/" />
+    <meta name="twitter:card" content="summary_large_image" />
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -78,5 +81,19 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-1014419-20"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "UA-1014419-20");
+    </script>
   </body>
 </html>
