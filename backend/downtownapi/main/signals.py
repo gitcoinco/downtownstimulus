@@ -10,10 +10,8 @@ from .models import User, Donation, Business
 
 @receiver(post_save, sender=User)
 def send_register_mail(sender, instance, **kwargs):
-    print(instance.oauth_uuid)
     if kwargs['created']:
         if instance.oauth_uuid:
-            print('Hello User ! Your Account Created')
             params = {
                 'user_name': instance.first_name,
             }
@@ -21,12 +19,10 @@ def send_register_mail(sender, instance, **kwargs):
 
             try:
                 mail_body = get_mail_body('create_account', params)
-                print(mail_body)
                 send_mail(instance.email, subject, mail_body)
             except Exception as e:
                 print(e)
         else:
-            print('Hello User ! Your Account Created')
             current_site = 'https://downtownstimulus.com'
             uid = urlsafe_base64_encode(force_bytes(instance.pk))
             token = account_activation_token.make_token(instance)
@@ -42,7 +38,6 @@ def send_register_mail(sender, instance, **kwargs):
 
             try:
                 mail_body = get_mail_body('create_account', params)
-                print(mail_body)
                 send_mail(instance.email, subject, mail_body)
             except Exception as e:
                 print(e)
@@ -52,7 +47,6 @@ def send_register_mail(sender, instance, **kwargs):
 @receiver(post_save, sender=Donation)
 def send_donation_mail(sender, instance, **kwargs):
     if kwargs['created']:
-        print('Hello User ! Your Donation is Done')
         params = {
             'user_email': instance.donor.email,
             'user_name': instance.donor.first_name,
@@ -65,7 +59,6 @@ def send_donation_mail(sender, instance, **kwargs):
 
         try:
             mail_body = get_mail_body('new_donation', params)
-            print(mail_body)
             send_mail(params['user_email'], subject, mail_body)
         except Exception as e:
             print(e)

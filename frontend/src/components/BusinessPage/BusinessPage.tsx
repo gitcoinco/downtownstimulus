@@ -135,7 +135,7 @@ function BusinessPage() {
     <div className="business-page">
       {selectedBusiness && (
         <MetaTags>
-          <title>{selectedBusiness.name}</title>
+          <title>Downtown Stimulus</title>
           <meta
             name="description"
             content={selectedBusiness.short_description}

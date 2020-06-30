@@ -8,32 +8,6 @@ import Truncate from "react-truncate";
 function BusinessItem({ business }: any) {
   const { selectBusiness } = useContext(ActionContext);
 
-  // dynamic styling for logo
-  const [floatingImgId, setFloatingImgId] = React.useState("");
-  const [floatingNameId, setFloatingNameId] = React.useState("");
-  React.useEffect(() => {
-    const randomID1 = (Math.random() * 1e32).toString(36).substring(0, 10);
-    const randomID2 = (Math.random() * 1e32).toString(36).substring(0, 10);
-    setFloatingImgId("floating-image-" + randomID1);
-    setFloatingNameId("item-name-" + randomID2);
-  }, []);
-
-  React.useEffect(() => {
-    if (floatingImgId !== "" && floatingNameId !== "") {
-      setTimeout(() => {
-        const floatingImg = document.getElementById(floatingImgId);
-        const floatingHeight = floatingImg.offsetHeight;
-        const topMarginReq = floatingHeight / 2 - 12;
-        const floatingContainer = document.getElementById(floatingNameId);
-        floatingContainer.style.setProperty(
-          "margin-top",
-          "-" + topMarginReq + "px",
-          "important"
-        );
-      }, 200);
-    }
-  }, [floatingImgId, floatingNameId]);
-
   return (
     <Link
       className="business-item"
@@ -41,27 +15,24 @@ function BusinessItem({ business }: any) {
       onClick={(e) => selectBusiness(business.id)}
     >
       <div className="business-item-cover-image-container">
-        {/* <img
-          src={business.cover_image}
-          alt="cover-image"
-          className="business-item-cover-image"
-        /> */}
-        <div
-          className="business-item-cover-image"
-          style={{ backgroundImage: `url('${business.cover_image}')` }}
-        ></div>
-        <div className="business-item-cover-bottom-border"></div>
-        <div className="business-item-logo-image-container" id={floatingImgId}>
-          <img
-            src={business.logo}
-            alt="logo"
-            className="business-item-logo-image"
-          />
+        <div className="business-item-header-container">
+          <div>
+            <div
+              className="business-item-cover-image"
+              style={{ backgroundImage: `url('${business.cover_image}')` }}
+            ></div>
+            <div className="business-item-cover-bottom-border"></div>
+          </div>
+          <div className="business-item-logo-image-container">
+            <img
+              src={business.logo}
+              alt="logo"
+              className="business-item-logo-image"
+            />
+          </div>
         </div>
       </div>
-      <h2 className="business-item-name" id={floatingNameId}>
-        {business.name}
-      </h2>
+      <h2 className="business-item-name">{business.name}</h2>
       <p className="business-item-description top-margin-set">
         <Truncate lines={2} ellipsis={<span>...</span>}>
           {business.short_description}

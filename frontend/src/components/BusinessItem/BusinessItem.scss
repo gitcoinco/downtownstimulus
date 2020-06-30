@@ -12,30 +12,36 @@
   .business-item-cover-image-container {
     display: flex;
     flex-direction: column;
-    .business-item-cover-bottom-border {
-      height: 4.67px;
-      width: 100%;
-      background: var(--backgroundGradient);
-      margin-top: -4px;
-      margin-left: 0px;
-    }
-    .business-item-cover-image {
-      width: 100%;
-      height: 128px;
-      background-repeat: no-repeat;
-      background-size: cover;
-    }
-    .business-item-logo-image-container {
-      width: 42%;
-      margin: 0px auto;
-      padding: 11px;
-      background: var(--whiteColor);
-      border-radius: 12px;
-      transform: translateY(-50%);
-
-      .business-item-logo-image {
+    min-height: 236px;
+    .business-item-header-container {
+      position: relative;
+      .business-item-cover-bottom-border {
+        height: 4.67px;
         width: 100%;
-        border-radius: 2px;
+        background: var(--backgroundGradient);
+        margin-top: -4px;
+        margin-left: 0px;
+      }
+      .business-item-cover-image {
+        width: 100%;
+        height: 128px;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+      .business-item-logo-image-container {
+        width: 42%;
+        margin: 0px auto;
+        padding: 11px;
+        background: var(--whiteColor);
+        border-radius: 12px;
+        transform: translate(50%, 50%);
+        position: absolute;
+        bottom: 0;
+
+        .business-item-logo-image {
+          width: 100%;
+          border-radius: 2px;
+        }
       }
     }
   }

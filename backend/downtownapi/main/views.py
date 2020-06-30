@@ -184,8 +184,10 @@ class StripeDonations(generics.GenericAPIView):
 
             if user and business:
 
-                clr_match_amount, business_total_matched_clr_amount = calculate_clr_match(
+                clr_match_amount, business_total_matched_clr_amount, business_totals = calculate_clr_match(
                     user.id, business.id, donation_amount)
+
+                print(business_totals)
 
                 logger.info(
                     f'CLR Amount Matched for {transaction_id}, Donation Amount {donation_amount}, Matched Amount {clr_match_amount}, Business Total Matched Amount {business_total_matched_clr_amount} by User Email {user_email}')
@@ -208,12 +210,19 @@ class StripeDonations(generics.GenericAPIView):
                 if clr_match_amount == 0:
                     business.cap_reached = True
 
-                business.current_clr_matching_amount = business_total_matched_clr_amount
+                # business.current_clr_matching_amount = business_total_matched_clr_amount
                 business_current_donation = business.donation_received
                 business_new_donation = business_current_donation + donation_amount
                 business.donation_received = business_new_donation
 
                 business.save()
+
+                for t in business_totals:
+                    bid = t['id']
+                    b = Business.objects.get(pk=int(bid))
+                    print('Changing Business' + b.name)
+                    b.current_clr_matching_amount = t['clr_amount']
+                    b.save()
 
         return Response(json.dumps({"success": True}), status=status.HTTP_201_CREATED)
 
@@ -245,7 +254,7 @@ class CLRCalculation(generics.GenericAPIView):
                 business_id = obj.get('business_id')
                 donation_amount = obj.get('donation_amount')
                 try:
-                    user_match_amount, business_matched_clr_amount = calculate_clr_match(
+                    user_match_amount, business_matched_clr_amount, business_totals = calculate_clr_match(
                         user_id, business_id, donation_amount)
                     logger.debug(user_match_amount, business_matched_clr_amount)
                     clr_matches.append(user_match_amount)
