@@ -2,7 +2,7 @@
   text-align: center;
   margin: 1.5em;
   padding: 1.5em;
-  max-width: 600px;
+  min-width: 55vw;
 
   .donation-thanks-company-container {
     display: flex;
@@ -95,6 +95,26 @@
       &:active {
         background: var(--primaryHighlightColor);
       }
+    }
+  }
+}
+
+$information-phone: "only screen and (max-width : 464px)";
+$information-pad: "only screen and (max-width : 1024px) and (min-width: 464px)";
+@media #{$information-phone} {
+  .donation-thanks-company-container {
+    flex-direction: column;
+    .donation-thanks-company-right {
+      margin-top: 1em;
+    }
+  }
+}
+
+@media #{$information-pad} {
+  .donation-thanks-company-container {
+    flex-direction: column;
+    .donation-thanks-company-right {
+      margin-top: 1em;
     }
   }
 }

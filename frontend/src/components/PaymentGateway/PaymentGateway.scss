@@ -12,6 +12,7 @@ button {
   height: 100%;
   position: relative;
   min-width: 464px;
+  max-width: 464px;
 }
 
 $information-phone: "only screen and (max-width : 800px)";

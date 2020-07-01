@@ -6,6 +6,7 @@ import { setSelectedBusinessStripeAccountId } from "../config";
 import { loadStripe } from "@stripe/stripe-js";
 import { useHistory, useLocation } from "react-router-dom";
 import { useAlert } from "react-alert";
+import { IBusiness } from "../models/Business";
 
 const actionInitialValue = {
   setModalConfig: (openModal: boolean, modalConfig: any) => {},
@@ -314,7 +315,14 @@ export const AppProvider = (props: any) => {
       fetchAllBusinesses: () => {
         dispatch({ type: "SET_BUSINESS_LOADER", businessLoader: true });
         WebService.fetchAllBusinesses().subscribe((data: any) => {
-          dispatch({ type: "SET_BUSINESS_LIST", businesses: data });
+          const businesses = data.sort(
+            (a: IBusiness, b: IBusiness) =>
+              a.donation_received +
+              Number.parseFloat(a.current_clr_matching_amount) -
+              (b.donation_received +
+                Number.parseFloat(b.current_clr_matching_amount)),
+          );
+          dispatch({ type: "SET_BUSINESS_LIST", businesses });
           dispatch({ type: "SET_BUSINESS_LOADER", businessLoader: false });
         });
       },
