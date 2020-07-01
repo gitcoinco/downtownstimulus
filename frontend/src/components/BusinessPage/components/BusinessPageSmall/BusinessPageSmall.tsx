@@ -8,6 +8,7 @@ import {
   Share2,
 } from "react-feather";
 import DonationCustomInput from "../DonationCustomInput";
+import NumberFormat from "react-number-format";
 
 function BusinessPageSmall(props) {
   return props.selectedBusiness ? (
@@ -78,17 +79,25 @@ function BusinessPageSmall(props) {
               </h3>
               <p className="top-margin-set business-donation-widget-donation-details">
                 <span className="business-donation-widget-donation-details-amount">
-                  $
-                  {Number.parseFloat(
-                    props.selectedBusiness.donation_received,
-                  ).toFixed(2)}
+                  <NumberFormat
+                    value={Number.parseFloat(
+                      props.selectedBusiness.donation_received,
+                    ).toFixed(2)}
+                    displayType={"text"}
+                    thousandSeparator={true}
+                    prefix={"$"}
+                  />
                 </span>{" "}
                 donated +{" "}
                 <span className="business-donation-widget-donation-details-amount">
-                  $
-                  {Number.parseFloat(
-                    props.selectedBusiness.current_clr_matching_amount,
-                  ).toFixed(2)}
+                  <NumberFormat
+                    value={Number.parseFloat(
+                      props.selectedBusiness.current_clr_matching_amount,
+                    ).toFixed(2)}
+                    displayType={"text"}
+                    thousandSeparator={true}
+                    prefix={"$"}
+                  />
                 </span>{" "}
                 estimated match
               </p>
@@ -106,17 +115,27 @@ function BusinessPageSmall(props) {
               </div>
               <div className="business-donation-progress-labels-container">
                 <span className="business-donation-progress-label">
-                  $
-                  {(
-                    Number.parseFloat(props.selectedBusiness.donation_received) +
-                    Number.parseFloat(
-                      props.selectedBusiness.current_clr_matching_amount,
-                    )
-                  ).toFixed(0)}{" "}
+                  <NumberFormat
+                    value={(
+                      Number.parseFloat(props.selectedBusiness.donation_received) +
+                      Number.parseFloat(
+                        props.selectedBusiness.current_clr_matching_amount,
+                      )
+                    ).toFixed(0)}
+                    displayType={"text"}
+                    thousandSeparator={true}
+                    prefix={"$"}
+                  />{" "}
                   estimated total
                 </span>
                 <span className="business-donation-progress-label">
-                  ${props.selectedBusiness.goal_amount} goal
+                  <NumberFormat
+                    value={props.selectedBusiness.goal_amount}
+                    displayType={"text"}
+                    thousandSeparator={true}
+                    prefix={"$"}
+                  />{" "}
+                  goal
                 </span>
               </div>
               {props.roundDetails.round_status === "Completed" && (
@@ -164,9 +183,29 @@ function BusinessPageSmall(props) {
                       <span className="tab-text">Custom</span>
                     </div>
                   </div>
+                  {Number.parseInt(
+                    props.selectedBusiness.current_clr_matching_amount,
+                  ) >= 8000 && (
+                    <p className="top-margin-set complete-round-content">
+                      <span role="img" aria-label="tada">
+                        🎉
+                      </span>{" "}
+                      Important Note: <b>{props.selectedBusiness.name}</b> is
+                      currently at max limit of CLR Match!!{" "}
+                      <span role="img" aria-label="tada">
+                        🎉
+                      </span>
+                    </p>
+                  )}
                   {props.donationType === 0 && (
                     <div className="business-donation-suggestions-lists">
-                      <div className="business-donation-suggestion-item">
+                      <div
+                        className="business-donation-suggestion-item"
+                        onClick={(e) => {
+                          props.setDonationAmountState(10);
+                          props.setModalConfig(true, { type: "payment" });
+                        }}
+                      >
                         <div className="business-donation-suggestion-amount-container">
                           <span className="business-donation-suggestion-amount-sign">
                             $
@@ -175,29 +214,41 @@ function BusinessPageSmall(props) {
                             10
                           </span>
                         </div>
-                        <span className="business-donation-suggestion-match">
-                          Estimated match of{" "}
-                          <b>
-                            $
-                            {props.fixedDonationMatching[0].toFixed(2) < 0
-                              ? 0
-                              : props.fixedDonationMatching[0].toFixed(2)}
-                          </b>
-                        </span>
+                        {Number.parseInt(
+                          props.selectedBusiness.current_clr_matching_amount,
+                        ) < 8000 && (
+                          <span className="business-donation-suggestion-match">
+                            Estimated match of{" "}
+                            <b>
+                              <NumberFormat
+                                value={
+                                  props.fixedDonationMatching[0].toFixed(2) < 0
+                                    ? 0
+                                    : props.fixedDonationMatching[0].toFixed(2)
+                                }
+                                displayType={"text"}
+                                thousandSeparator={true}
+                                prefix={"$"}
+                              />
+                            </b>
+                          </span>
+                        )}
                         <div className="business-donation-suggestion-button-container top-margin-set">
                           <button
                             type="button"
                             className="business-donation-suggestion-button"
-                            onClick={(e) => {
-                              props.setDonationAmountState(10);
-                              props.setModalConfig(true, { type: "payment" });
-                            }}
                           >
                             Donate
                           </button>
                         </div>
                       </div>
-                      <div className="business-donation-suggestion-item">
+                      <div
+                        className="business-donation-suggestion-item"
+                        onClick={(e) => {
+                          props.setDonationAmountState(50);
+                          props.setModalConfig(true, { type: "payment" });
+                        }}
+                      >
                         <div className="business-donation-suggestion-amount-container">
                           <span className="business-donation-suggestion-amount-sign">
                             $
@@ -206,29 +257,41 @@ function BusinessPageSmall(props) {
                             50
                           </span>
                         </div>
-                        <span className="business-donation-suggestion-match">
-                          Estimated match of{" "}
-                          <b>
-                            $
-                            {props.fixedDonationMatching[1].toFixed(2) < 0
-                              ? 0
-                              : props.fixedDonationMatching[1].toFixed(2)}
-                          </b>
-                        </span>
+                        {Number.parseInt(
+                          props.selectedBusiness.current_clr_matching_amount,
+                        ) < 8000 && (
+                          <span className="business-donation-suggestion-match">
+                            Estimated match of{" "}
+                            <b>
+                              <NumberFormat
+                                value={
+                                  props.fixedDonationMatching[1].toFixed(2) < 0
+                                    ? 0
+                                    : props.fixedDonationMatching[1].toFixed(2)
+                                }
+                                displayType={"text"}
+                                thousandSeparator={true}
+                                prefix={"$"}
+                              />
+                            </b>
+                          </span>
+                        )}
                         <div className="business-donation-suggestion-button-container top-margin-set">
                           <button
                             type="button"
                             className="business-donation-suggestion-button"
-                            onClick={(e) => {
-                              props.setDonationAmountState(50);
-                              props.setModalConfig(true, { type: "payment" });
-                            }}
                           >
                             Donate
                           </button>
                         </div>
                       </div>
-                      <div className="business-donation-suggestion-item">
+                      <div
+                        className="business-donation-suggestion-item"
+                        onClick={(e) => {
+                          props.setDonationAmountState(100);
+                          props.setModalConfig(true, { type: "payment" });
+                        }}
+                      >
                         <div className="business-donation-suggestion-amount-container">
                           <span className="business-donation-suggestion-amount-sign">
                             $
@@ -237,23 +300,29 @@ function BusinessPageSmall(props) {
                             100
                           </span>
                         </div>
-                        <span className="business-donation-suggestion-match">
-                          Estimated match of{" "}
-                          <b>
-                            $
-                            {props.fixedDonationMatching[2].toFixed(2) < 0
-                              ? 0
-                              : props.fixedDonationMatching[2].toFixed(2)}
-                          </b>
-                        </span>
+                        {Number.parseInt(
+                          props.selectedBusiness.current_clr_matching_amount,
+                        ) < 8000 && (
+                          <span className="business-donation-suggestion-match">
+                            Estimated match of{" "}
+                            <b>
+                              <NumberFormat
+                                value={
+                                  props.fixedDonationMatching[2].toFixed(2) < 0
+                                    ? 0
+                                    : props.fixedDonationMatching[2].toFixed(2)
+                                }
+                                displayType={"text"}
+                                thousandSeparator={true}
+                                prefix={"$"}
+                              />
+                            </b>
+                          </span>
+                        )}
                         <div className="business-donation-suggestion-button-container top-margin-set">
                           <button
                             type="button"
                             className="business-donation-suggestion-button"
-                            onClick={(e) => {
-                              props.setDonationAmountState(100);
-                              props.setModalConfig(true, { type: "payment" });
-                            }}
                           >
                             Donate
                           </button>
@@ -281,15 +350,28 @@ function BusinessPageSmall(props) {
                           </span>
                         </div>
                       </div>
-                      <p className="business-donation-custom-match bottom-margin-set">
-                        Estimated match of{" "}
-                        <span className="business-donation-custom-match-amount">
-                          $
-                          {props.customDonationMatching[0].toFixed(2) < 0
-                            ? 0
-                            : Math.abs(props.customDonationMatching[0].toFixed(2))}
-                        </span>
-                      </p>
+                      {Number.parseInt(
+                        props.selectedBusiness.current_clr_matching_amount,
+                      ) < 8000 && (
+                        <p className="business-donation-custom-match bottom-margin-set">
+                          Estimated match of{" "}
+                          <span className="business-donation-custom-match-amount">
+                            <NumberFormat
+                              value={
+                                props.customDonationMatching[0].toFixed(2) < 0
+                                  ? 0
+                                  : Math.abs(
+                                      props.customDonationMatching[0].toFixed(2),
+                                    )
+                              }
+                              displayType={"text"}
+                              thousandSeparator={true}
+                              prefix={"$"}
+                            />
+                          </span>
+                        </p>
+                      )}
+
                       <div className="business-donation-donate-container top-margin-set">
                         <button
                           type="button"

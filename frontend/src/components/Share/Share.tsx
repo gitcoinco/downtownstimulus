@@ -47,7 +47,7 @@ function Share() {
           <div className="share-links-icon">
             <TwitterShareButton
               url={shareUrl}
-              title={`Help local ${selectedBusiness.name} and other #Boulder businesses and see every dollar matched! Check out @dtstimulus for more info!\n#lovethelocal #downtownboulder #boulder #myboulder #bouldercolorado #pearlstreet #pearlstreetmall #colorado #coloradoliving`}
+              title={`Help ${selectedBusiness.name} and other local #boulder businesses and see every dollar matched! Check out @dtstimulus for more info!\n#lovethelocal #downtownboulder #boulder #myboulder #bouldercolorado #pearlstreet #pearlstreetmall #colorado #coloradoliving`}
             >
               <TwitterIcon size={56} round />
             </TwitterShareButton>

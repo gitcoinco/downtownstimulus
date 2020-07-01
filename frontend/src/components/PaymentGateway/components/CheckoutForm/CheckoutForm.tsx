@@ -98,7 +98,7 @@ const CheckoutForm = () => {
           }
         } else {
           // eslint-disable-next-line
-          console.log("Error", await data.json())
+          console.log("Error", await data.json());
         }
       });
     } else {
