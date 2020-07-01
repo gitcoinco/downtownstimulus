@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { ActionContext } from "../../hooks";
 import slugify from "react-slugify";
 import Truncate from "react-truncate";
+import NumberFormat from "react-number-format";
 
 function BusinessItem({ business }: any) {
   const { selectBusiness } = useContext(ActionContext);
@@ -40,11 +41,23 @@ function BusinessItem({ business }: any) {
       </p>
       <p className="top-margin-set business-donation-widget-donation-details">
         <span className="business-donation-widget-donation-details-amount">
-          ${Number.parseFloat(business.donation_received).toFixed(2)}
+          <NumberFormat
+            value={Number.parseFloat(business.donation_received).toFixed(2)}
+            displayType={"text"}
+            thousandSeparator={true}
+            prefix={"$"}
+          />
         </span>{" "}
         donated +{" "}
         <span className="business-donation-widget-donation-details-amount">
-          ${Number.parseFloat(business.current_clr_matching_amount).toFixed(2)}
+          <NumberFormat
+            value={Number.parseFloat(business.current_clr_matching_amount).toFixed(
+              2,
+            )}
+            displayType={"text"}
+            thousandSeparator={true}
+            prefix={"$"}
+          />
         </span>{" "}
         estimated match
       </p>
@@ -63,15 +76,25 @@ function BusinessItem({ business }: any) {
       </div>
       <div className="business-item-progress-labels-container">
         <span className="business-item-progress-label">
-          $
-          {(
-            Number.parseFloat(business.donation_received) +
-            Number.parseFloat(business.current_clr_matching_amount)
-          ).toFixed(0)}{" "}
+          <NumberFormat
+            value={(
+              Number.parseFloat(business.donation_received) +
+              Number.parseFloat(business.current_clr_matching_amount)
+            ).toFixed(0)}
+            displayType={"text"}
+            thousandSeparator={true}
+            prefix={"$"}
+          />{" "}
           estimated total
         </span>
         <span className="business-item-progress-label">
-          ${business.goal_amount} goal
+          <NumberFormat
+            value={business.goal_amount}
+            displayType={"text"}
+            thousandSeparator={true}
+            prefix={"$"}
+          />{" "}
+          goal
         </span>
       </div>
       <div className="business-item-button-container">

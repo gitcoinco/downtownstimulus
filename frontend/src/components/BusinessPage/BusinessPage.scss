@@ -459,7 +459,9 @@
           width: 100%;
           .business-details-floating-icon {
             width: 200px;
-            border-radius: 4px;
+            border-radius: 6px;
+            padding: 0.5rem;
+            background: white;
           }
           .business-details-floating-title {
             color: var(--whiteColor) !important;

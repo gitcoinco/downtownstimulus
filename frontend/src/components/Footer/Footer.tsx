@@ -11,7 +11,7 @@ function Footer() {
         <p className="top-margin-set">
           {" "}
           Downtown Stimulus is a democratic way of funding projects. They’ve put
-          together a matching pool of $30k from local philanthropists that is going
+          together a matching pool of $25k from local philanthropists that is going
           to be distributed to downtown Boulder Businesses, to help bridge the gap
           between normal and now. {/* eslint-disable-next-line */}
           <a onClick={(e) => setModalConfig(true, { type: "qfExplainer" })}>
