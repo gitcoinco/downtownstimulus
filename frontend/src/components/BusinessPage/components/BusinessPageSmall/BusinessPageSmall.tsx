@@ -166,7 +166,13 @@ function BusinessPageSmall(props) {
                   </div>
                   {props.donationType === 0 && (
                     <div className="business-donation-suggestions-lists">
-                      <div className="business-donation-suggestion-item">
+                      <div
+                        className="business-donation-suggestion-item"
+                        onClick={(e) => {
+                          props.setDonationAmountState(10);
+                          props.setModalConfig(true, { type: "payment" });
+                        }}
+                      >
                         <div className="business-donation-suggestion-amount-container">
                           <span className="business-donation-suggestion-amount-sign">
                             $
@@ -188,16 +194,18 @@ function BusinessPageSmall(props) {
                           <button
                             type="button"
                             className="business-donation-suggestion-button"
-                            onClick={(e) => {
-                              props.setDonationAmountState(10);
-                              props.setModalConfig(true, { type: "payment" });
-                            }}
                           >
                             Donate
                           </button>
                         </div>
                       </div>
-                      <div className="business-donation-suggestion-item">
+                      <div
+                        className="business-donation-suggestion-item"
+                        onClick={(e) => {
+                          props.setDonationAmountState(50);
+                          props.setModalConfig(true, { type: "payment" });
+                        }}
+                      >
                         <div className="business-donation-suggestion-amount-container">
                           <span className="business-donation-suggestion-amount-sign">
                             $
@@ -219,16 +227,18 @@ function BusinessPageSmall(props) {
                           <button
                             type="button"
                             className="business-donation-suggestion-button"
-                            onClick={(e) => {
-                              props.setDonationAmountState(50);
-                              props.setModalConfig(true, { type: "payment" });
-                            }}
                           >
                             Donate
                           </button>
                         </div>
                       </div>
-                      <div className="business-donation-suggestion-item">
+                      <div
+                        className="business-donation-suggestion-item"
+                        onClick={(e) => {
+                          props.setDonationAmountState(100);
+                          props.setModalConfig(true, { type: "payment" });
+                        }}
+                      >
                         <div className="business-donation-suggestion-amount-container">
                           <span className="business-donation-suggestion-amount-sign">
                             $
@@ -250,10 +260,6 @@ function BusinessPageSmall(props) {
                           <button
                             type="button"
                             className="business-donation-suggestion-button"
-                            onClick={(e) => {
-                              props.setDonationAmountState(100);
-                              props.setModalConfig(true, { type: "payment" });
-                            }}
                           >
                             Donate
                           </button>
