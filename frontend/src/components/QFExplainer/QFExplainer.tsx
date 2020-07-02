@@ -9,7 +9,7 @@ function QFExplainer() {
       </h2>
       <p className="top-margin-set">
         <b>Downtown Stimulus</b> is a democratic way of funding projects. They’ve put
-        together a matching pool of $30k from local philanthropists that is going to
+        together a matching pool of $25k from local philanthropists that is going to
         be distributed to downtown Boulder Businesses, to help bridge the gap between
         normal and now.
       </p>

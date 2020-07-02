@@ -21,7 +21,7 @@ const CARD_ELEMENT_OPTIONS = {
 };
 const CardField = ({ onChange }) => (
   <div className="FormRow">
-    <CardElement options={CARD_ELEMENT_OPTIONS} />
+    <CardElement options={CARD_ELEMENT_OPTIONS} onChange={onChange} />
   </div>
 );
 

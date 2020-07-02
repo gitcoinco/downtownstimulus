@@ -95,6 +95,7 @@ function BusinessPage() {
         getCustomClrMatchingAmount(matchingArr2);
       }
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, user]);
 

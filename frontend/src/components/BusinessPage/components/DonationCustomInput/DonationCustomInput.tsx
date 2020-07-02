@@ -43,6 +43,7 @@ class DonationCustomInput extends React.Component<any, any> {
       <input
         type="number"
         className="business-donation-custom-input-number"
+        min="1"
         value={donation}
         style={{ width: donationWidth }}
         onChange={this.changeDonation}
