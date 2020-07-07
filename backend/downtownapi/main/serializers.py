@@ -47,8 +47,8 @@ class UserSerializer(serializers.ModelSerializer):
                 last_name=validated_data.get('last_name', ''),
                 username=validated_data.get('email', ''),
                 email=validated_data.get('email', ''),
-                is_active=True,
-
+                is_email_verified=False,
+                is_active=False,
             )
             user.set_password(validated_data['password'])
             user.save()
@@ -113,11 +113,18 @@ class LoginTokenSerializer(serializers.Serializer):
         if username and password:
             user = authenticate(request=self.context.get('request'),
                                 username=username, password=password)
-
             # The authenticate call simply returns None for is_active=False
-            # users. (Assuming the default ModelBackend authentication
-            # backend.)
+            # users.
             if not user:
+                try:
+                    u = User.objects.get(username=username)
+                    print(u)
+                except:
+                    u = None
+                if not u.is_email_verified:
+                    msg = 'Account not active. Please check your Inbox and Verify your Email'
+                    logger.info('Account Not Active')
+                    raise serializers.ValidationError(msg, code='authorization')
                 msg = 'Unable to log in with provided credentials.'
                 logger.info('Cant Authenticate User')
                 raise serializers.ValidationError(msg, code='authorization')

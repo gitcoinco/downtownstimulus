@@ -270,9 +270,18 @@ def activate(request, uidb64, token):
         user = None
     if user is not None and account_activation_token.check_token(user, token):
         user.is_email_verified = True
+        user.is_active = True
         user.save()
-        # return redirect('home')
-        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+        return HttpResponse('''
+        Thank you for your email confirmation. Now you can login to your account. Go to :- <a href="https://downtownstimulus.com">https://downtownstimulus.com</a>
+        <script>
+            function redirect(){
+               window.location.href = "https://downtownstimulus.com";
+            }
+        
+            setTimeout(redirect, 3000);
+        </script>
+        ''')
     else:
         return HttpResponse('Activation link is invalid!')
 
